@@ -1,6 +1,6 @@
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr);    
 }
 
 
@@ -17,6 +17,7 @@
 
 #sidebar {
     background-color: blue;
+    grid-column: 1 / -1;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -36,8 +37,8 @@
 
 #content {
     background-color: green;
+    grid-column: 1 / -1;
     color: white;
-    grid-column: 2 / -1;
     border: 5px solid white;
     border-radius: 10px;
     padding: 10px;
@@ -75,8 +76,12 @@ img {
 
 /* Layout adjustments for Tablet (when 480px or larger) */
 @media only screen and (min-width: 480px) {
-    body {
-        grid-template-columns: repeat(4, 1fr);
+    #sidebar {
+        grid-column: 1 / 2;
+    }
+
+    #content {
+        grid-column: 2 / -1;
     }
 
     #header:after {
@@ -89,5 +94,4 @@ img {
     #header:after {
         content: ", (Nearly Instantaneous Remote IT Support)";
     }
-
 }
