@@ -1,0 +1,38 @@
+body {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+body > div {
+    border: 5px solid white;
+    border-radius: 10px;
+}
+
+#red {
+    height: 50px;
+    background-color: red;
+    grid-column: 1 / 3;
+}
+
+#blue {
+    height: 50px;
+    background-color: blue;
+    grid-column: 3 / 5;
+}
+
+#green {
+    height: 50px;
+    background-color: green;
+}
+
+#purple {
+    height: 50px;
+    background-color: purple;
+    grid-column: 2 / -1;
+}
+
+#yellow {
+    height: 50px;
+    background-color: yellow;
+    grid-column: 1 / -1;
+}

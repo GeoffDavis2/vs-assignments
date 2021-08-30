@@ -1,0 +1,93 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+
+/* Base Layout for Phone (upto 479px) and header/footer for all widths */
+#header {
+    background-color: red;
+    grid-column: 1 / -1;
+    font-size: xx-large;
+    text-align: center;
+    border: 5px solid white;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+#sidebar {
+    background-color: blue;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border: 5px solid white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#sidebar > a {
+    color: white;
+    text-decoration: none;
+    border: 2px solid white;
+    border-radius: 30px;
+    padding: 10px;
+    margin: 10px;
+}
+
+#content {
+    background-color: green;
+    color: white;
+    grid-column: 2 / -1;
+    border: 5px solid white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#picture {
+    grid-column: 1 / -1;
+    text-align: center;
+    border: 5px solid white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    width: auto;
+}
+
+#footer {
+    background-color: yellow;
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-around;
+    border: 5px solid white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#footer > a {
+    text-decoration: none;
+    columns: black;
+}
+
+
+/* Layout adjustments for Tablet (when 480px or larger) */
+@media only screen and (min-width: 480px) {
+    body {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    #header:after {
+        content: ", (Remote IT Support)";
+    }
+}
+
+/* Additional layout tweaks for Laptop (when 768px or larger) */
+@media only screen and (min-width: 768px) {
+    #header:after {
+        content: ", (Nearly Instantaneous Remote IT Support)";
+    }
+
+}

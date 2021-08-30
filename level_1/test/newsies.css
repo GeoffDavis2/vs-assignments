@@ -1,0 +1,27 @@
+.upper {
+    text-transform: uppercase;
+}
+
+#top-logo {
+    font-weight: bold;
+    margin: auto;
+    width: 50%;
+}
+
+#lv {
+    font-size: larger;
+    color: red;
+}
+
+#rj {
+    font-size: xx-large;
+    position: relative;
+    top:-11px;
+}
+
+nav {
+}
+
+td {
+    width: 100px;
+}
