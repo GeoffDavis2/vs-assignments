@@ -1,6 +1,6 @@
 const readlineSync = require('readline-sync');
-
 const listOfOper = "+-*/";
+
 var num1, num2, ans = 0;
 var oper = "";
 
@@ -17,22 +17,24 @@ do {
     
     do num1 = readlineSync.question("Please enter your first number: "); while (isNaN(num1));
     if (num1 ==="") return;
+    num1 = parseFloat(num1);
     
     do num2 = readlineSync.question("Please enter your second number: "); while (isNaN(num2));
     if (num2 ==="") return;
+    num2 = parseFloat(num2);
 
     do oper = readlineSync.question("Please enter the operation to perform (+, -, *, or /): "); while (!listOfOper.includes(oper));
     if (oper ==="") return;
 
     switch (oper) {
-        case "+": ans = add(parseFloat(num1), parseFloat(num2)); break;
-        case "-": ans = sub(parseFloat(num1), parseFloat(num2)); break;
-        case "*": ans = mul(parseFloat(num1), parseFloat(num2)); break;
-        case "/": ans = div(parseFloat(num1), parseFloat(num2)); break;
+        case "+": ans = add(num1, num2); break;
+        case "-": ans = sub(num1, num2); break;
+        case "*": ans = mul(num1, num2); break;
+        case "/": ans = div(num1, num2); break;
         default: ans = "Invalid Operator";
     }
 
-    console.log("The answer is: ", ans);
-    console.log("\n");
+    console.log("The answer is: ", ans, "\n");
+    // console.log("\n");
     
 } while (true);
