@@ -1,13 +1,13 @@
 var theSquare = document.getElementById("da-square");
 
-function chgBackgroundColor (theColorParam) {
+var chgBackgroundColor = function(theColorParam) {
     theSquare.style.backgroundColor = theColorParam;
 }
 
-theSquare.addEventListener("mouseenter", function () {chgBackgroundColor("blue")});
-theSquare.addEventListener("mousedown", function () {chgBackgroundColor("red")});
-theSquare.addEventListener("mouseup", function () {chgBackgroundColor("yellow")});
-theSquare.addEventListener("dblclick", function () {chgBackgroundColor("green")});
+theSquare.addEventListener("mouseover", e => chgBackgroundColor("blue"));
+theSquare.addEventListener("mousedown", e => chgBackgroundColor("red"));
+theSquare.addEventListener("mouseup", e => chgBackgroundColor("yellow"));
+theSquare.addEventListener("dblclick", e => chgBackgroundColor("green"));
 
 document.addEventListener("wheel", function (){theSquare.style.backgroundColor = "orange";});
 document.addEventListener("keydown", function(event) {
