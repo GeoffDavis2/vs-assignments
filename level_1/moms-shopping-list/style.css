@@ -1,42 +1,35 @@
 .title {
     text-align: center;
+    background-color: lightseagreen;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 .main {
-    border: 1px solid black;
-    width: 50%;
+    /* border: 1px solid black; */
+    width: 95%;
     margin: auto;
 }
 
-#add-item {
-    border: 1px solid black;
+.todo-box {
+    /* margin-top: 25px; */
+    border: 5px solid black;
+    border-radius: 20px;
+    padding: 10px;
 }
 
-.input {
-    width: 100%;
+#the-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+input[name="new-item-input"] {
+    width: calc(100% - 50px);
     padding: 12px 20px;
     margin: 8px 0;
-    display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-}
-
-.label {
-    margin: 10px;
-}
-
-#list {
-    flex-direction: column;
-    display: flex;
-}
-
-#list > li{
-    list-style-type: none;
-    margin: 10px auto;
-}
-
-#list div {
-    margin-bottom: 10px;
-    text-align: center;
 }
