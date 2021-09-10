@@ -2,17 +2,15 @@
 //      Add comments
 //      Change to UL?
 //      Change so it only adds edit input and submit button when needed then removes after...?
-//      Add session storage
-//          Close but it does not restore the eventlisteners
 
 const theInputForm = document['add-item'];
+var theList = document.getElementById('the-list');
 
-theInputForm.addEventListener('submit', e => {
-    e.preventDefault();
+function addNewItem(theItemText) {
     const theNewItem = document.createElement('div');
 
     const itemText = document.createElement('span');
-    itemText.textContent = theInputForm.newItemInput.value;
+    itemText.textContent = theItemText;
     theNewItem.appendChild(itemText);
 
     const editButton = document.createElement('button');
@@ -50,26 +48,21 @@ theInputForm.addEventListener('submit', e => {
     submitButton.style.display = 'none';
     theNewItem.appendChild(submitButton);
 
-    document.getElementById('the-list').appendChild(theNewItem);
-    theInputForm.newItemInput.value = '';
-})
+    return theNewItem;
+};
 
-document.getElementById('save-button').addEventListener('click', () => {
-    console.log(document.getElementById('the-list').innerHTML);
-    localStorage.clear();
-    localStorage.setItem('save', document.getElementById('the-list').innerHTML);
+theInputForm.addEventListener('submit', e => {
+    e.preventDefault();
+    theList.appendChild(addNewItem(theInputForm.newItemInput.value));
+    theInputForm.newItemInput.value = '';
 });
 
+document.getElementById('save-button').addEventListener('click', () => {
+    localStorage.clear();
+    for (let i = 0; i < theList.children.length; i++) localStorage.setItem(i, theList.children[i].getElementsByTagName('span')[0].textContent);
+});
 
-document.getElementById('restore-button').addEventListener('click', () => document.getElementById('the-list').innerHTML = localStorage.getItem('save'));
-
-
-// document.getElementById('save-button').addEventListener('click', () => {
-//     localStorage.clear();
-//     const x = document.getElementById('the-list');
-//     for (let i = 0; i < x.children.length; i++) {
-//         console.log(x.children[i].getElementsByTagName('span')[0].textContent);
-//         localStorage.setItem(i, x.children[i].getElementsByTagName('span')[0].textContent)
-//     }
-// })
-
+document.getElementById('restore-button').addEventListener('click', () => {
+    theList.innerHTML = '';
+    for (let i = 0; i < localStorage.length; i++) theList.appendChild(addNewItem(localStorage.getItem(i)));
+});
