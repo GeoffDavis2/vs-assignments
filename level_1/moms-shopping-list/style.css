@@ -11,7 +11,7 @@
     margin: auto;
 }
 
-.todo-box {
+.list-box {
     /* margin-top: 25px; */
     border: 5px solid black;
     border-radius: 20px;
@@ -25,7 +25,7 @@
     margin-top: 10px;
 }
 
-input[name="new-item-input"] {
+input[name="newItemInput"] {
     width: calc(100% - 50px);
     padding: 12px 20px;
     margin: 8px 0;
@@ -33,3 +33,7 @@ input[name="new-item-input"] {
     border-radius: 4px;
     box-sizing: border-box;
 }
+
+#the-list button {
+    margin: 0px 0px 5px 10px;
+} 
