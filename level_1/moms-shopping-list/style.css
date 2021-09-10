@@ -6,13 +6,11 @@
 }
 
 .main {
-    /* border: 1px solid black; */
     width: 95%;
     margin: auto;
 }
 
 .list-box {
-    /* margin-top: 25px; */
     border: 5px solid black;
     border-radius: 20px;
     padding: 10px;
@@ -25,7 +23,7 @@
     margin-top: 10px;
 }
 
-input[name="newItemInput"] {
+input[name='newItemInput'] {
     width: calc(100% - 50px);
     padding: 12px 20px;
     margin: 8px 0;
@@ -36,4 +34,13 @@ input[name="newItemInput"] {
 
 #the-list button {
     margin: 0px 0px 5px 10px;
-} 
+}
+
+input[name='editItemInput'] {
+    width: calc(100% - 60px);
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
