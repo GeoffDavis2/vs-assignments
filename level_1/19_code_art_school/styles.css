@@ -1,0 +1,35 @@
+body {
+    font-family: arial;
+    color: blue;
+}
+
+main {
+    font-size: larger;
+}
+
+.navbar {
+    color: yellow;
+    background-color:green;
+}
+
+.navbar li {
+    display: inline-block;
+}
+
+.welcome {
+    text-decoration: underline;
+}
+
+.code-photo {
+    max-width: 75%;
+    float: left;
+}
+
+.list {
+    clear: both;
+}
+
+.fake-link {
+    text-decoration: underline;
+    cursor: pointer;
+}
