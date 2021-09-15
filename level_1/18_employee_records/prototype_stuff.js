@@ -1,4 +1,4 @@
-console.clear();
+process.stdout.write('\033c');
 
 function Person (nameParam, ageParam) {
     this.name = nameParam;
