@@ -1,28 +1,33 @@
 const readlineSync = require('readline-sync');
 
 ///////////////////// CLASSES ///////////////////////////////
+
 // Base Class for every living thing in the game...
 class LivingThing {
     constructor() {
+        this.name = this.constructor.name;
         this.hp = 100;
+        this.maxHP = 100;
         this.minAttackValue = 15;
         this.maxAttackValue = 30;
         this.thingType = ['LivingThing'];
     }
     adjustHp(points) {
         this.hp += points;
+        this.hp = Math.min(this.hp, this.maxHP);
     }
-    attacks(attacked) {
-        const damage = Math.min(attacked.hp, randomIntegerBetween(this.minAttackValue, this.maxAttackValue));
-        attacked.adjustHp(-damage);
-        console.log(`${this.constructor.name} inflicts ${damage} damage to ${attacked.constructor.name} which now has ${attacked.hp} HP left.`);
-        if (attacked.hp <= 0) console.log();
+    attackDamage(attacked) { return Math.min(attacked.hp, randomIntegerBetween(this.minAttackValue, this.maxAttackValue)) }
+    returnHealth() { return `health is now (${this.hp}/${this.maxHP})`; }
+    showInventory() {
+        console.log(`\n${this.name}'s inventory...`);
+        console.table(this.inventory, ['name', 'hp']);
     }
-    showKeys() {
-        for (let [key, value] of Object.entries(this)) {
-            console.log(key, value);
-        }
-    }
+    showHealth() { console.log(`\n${this.name}'s current health is: ${this.hp}/${this.maxHP}`); }
+    // showKeys() {
+    //     for (let [key, value] of Object.entries(this)) {
+    //         console.log(key, value);
+    //     }
+    // }
 }
 
 // The Player Class...
@@ -32,22 +37,66 @@ class Player extends LivingThing {
         this.name = name;
         this.inventory = [];
         this.thingType.push('Player');
-        // Overwrite starting basic LivingThing Min/Max Attack Values...
-        // this.minAttackValue = 50;
-        // this.maxAttackValue = 70;
-
-        // Overwrite starting basic LivingThing HP...
-        // this.hp = 200;
     }
-    static spawnCount = 1;    
+    static spawnCount = 1;
     addToInventory(theItem) { this.inventory.push(theItem); }
-    takeFromInventory(theItem) { this.inventory.splice(this.inventory.indexOf(theItem), 1); }
-    increaseMinAttack(val) { this.minAttackValue += val; }
-    increaseMazAttack(val) { this.maxAttackValue += val; }
-    increaseHP(val) { this.HP += val; }
+    removeFromInventory(theItemIndex) { this.inventory.splice(theItemIndex, 1); }
+    eat() {
+        this.showHealth();
+        this.showInventory();
+        console.log();
+        let userResponse = parseInt(readlineSync.question('Enter the (index) number of item to Eat: '));
+        if (isNaN(userResponse) || userResponse < 0 || userResponse > this.inventory.length) {
+            readlineSync.question('Invalid selection, press Enter to Continue.');
+            return;
+        };
+        if (!this.inventory[userResponse].thingType.includes('Food')) {
+            let notFoodResponse = readlineSync.question(`${this.inventory[userResponse].name} is not food, enter (Y) if you still want to Eat this: `).toUpperCase();
+            if (notFoodResponse == 'Y') {
+                this.adjustHp(-this.hp);
+                this.died('You ate non-food and it killed you.');
+                return;
+            }
+            return;
+        }
+        if (!this.inventory[userResponse].thingType.includes('HumanLikeBeing')) {
+            console.log(`${this.inventory[userResponse].name} is too much like a human, you dropped it in disgust.`);
+            this.removeFromInventory(userResponse);
+            return;
+        }
+        if (this.inventory[userResponse].hp > (this.maxHP - this.hp)) {
+            let maxHealthResponse = readlineSync.question(`${this.inventory[userResponse].name} can increase health by ${this.inventory[userResponse].hp} but current ${this.returnHealth()} so some food will be wasted.\nEnter (Y) if you still want to Eat this: `).toUpperCase();
+            if (maxHealthResponse != 'Y') return;
+        }
+        this.adjustHp(this.inventory[userResponse].hp);
+        this.removeFromInventory(userResponse);
+        console.log(`\nNow current ${this.returnHealth()}\n`);
+        this.showInventory();
+    }
     enemyAppears(chance, enemyList) {
         if (chance > Math.random()) return Math.floor(Math.random() * enemyList.length);
         return null;
+    }
+    attacks(enemyList, enemyIndex) {
+        const enemyStartingHP = enemyList[enemyIndex].hp;
+        console.log(`Your ${this.returnHealth()}...`);
+        console.log(`\nThe ${enemyList[enemyIndex].name}'s ${this.returnHealth()}`);
+        const damage = this.attackDamage(enemyList[enemyIndex]);
+        enemyList[enemyIndex].adjustHp(-damage);
+        console.log(`\n${this.name} inflicts ${damage} damage to the ${enemyList[enemyIndex].name}.`);
+        if (enemyList[enemyIndex].hp <= 1000) {
+            console.log(`\n!!! You killed the ${enemyList[enemyIndex].name} !!!`);
+            this.inventory.push(...enemyList[enemyIndex].inventory);
+            this.inventory.push(new DeadEnemy(enemyList[enemyIndex].name, enemyStartingHP));
+            this.showInventory();
+        }
+        this.adjustHp(-1);
+        console.log(`\nDuring your attack you lost 1 HP, your ${this.returnHealth()}...`);
+        if (this.hp <= 0) this.died('Your attack caused 1 HP of damange, unforunately you only had 1 HP left.');
+    }
+    died(reason) {
+        console.log(`\n!!! YOU DIED !!!\n${reason}`); return;
+        // Do more here...
     }
 }
 
@@ -60,8 +109,8 @@ class Enemy extends LivingThing {
 
         // Add some random loot...
         // To customize more, move this into extended enemy class so more powerfull enemies have better loot
-        if(.2 > Math.random()) this.inventory.push(new Apple);
-        if(.01 > Math.random()) this.inventory.push(new Sword);
+        if (.2 > Math.random()) this.inventory.push(new Apple);
+        if (.01 > Math.random()) this.inventory.push(new Sword);
     }
 }
 
@@ -92,8 +141,7 @@ class Cyclops extends Enemy {
         this.hp = 100;
 
         // Not needed now but just for consitency...
-        this.thingType.push('Cyclops');
-        this.thingType.push('HumanLikeBeing');
+        this.thingType.push('Cyclops', 'HumanLikeBeing');
     }
     static spawnCount = 5;
 }
@@ -117,6 +165,7 @@ class Dragon extends Enemy {
 // Base Class for every non living thing in the game...
 class NonLivingThing {
     constructor() {
+        this.name = this.constructor.name;
         this.thingType = ['NonLivingThing'];
     }
 }
@@ -127,7 +176,7 @@ class Sword extends NonLivingThing {
         this.hp = 50;
         this.minAttackValue = 30;
         this.maxAttackValue = 45;
-        this.thingType.push('Sword');
+        this.thingType.push('Weapon', 'Sword');
     }
 }
 
@@ -173,6 +222,14 @@ class ThanksGivingTurkey extends Food {
     static spawnCount = 2;
 }
 
+class DeadEnemy extends Food {
+    constructor(name, hp) {
+        super();
+        this.name = 'dead' + name;
+        this.hp = Math.ceil(hp * .75);
+    }
+}
+
 class TreasureChest extends NonLivingThing {
     constructor() {
         super();
@@ -188,10 +245,10 @@ function randomIntegerBetween(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-// All the stuff that happens when player encounters enemy
+// The stuff that happens when player encounters enemy
 function enemyEncounter(thePlayer, enemyList, enemyIndex) {
     const startingEnemyHP = enemyList[enemyIndex].hp;
-    console.log(`A ${enemyList[enemyIndex].constructor.name} has appeared!!!`);
+    console.log(`A ${enemyList[enemyIndex].name} has appeared!!!`);
     console.log(enemyList[enemyIndex]);
     console.log();
     console.log(thePlayer);
@@ -209,12 +266,12 @@ function enemyEncounter(thePlayer, enemyList, enemyIndex) {
         if (enemyList[enemyIndex].hp <= 0) {
             enemyList.splice(enemyIndex, 1);
             thePlayer.adjustHp(startingEnemyHP);
-            return `You killed the ${enemyList[enemyIndex].constructor.name}!\n` +
+            return `You killed the ${enemyList[enemyIndex].name}!\n` +
                 `You gained all its HP and how have ${thePlayer.hp} HP.\n` +
                 `${enemyList.length} enemies left.`;
         }
         enemyList[enemyIndex].attacks(thePlayer);
-        if (thePlayer.hp <= 0) return `The ${enemyList[enemyIndex].constructor.name} killed you!`;
+        if (thePlayer.hp <= 0) return `The ${enemyList[enemyIndex].name} killed you!`;
         console.log();
         // userResponse = readlineSync.question("Press Enter for the next round...");
     } while (true);
@@ -234,16 +291,38 @@ function loadPlayField() {
     return itemList;
 }
 
+
+
+///////////////// NOW DO STUFF /////////////////////
+
+
 console.log('\033c');
 const playFieldItems = loadPlayField();
 const player0 = playFieldItems.filter(e => e.thingType.includes('Player'))[0];
 player0.name = 'Geoff';
+// player0.adjustHp(-player0.hp+1)
+
+// console.table(playFieldItems);
+
+// do {
+    console.log('\033c');
+    playFieldItems[12].inventory.push(new Sword);
+    playFieldItems[12].inventory.push(new CheeseBurger);
+    playFieldItems[12].inventory.push(new Armor);
+    player0.attacks(playFieldItems, 12);
+    player0.eat();
+    readlineSync.question('\nPress Enter to Continue.');
+    player0.showInventory();
+// } while (true);
+
 
 // console.log(player0);
-console.table(playFieldItems.filter(e => e.thingType.includes('Enemy')));
+// console.table(playFieldItems.filter(e => e.thingType.includes('Enemy')));
 // console.table(playFieldItems.filter(e => e.thingType.includes('Food')));
 // console.table(playFieldItems.filter(e => e.thingType.includes('Player')));
 // console.table(playFieldItems.filter(e => e.thingType.includes('Bugbear')));
+
+
 
 // let userResponse = '';
 // do {
