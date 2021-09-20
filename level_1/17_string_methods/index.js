@@ -23,7 +23,7 @@ function capilizeAndLowercase2(theString) {
 };
 console.log(capilizeAndLowercase2('Hello World'));
 
-console.clear();
+// console.clear();
 // Optional
 function capitalize(theString) {
     let theSentance = '';
@@ -34,3 +34,4 @@ function capitalize(theString) {
     return theSentance;
 }
 console.log(capitalize("hey friends! practice practice practice!") + "|");
+
