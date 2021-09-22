@@ -1,0 +1,28 @@
+html {
+    background-image: url('background.png');
+    background-size: 1000px auto;
+    background-repeat: no-repeat;
+    min-width: 100%;
+    min-height: 100%;
+    height: 1000px;
+    width: auto;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    margin: 40px 0px;
+    display: flex;
+    align-items: center;
+}
+
+.image-fit {
+    max-height: 50px;
+    margin: 0px 10px;
+}
+
+button {
+    margin: 10px;
+}
