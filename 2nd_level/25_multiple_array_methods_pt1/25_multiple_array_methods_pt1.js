@@ -79,8 +79,6 @@ var davisFamily = [
 console.log('\nAdd Davis Family to peopleArray.');
 peopleArray.push(...davisFamily);
 console.table(peopleArray);
-
-console.log('\npeopleWithnoYorAatEnd is new array with only people with "y" or "a" at end of their last name.');
 function noYorAatEnd (arr) {
     return arr.filter(person => {
         const lastChar = person.lastName[person.lastName.length - 1]

@@ -1,0 +1,29 @@
+html {
+    background-color: lightseagreen;
+}
+
+.oper_name {
+    color:blue;
+    display: inline-block;
+    width: 75px;
+}
+
+.oper_symbol {
+    color:blue;
+    display: inline-block;
+    width: 10px;
+    text-align: center;
+}
+
+output {
+    color:greenyellow
+}
+
+div {
+    margin: 10px;
+}
+
+input {
+    display: table-cell;
+    text-align: center;
+}
