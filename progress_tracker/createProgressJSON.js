@@ -7,52 +7,57 @@ const readlineSync = require('readline-sync');
 
 // Constants...
 const theCSVfile = 'level_1.csv';
-const startDt = new Date(2021, 7, 10);
-const endDt = new Date(2022, 0, 5);
+const theJSONfile = 'progress.json'
+const startDt = new Date('8/10/2021');
+const endDt = new Date('1/5/2022');
 
 async function loadCSVintoArray(filename) {
-    // readlineSync.question('\nHit Enter to load the CSV file data into the Array...');
+    readlineSync.question('\nHit Enter to load the CSV file data into the Array...');
     const arr = await csv().fromFile(filename); // Only line of code requiring await...
-    // console.table(arr);
+    console.table(arr);
     return arr;
 };
 
-function createArray4AllDays (start, end) {
-    // console.log('\nLoad all days into arr...');
-    const arr = [];
-    for(let dt = start; dt <= end; dt.setDate(dt.getDate() + 1)) arr.push({Date:dt.toLocaleDateString(), Level:null, ProgPt:null});
-    // console.table(arr);
+function createArray4AllDays(start, end, addCSVArr) {
+    readlineSync.question('\nHit Enter to Load all days into arr and, add addCSVArr values......');
+    const maxAddCSVArrDt = new Date('9/24/2021');
+    let arr = [];
+    let currDateObj = { Date: null, Level: 1, ProgPt: 0 };
+    for (let dt = start; dt <= end; dt.setDate(dt.getDate() + 1)) {
+        let matchingNdx = addCSVArr.findIndex(e => e.Date === dt.toLocaleDateString());
+        currDateObj.Date = dt.toLocaleDateString();
+        if (dt > maxAddCSVArrDt) {
+            currDateObj.Level = null;
+            currDateObj.ProgPt = null;
+        } else if (matchingNdx >= 0) {
+            currDateObj.Level = parseFloat(addCSVArr[matchingNdx].Level);
+            currDateObj.ProgPt = parseFloat(addCSVArr[matchingNdx].ProgPt);
+        }
+        arr.push({ ...currDateObj });
+    }
+    console.table(arr);
     return arr;
 }
 
-function loadCSVarrayToAllDays(csvArr, allDaysArr) {
-    // Add something to sort csvArr on Date property first
-    const maxDate = csvArr[csvArr.length-1].Date
-    allDaysArr.forEach(allDtsElement => {
-        // Change this to a regular for loop so I can go from allDaysArr[0] date to maxDate
-        console.log(allDtsElement);
-        if(Date.parse(allDtsElement.Date) > Date.parse(maxDate)) break doneForEach;
-        // let i = allDaysArr.findIndex(e => e.Date === csvElmt.Date);
-        // allDaysArr[i].Level = csvElmt.Level;
-        // allDaysArr[i].ProgPt = csvElmt.ProgPt;
-    });
-    doneForEach:
+function stringTheJsonArray(theArray) {
+    readlineSync.question('\nHit Enter to stringify the Array...');
+    turnToString = JSON.stringify(theArray);
+    console.log(turnToString);
+    return turnToString;
+}
+
+function writeToJson(theFile, jsonString) {
+    readlineSync.question('\nHit Enter to write the stringafied Array to a json file...');
+    fs.writeFileSync(theFile, jsonString);
+    console.log('\nThe stringafied Array was saved in the file.');
 }
 
 async function main() {
     console.log('\033c');
     const csvArray = await loadCSVintoArray(theCSVfile); // Only function requiring await...
-    const allDaysArray = createArray4AllDays(startDt, endDt);
-    loadCSVarrayToAllDays(csvArray, allDaysArray);
-    // console.table(allDaysArray);
-    //fill in data for missing days
-    // stringify
-    // write to file
-
-
-    // dataArray = parseJsonArray(dataArray);
-    // const stringOfArray = stringTheJsonArray(dataArray);
-    // writeToJson('level_1.json', stringOfArray);
+    const allDaysArray = createArray4AllDays(startDt, endDt, csvArray);
+    const stringOfAllDaysArray = stringTheJsonArray(allDaysArray);
+    writeToJson(theJSONfile, stringOfAllDaysArray);
 }
 
 main();
