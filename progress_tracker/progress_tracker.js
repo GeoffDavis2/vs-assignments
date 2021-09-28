@@ -3,35 +3,32 @@ const readlineSync = require('readline-sync');
 
 console.log('\033c');
 
-const startDt = new Date(2021, 7, 10);
-const endDt = new Date(2022, 0, 5);
+// console.log('\nLoad the json file to jsonData...');
+const jsonData = fs.readFileSync('progress.json');
+// console.log(jsonData);
 
-console.log('\nLoad all days into progArray...');
-const progArray = [];
-for(let dt = startDt; dt <= endDt; dt.setDate(dt.getDate() + 1)) progArray.push({Dt:dt.toLocaleDateString(), Level:null, ProgPt:null});
-console.table(progArray);
+// console.log('\n Convert jsonData to csvArray...');
+const theArray = JSON.parse(jsonData);
+// console.table(theArray);
 
-console.log('\nLoad the csv json file to csvJsonData...');
-const csvJsonData = fs.readFileSync('level_1.json');
-// console.log(csvJsonData);
+const firstDay = new Date(theArray[0].Date);
+const lastDay = new Date(theArray[theArray.length - 1].Date);
 
-console.log('\n Convert csvJsonData from JSON to csvArray...');
-const csvArray = JSON.parse(csvJsonData);
-// console.table(csvArray);
+console.log(firstDay);
+console.log(lastDay);
+const totNumDays = Math.round((lastDay - firstDay) / 86400000);
+const progPtPerLevel = [91.5, 78, 89, 72.5, 80.5, 72];
+const totProgPts = progPtPerLevel.reduce
 
-csvArray.forEach(eouter => {
-    console.log(eouter);
-    let i = progArray.findIndex(e => e.Dt === eouter.Date);
-    progArray[i].Level = eouter.Level;
-    progArray[i].ProgPt = eouter.ProgPt;
+
+let x = 0;
+theArray.forEach(day => {
+    console.log(x++);
+    // day.
 });
 
-console.table(progArray);
-// console.log(csvArray[0].Date);
-// console.log(progArray.findIndex(e => e.Date = csvArray[0].Date));
+// const diffInDays = Math.round(diffInTime / oneDay);
 
-// progArray[2].ProgPt = 3.7;
-    // console.table(progArray);
 
 // turnedToString = JSON.stringify(progArray);
     // console.log(turnedToString);

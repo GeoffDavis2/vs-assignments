@@ -1,0 +1,49 @@
+#container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.boxes {
+    margin: 10px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    transition: all 1s linear, width 1s linear;
+ }
+
+#b1:hover {
+     background-color:chartreuse;
+     margin:25%;
+     border: 5px dotted blue;
+ }
+
+#b2:hover {
+    border: 50% solid red;
+    height: 50px;
+    background-color: darkmagenta
+ }
+
+#b3:hover {
+    border-radius: 50%;
+    color: crimson
+ }
+
+#b4:hover {
+    box-shadow: 10px 10px 10px red ;
+    opacity: 10%;
+}
+
+#b5:hover {
+    border: 25px solid hotpink;
+    color: hotpink;
+    background-color: blue;
+}
+
+#b6:hover {
+     height: 200px;
+background-color: black;
+color: white;
+
+ }
