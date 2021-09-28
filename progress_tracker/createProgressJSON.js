@@ -19,14 +19,14 @@ async function loadCSVintoArray(filename) {
 };
 
 function createArray4AllDays(start, end, addCSVArr) {
-    readlineSync.question('\nHit Enter to Load all days into arr and, add addCSVArr values......');
-    const maxAddCSVArrDt = new Date('9/24/2021');
+    readlineSync.question('\nHit Enter to Load all days into arr, and add addCSVArr values......');
+    const todayDt = new Date();
     let arr = [];
     let currDateObj = { Date: null, Level: 1, ProgPt: 0 };
     for (let dt = start; dt <= end; dt.setDate(dt.getDate() + 1)) {
         let matchingNdx = addCSVArr.findIndex(e => e.Date === dt.toLocaleDateString());
         currDateObj.Date = dt.toLocaleDateString();
-        if (dt > maxAddCSVArrDt) {
+        if (dt > todayDt) {
             currDateObj.Level = null;
             currDateObj.ProgPt = null;
         } else if (matchingNdx >= 0) {
