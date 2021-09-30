@@ -9,7 +9,7 @@ const readlineSync = require('readline-sync');
 const theCSVfile = 'level_1.csv';
 const theJSONfile = 'progress.json'
 const startDt = new Date('8/10/2021');
-const endDt = new Date('1/5/2022');
+const endDt = new Date('1/4/2022');
 
 async function loadCSVintoArray(filename) {
     readlineSync.question('\nHit Enter to load the CSV file data into the Array...');
