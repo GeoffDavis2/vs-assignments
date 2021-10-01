@@ -1,40 +1,14 @@
 @import url(http://fonts.googleapis.com/css?family=Julius+Sans+One|Libre+Baskerville:400,400italic);
 * {
     box-sizing: border-box;
-}
-
-html, body {
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
 
-body {
-    color: #325050;
-    background: #fff;
-    font-family: 'Libre Baskerville', sans-serif;
-    font-size: 70%;
-}
-
-a {
-    color: #0d8ba1;
-    transition: all 0.25s ease-out;
-    text-decoration: none;
-}
-
-a:visited {
-    color: #1a5952;
-}
-
-a:hover, a:focus {
-    color: #0599c2;
-    text-decoration: underline;
-}
-
-abbr {
-    border: none;
-    text-transform: uppercase;
-    font-size: 0.9em;
-    letter-spacing: 0.01em;
+.page-wrapper {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
 header {
@@ -46,22 +20,6 @@ header {
     background-repeat: repeat, repeat, repeat, no-repeat;
     background-size: auto, auto, auto, cover;
     text-align: center;
-}
-
-h1, h2 {
-    padding: 0 10%;
-    margin: 0;
-    color: #fff;
-    font-weight: normal;
-}
-
-h1 {
-    padding-top: 0;
-    padding-bottom: 5px;
-    border-bottom: none;
-    font-family: 'Julius Sans One', sans-serif;
-    font-size: 3.2em;
-    text-transform: uppercase;
 }
 
 h1::before {
@@ -79,6 +37,19 @@ h1::before {
     opacity: 0.6;
 }
 
+h1 {
+    padding: 0 10%;
+    margin: 0;
+    color: #fff;
+    font-weight: normal;
+    padding-top: 0;
+    padding-bottom: 5px;
+    border-bottom: none;
+    font-family: 'Julius Sans One', sans-serif;
+    font-size: 3.2em;
+    text-transform: uppercase;
+}
+
 h2 {
     display: block;
     padding-top: 5px;
@@ -87,11 +58,48 @@ h2 {
     color: rgba(255, 255, 255, 0.6);
     font-size: 1.6em;
     font-style: italic;
+    padding: 0 10%;
+    margin: 0;
+    color: #fff;
+    font-weight: normal;
 }
 
-h2::before {
-    content: " ";
-    padding: 50px;
+abbr {
+    border: none;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 0.01em;
+}
+
+#view-all-designs {
+    background: #2d6360 50% 0 url("/huntington.jpg") no-repeat;
+    background-attachment: fixed, fixed, fixed, scroll;
+    background-position: 0 0, 0 0, -5px -25px, 0 50%;
+    background-repeat: repeat, repeat, repeat, no-repeat;
+    background-size: auto, auto, auto, cover;
+    color: white;
+    font-size: x-large;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.download-icon {
+    color: #a9b995;
+    background: #d9e1cd;
+    content: "D";
+    font-family: verdemoderna;
+}
+
+#demo-road-about {
+    padding: 25px;
+}
+
+#demo-road-about a {
+    padding: 2px;
+    color: #809b7e;
+    font-family: 'Julius Sans One', sans-serif;
+    text-transform: uppercase;
 }
 
 h3 {
@@ -108,89 +116,86 @@ p {
     line-height: 2;
 }
 
-.page-wrapper {
-    position: relative;
+#authors ul {
+    height: 100%;
+    background-color: #edf4f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
-.summary, .preamble {
-    width: 80%;
-    margin: 0 auto;
+#authors li {
+    list-style-type: none;
+    color: #c0cac3;
+    padding: 25px;
 }
 
-.supporting h3, .supporting p {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.summary {
-    padding-top: 2em;
-}
-
-.intro a, .intro a:visited {
-    position: relative;
-    display: inline-block;
-    padding: 1px 10px 1px 32px;
-    margin: -1px -10px -1px -6px;
-    -webkit-border-radius: 1px;
-    -moz-border-radius: 1px;
-    border-radius: 1px;
-    color: #809b7e;
-    font-family: 'Julius Sans One', sans-serif;
+.design-name {
     text-transform: uppercase;
 }
 
-.intro a:hover, .intro a:focus {
-    z-index: 2;
-    color: #fff;
-    background: #3d8a9f;
+.design-by {
+    font-style: italic;
+}
+
+.designer-name {
+    color: #616857;
+    font-size: 0.9em;
+    font-style: normal;
+}
+
+#participation-benefits {
+    background-color: rgba(138, 188, 159, 0.5);
+    padding: 25px;
+}
+
+#zen-resources ul {
+    height: 100%;
+    background-color: rgba(138, 188, 159, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#zen-resources li {
+    border: 1px solid rgba(138, 188, 159, 0.5);
+    border-left: 0;
+    border-right: 0;
+    list-style-type: none;
+    color: #607476;
+    padding: 25px;
+    margin: 0px 25px;
+}
+
+#zen-requirements {
+    padding: 25px;
+}
+
+#empty-box {
+    background-color: #edf4f0;
+}
+
+#by-david-shea {
+    grid-column: 1/3;
+    height: 150px;
+    background: #2d6360 50% 0 url("/huntington.jpg") no-repeat;
+    text-align: center;
+}
+
+#by-david-shea p {
+    color: rgba(255, 255, 255, 0.4);
+    font-style: italic;
+    font-size: 2em;
+}
+
+#by-david-shea a {
+    color: rgba(255, 255, 255, 0.7);
+    font-style: normal;
     text-decoration: none;
 }
 
-.intro a::before {
-    display: inline-block;
-    position: absolute;
-    top: 6px;
-    left: 8px;
-    padding: 2px;
-    color: #a9b995;
-    background: #d9e1cd;
-    content: "D";
-    /* Question: Soooo, how do it get the download icon??? */
-    font-size: 16px;
-    text-indent: 0;
-    font-family: "/verdemoderna";
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    transition: all 0.25s ease-out;
-}
-
-.intro a:hover::before {
-    color: #fff;
-    background: #357d93;
-}
-
-div.participation, div.benefits {
-    background-attachment: scroll, scroll, fixed;
-    background-color: rgba(138, 188, 159, 0.5);
-    background-image: url(contours-opaque.png), url(gridlines-opaque.png), url(bamboo.png);
-    background-repeat: repeat, repeat, no-repeat;
-    background-size: auto, auto, cover;
-}
-
-div.participation {
-    padding: 3em 0;
-    margin-top: 3em;
-}
-
-div.benefits {
-    padding-bottom: 3em;
-    margin-bottom: 3em;
-}
-
-footer {
+#footer {
+    grid-column: 1/3;
     clear: both;
     padding: 3em 10%;
     color: #fff;
@@ -198,80 +203,39 @@ footer {
     text-align: center;
 }
 
-footer a {
-    display: inline-block;
-    overflow: hidden;
-    width: 40px;
-    height: 40px;
-    padding: 40px 0 0 0;
-    margin: 0 0.5em;
-    position: relative;
+#footer a {
     color: rgba(255, 255, 255, 0.5);
-    -webkit-transition: color 0.25s ease-out, box-shadow 0.25s ease-out;
-    -moz-transition: color 0.25s ease-out, box-shadow 0.25s ease-out;
-    transition: color 0.25s ease-out, box-shadow 0.25s ease-out;
-}
-
-footer a:hover, footer a:focus {
-    color: rgba(255, 255, 255, 0.3);
+    font-family: verdemoderna;
+    font-size: 4em;
+    padding: 50px;
     text-decoration: none;
 }
 
-footer a:visited {
-    color: rgba(255, 255, 255, 0.2);
+@media only screen and (max-width: 1400px) {
+    h1 {
+        font-size: 2.4em;
+    }
 }
 
-footer a::before {
-    display: block;
-    position: absolute;
-    top: 3px;
-    left: 0;
-    overflow: visible;
-    font-size: 36px;
-    text-indent: 0;
-    font-family: "/verdemoderna";
+@media only screen and (max-width: 1132px) {
+    .page-wrapper {
+        grid-template-columns: 1fr;
+    }
+    .page-wrapper div {
+        grid-column: 1/2;
+    }
+    #authors {
+        order: 7;
+    }
+    #zen-resources {
+        order: 8;
+    }
+}
+
+@font-face {
+    font-family: 'verdemoderna';
+    src: url('verdemoderna.eot');
+    src: url('verdemoderna.eot?#iefix') format('embedded-opentype'), url('verdemoderna.woff') format('woff'), url('verdemoderna.ttf') format('truetype'), url('verdemoderna.svg#verdemoderna') format('svg');
     font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-}
-
-footer a.zen-validate-html::before {
-    content: "5";
-}
-
-footer a.zen-validate-html:hover::before, footer a.zen-validate-html:focus::before {
-    content: "%";
-}
-
-footer a.zen-validate-css::before {
-    content: "3";
-}
-
-footer a.zen-validate-css:hover::before, footer a.zen-validate-css:focus::before {
-    content: "#";
-}
-
-footer a.zen-license::before {
-    content: "c";
-}
-
-footer a.zen-license:hover::before, footer a.zen-license:focus::before {
-    content: "C";
-}
-
-footer a.zen-accessibility::before {
-    content: "a";
-}
-
-footer a.zen-accessibility:hover::before, footer a.zen-accessibility:focus::before {
-    content: "A";
-}
-
-footer a.zen-github::before {
-    content: "g";
-}
-
-footer a.zen-github:hover::before, footer a.zen-github:focus::before {
-    content: "G";
+    font-style: normal;
 }
