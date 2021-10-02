@@ -63,47 +63,13 @@ console.log(unshift([1, 2, 3], 10, 20, 30));
 
 // Black Diamond, #3
 console.log('\n\nBlack Diamond, #3');
-
-const theNames = ["Frank Peterson", "Suzy Degual", "Liza Jones"];
-
-function mapNames(names) {
-    return names.map(function (name) {
-        return splitName(name);
-    })
-}
-
-function splitName(fullName) {
-    return turnStringToObject(fullName.split(' '));
-}
-
-function turnStringToObject([firstName, lastName]) {
-    return ({ firstName, lastName });
-}
-
-console.log(mapNames(theNames));
-
-
-
-const b = bparams =>
-    c(bparams + 'b');
-
-const c = cparams =>
-    (dparams => dparams + 'd')
-    (cparams + 'c');
-
-console.log(b('a'));
-
-
-// function mapNames(names) {
-//     return names.map(function(name) {
-//         return splitName(name);
-//     })
-// }
-
-// function splitName (fullName) {
-//     return turnStringToObject(fullName.split(' '));
-// }
-
-// function turnStringToObject([firstName, lastName]) {
-//     return ({ firstName, lastName });
-// }
+const populatePeople = (names) => names.map(
+    name => (
+        fullName => (
+            ([firstName, lastName]) => (
+                { firstName, lastName }
+            )
+        )(fullName.split(' '))
+    )(name)
+)
+console.log(populatePeople(["Frank Peterson", "Suzy Degual", "Liza Jones", "Geoff Davis"]));
