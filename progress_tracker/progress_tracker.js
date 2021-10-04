@@ -1,76 +1,71 @@
 const fs = require('fs');
 const readlineSync = require('readline-sync');
 
+const loadJSONfile = fileName => fs.readFileSync(fileName);
+const parseJSONdata = jsonData => JSON.parse(jsonData);
 
-function loadJSONfile(fileName) {
-    // console.log('\nLoad the json file to jsonData...');
-    // readlineSync.question('\nHit Enter to load the json file to jsonData...');
-    const jsonData = fs.readFileSync(fileName);
-    // console.log(jsonData);
-    return jsonData;
-}
-
-function parseJSONdata(jsonData) {
-    // console.log('\n Convert jsonData to csvArray...');
-    // readlineSync.question('\nHit Enter to convert jsonData to csvArray...');
-    const theArray = JSON.parse(jsonData);
-    // console.table(theArray);
-    return theArray;
-}
-
-function getCumulativePt(currLev, currProgPt) {
+function getCumulativePts(currLev, currProgPt) {
     if (currLev === null || currProgPt === null) return null;
-    const progPtPerLevel = [91.5, 78, 89, 72.5, 80.5, 72];
+    // use reduce instead
     let cummPts = 0;
-    for (let l = 0; l < currLev - 1; l++) cummPts += progPtPerLevel[l];
+    for (let lev = 0; lev < currLev - 1; lev++) cummPts += progPtsPerLevel[lev];
     return cummPts + currProgPt;
 }
 
 function loadCumulativeProgPts(arr) {
-    let retArr = [];
-    arr.forEach(day => retArr.push({ ...day, Cumulative: getCumulativePt(day.Level, day.ProgPt) }));
+    const retArr = [];
+    arr.forEach(day => retArr.push({ ...day }));
+    let maxPt = 0;
+    retArr
+        .sort((a, b) => new Date(a.Date) - new Date(b.Date))
+        .map(day => day.Cumulative = (maxPt = Math.max(getCumulativePts(day.Level, day.ProgPt), maxPt)));
     return retArr;
 }
 
+function calcPointsPerDay(day) {
+    const cDay = new Date(day.Date).getTime();
+    const lDay = new Date(lastDay).getTime();
+    return (getCumulativePts(7, 0) - day.Cumulative) / (Math.round((lDay - cDay) / 86400000) + 1);
+}
+
+function calcPointsPerWkDay(day) {
+    const cDay = new Date(day.Date);
+    const lDay = new Date(lastDay);
+    let totNumWeekDays = 0;
+    for (let dt = cDay; dt <= lDay; dt.setDate(dt.getDate() + 1)) if (dt.getDay() != 0 & dt.getDay() != 6) totNumWeekDays++;
+    return (getCumulativePts(7, 0) - day.Cumulative) / totNumWeekDays;
+}
+
 function loadSchedProgPts(arr) {
-    const totalProgPts = getCumulativePt(7, 0);
-    const totNumDays = arr.length;
-    const schedProgPtPerDay = totalProgPts / totNumDays;
     let retArr = [];
-    let rawSched = 0;
-    arr.forEach(day => {
-        rawSched += schedProgPtPerDay;
-        retArr.push({ ...day, Scheduled: Math.round(rawSched * 10) / 10 })
-    });
+    arr.forEach(day => retArr.push({ ...day }));
+    const schedProgPtPerDay = calcPointsPerDay(arr[0]);
+    let ptAccumulator = 0;
+    retArr
+        .sort((a, b) => new Date(a.Date) - new Date(b.Date))
+        .map(day => day.Scheduled = Math.round((ptAccumulator += schedProgPtPerDay) * 10) / 10)
     return retArr;
 }
 
 function loadReqPtsPerDay(arr) {
-    const totalProgPts = getCumulativePt(7, 0);
-    let totNumDays = 0;
-    let totNumWeekDays = 0;
     let retArr = [];
-    arr.reverse().forEach(day => {
-        totNumDays++;
-        let dow = new Date(day.Date).getDay();
-        if (dow != 0 & dow != 6) totNumWeekDays++
-        ppd = Math.round((totalProgPts - day.Cumulative) / totNumDays * 10) / 10;
-        ppwd = Math.round((totalProgPts - day.Cumulative) / totNumWeekDays * 10) / 10;
-        retArr.unshift({...day, PtPerDay:ppd, PtPerWkDay:ppwd});
-    })
+    arr.forEach(day => retArr.push({ ...day }));
+    retArr.sort((a, b) => new Date(a.Date) - new Date(b.Date))
+    retArr.forEach(day => day.reqPtPerDay = Math.round(calcPointsPerDay(day) * 10) / 10);
+    retArr.forEach(day => day.reqPtPerWkDay = Math.round(calcPointsPerWkDay(day) * 10) / 10);
     return retArr;
 }
 
-function main() {
-    console.log('\033c');
-    let theArray = parseJSONdata(loadJSONfile('progress.json'));
-    theArray = loadCumulativeProgPts(theArray);
-    theArray = loadSchedProgPts(theArray);
-    theArray = loadReqPtsPerDay(theArray);
-    console.table(theArray);
-}
+console.log('\033c');
 
-main();
+const progPtsPerLevel = [91.5, 78, 89, 72.5, 80.5, 72];
+let theArray = parseJSONdata(loadJSONfile('progress.json'));
+const lastDay = theArray.reduce((maxDt, day) => new Date(Math.max(Date.parse(day.Date), Date.parse(maxDt))).toLocaleDateString(), '1/1/1')
+
+theArray = loadCumulativeProgPts(theArray);
+theArray = loadSchedProgPts(theArray);
+theArray = loadReqPtsPerDay(theArray);
+console.table(theArray);
 
 // readlineSync.question('\nHit Enter to convert jsonData to csvArray...');
 // console.table(theArray);
