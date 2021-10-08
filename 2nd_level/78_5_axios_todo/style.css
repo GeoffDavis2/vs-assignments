@@ -14,7 +14,7 @@ body {
     transform: translate(-50%);
 }
 
-form[name="theForm"] {
+form[name="theNewTodoForm"] {
     position: fixed;
     left: 50%;
     top: 8px;
@@ -25,7 +25,24 @@ form[name="theForm"] {
     transition: all 250ms linear;
 }
 
-form[name="theForm"].hidden {
+form[name="theNewTodoForm"].hidden {
+    position: absolute;
+    top: -360px;
+    transition: all 250ms linear;
+}
+
+form[name="theUpdateTodoForm"] {
+    position: fixed;
+    left: 50%;
+    top: 8px;
+    transform: translate(-50%);
+    background-color: lightblue;
+    border: 1px solid blue;
+    padding: 10px;
+    transition: all 250ms linear;
+}
+
+form[name="theUpdateTodoForm"].hidden {
     position: absolute;
     top: -360px;
     transition: all 250ms linear;
@@ -35,12 +52,21 @@ form[name="theForm"].hidden {
     margin: 10px;
 }
 
+.todo-check-box {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 20px;
+    left: -20px;
+}
+
 .todo-btn {
     display: none;
     margin-left: 50px;
 }
 
 .todo-card {
+    position: relative;
     border-bottom: 1px dashed black;
     margin: 10px;
     padding: 10px;

@@ -12,16 +12,27 @@
 
 <body>
     <button id="new-todo-btn">Enter New ToDo</button>
-    <form name="theForm" class="hidden">
+    <section id="todo-list">
+    </section>
+
+    <form name="theNewTodoForm" class="hidden">
         <input name="newTodoTitle" class="form-input-fld" placeholder="New Todo Title"><br>
         <input name="newTodoPrice" class="form-input-fld" placeholder="New Todo Price"><br>
         <input name="newTodoDesc" class="form-input-fld" placeholder="New Todo Description"><br>
         <input name="newTodoImg" class="form-input-fld" placeholder="New Todo Image URL"><br><br>
-        <button id="submit-todo-btn" class="closeButton">Submit</button>
-        <button id="canx-todo-btn" class="closeButton">Cancel</button>
+        <button id="submit-new-todo-btn" class="closeButton">Submit</button>
+        <button id="canx-new-todo-btn" class="closeButton">Cancel</button>
     </form>
-    <section id="todo-list">
-    </section>
+    
+    <form name="theUpdateTodoForm" class="hidden">
+        Title<input name="newTodoTitle" class="form-input-fld" placeholder="New Todo Title"><br>
+        Price<input name="newTodoPrice" class="form-input-fld" placeholder="New Todo Price"><br>
+        Desc<input name="newTodoDesc" class="form-input-fld" placeholder="New Todo Description"><br>
+        Img<input name="newTodoImg" class="form-input-fld" placeholder="New Todo Image URL"><br><br>
+        <button id="submit-edit-todo-btn" class="closeButton">Submit</button>
+        <button id="canx-edit-todo-btn" class="closeButton">Cancel</button>
+    </form>
+
 </body>
 
 </html>

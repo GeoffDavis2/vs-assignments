@@ -1,21 +1,60 @@
 // Clear all todo's from the html todo-list
 function clearAll() {
     document.getElementById('todo-list').innerHTML = '';
-    document.theForm.newTodoTitle.value = ''
-    document.theForm.newTodoPrice.value = ''
-    document.theForm.newTodoDesc.value = ''
-    document.theForm.newTodoImg.value = ''
+    document.theNewTodoForm.newTodoTitle.value = ''
+    document.theNewTodoForm.newTodoPrice.value = ''
+    document.theNewTodoForm.newTodoDesc.value = ''
+    document.theNewTodoForm.newTodoImg.value = ''
 }
 
-// Get the Todos from the V School api and load each Todo into the html
 function loadToDos() {
     axios.get('https://api.vschool.io/gvd/todo')
         .then(response => response.data.forEach(todoObj => addTodoObj(todoObj)))
         .catch(err => console.log(err));
 }
 
+function convertToCurrency(num) {
+    return '$' + num.toFixed(2).toLocaleString("en-US");
+}
 
-// Add each todoObj into the html
+function deleteTodo(idNum) {
+    console.log('pressed delete button' + idNum);
+    axios.delete('https://api.vschool.io/gvd/todo/' + idNum)
+        .then(response => {
+            clearAll();
+            loadToDos();
+        })
+        .catch(err => alert(err));
+}
+
+function checkBoxStatusChanged(isChecked, idNum) {
+    const todoObj = { "completed": isChecked }
+    axios.put('https://api.vschool.io/gvd/todo/' + idNum, todoObj)
+        .then(response => {
+            clearAll();
+            loadToDos();
+        })
+        .catch(err => alert(err));
+}
+
+function editTodo(idNum) {
+    document.theUpdateTodoForm.className = '';
+    clearAll();
+    loadToDos();
+    axios.get('https://api.vschool.io/gvd/todo/' + idNum)
+        .then(response => {
+            console.log(response.data.price);
+            document.theUpdateTodoForm.newTodoTitle.value = response.data.title;
+            if(typeof response.data.price !== 'undefined') document.theUpdateTodoForm.newTodoPrice.value = response.data.price;
+            if(typeof response.data.description !== 'undefined') document.theUpdateTodoForm.newTodoDesc.value = response.data.description;
+            if(typeof response.data.imgUrl !== 'undefined') document.theUpdateTodoForm.newTodoImg.value = response.data.imgUrl;
+            document.getElementById('submit-edit-todo-btn').dataset.temp = idNum;
+        })
+        .catch(err => alert(err));
+    // clearAll();
+    // loadToDos();
+}
+
 function addTodoObj(todoObj) {
     // Create the "Card" that will contain each todo and all its information
     const todoCard = document.createElement('div');
@@ -28,6 +67,14 @@ function addTodoObj(todoObj) {
     todoTitle.textContent = todoObj.title;
     todoTitle.className = 'todo-title'
     todoCard.appendChild(todoTitle);
+
+    // Add a checkbox for complete(ing) todos
+    const checkBox = document.createElement('input');
+    checkBox.type = 'checkbox'
+    checkBox.checked = todoObj.completed;
+    checkBox.className = 'todo-check-box';
+    checkBox.addEventListener('change', (e) => checkBoxStatusChanged(e.target.checked, todoObj._id))
+    todoCard.appendChild(checkBox);
 
     // Add a div for the price data
     if (!isNaN(todoObj.price)) {
@@ -53,73 +100,86 @@ function addTodoObj(todoObj) {
         todoCard.appendChild(todoImg);
     }
 
+    // Add a button to edit the todo item
+    const editBtn = document.createElement('button');
+    editBtn.textContent = 'Edit';
+    editBtn.className = 'todo-btn';
+    editBtn.addEventListener('click', () => editTodo(todoObj._id))
+    todoCard.appendChild(editBtn);
+
+    // Add a button to delete the todo item
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'Delete';
     deleteBtn.className = 'todo-btn';
     deleteBtn.addEventListener('click', () => deleteTodo(todoObj._id))
     todoCard.appendChild(deleteBtn);
 
-    const editBtn = document.createElement('button');
-    editBtn.textContent = 'Edit';
-    editBtn.className = 'todo-btn';
-    editBtn.addEventListener('click', () => deleteTodo(todoObj._id))
-    todoCard.appendChild(editBtn);
-
-    const checkBox = document.createElement('button');
-    checkBox.textContent = 'Delete';
-    checkBox.className = 'todo-btn';
-    checkBox.addEventListener('click', () => deleteTodo(todoObj._id))
-    todoCard.appendChild(checkBox);
-
     // Add the card to the "todo-list" section
     document.getElementById("todo-list").appendChild(todoCard);
 }
 
-function convertToCurrency(num) {
-    return '$' + num.toFixed(2).toLocaleString("en-US");
-}
-
-function deleteTodo(idNum) {
-    console.log('pressed delete button' + idNum);
-    axios.delete('https://api.vschool.io/gvd/todo/' + idNum)
-        .then(response => {
-            clearAll();
-            loadToDos();
-        })
-        .catch(err => alert(err));
-}
-
 document.getElementById('new-todo-btn').addEventListener('click', () => {
-    document.theForm.className = '';
+    document.theNewTodoForm.className = '';
 });
 
-document.getElementById('submit-todo-btn').addEventListener('click', e => {
+document.getElementById('submit-new-todo-btn').addEventListener('click', e => {
     e.preventDefault();
-    if (document.theForm.newTodoTitle.value == '') {
+    if (document.theNewTodoForm.newTodoTitle.value == '') {
         alert("You must at least enter a value for the Title.");
         return;
     }
 
-    const todoObj = { "title": document.theForm.newTodoTitle.value }
-    if (document.theForm.newTodoPrice.value != '') todoObj.price = document.theForm.newTodoPrice.value;
-    if (document.theForm.newTodoDesc.value != '') todoObj.description = document.theForm.newTodoDesc.value;
-    if (document.theForm.newTodoImg.value != '') todoObj.imgUrl = document.theForm.newTodoImg.value;
+    const todoObj = { "title": document.theNewTodoForm.newTodoTitle.value }
+    if (document.theNewTodoForm.newTodoPrice.value != '') todoObj.price = document.theNewTodoForm.newTodoPrice.value;
+    if (document.theNewTodoForm.newTodoDesc.value != '') todoObj.description = document.theNewTodoForm.newTodoDesc.value;
+    if (document.theNewTodoForm.newTodoImg.value != '') todoObj.imgUrl = document.theNewTodoForm.newTodoImg.value;
 
     axios.post('https://api.vschool.io/gvd/todo', todoObj)
         .then(response => {
             clearAll();
             loadToDos();
-            document.theForm.className = 'hidden';
+            document.theNewTodoForm.className = 'hidden';
         })
         .catch(err => alert(err));
 });
 
-document.getElementById('canx-todo-btn').addEventListener('click', e => {
+document.getElementById('canx-new-todo-btn').addEventListener('click', e => {
     e.preventDefault();
     clearAll();
     loadToDos();
-    document.theForm.className = 'hidden';
+    document.theNewTodoForm.className = 'hidden';
 });
+
+document.getElementById('submit-edit-todo-btn').addEventListener('click', e => {
+    e.preventDefault();
+    const idNum = e.target.dataset.temp;
+    e.target.removeAttribute('data-temp');
+    if (document.theUpdateTodoForm.newTodoTitle.value == '') {
+        alert("You must at least enter a value for the Title.");
+        return;
+    }
+    
+    const todoObj = { "title": document.theUpdateTodoForm.newTodoTitle.value }
+    if (document.theUpdateTodoForm.newTodoPrice.value != '') todoObj.price = document.theUpdateTodoForm.newTodoPrice.value;
+    if (document.theUpdateTodoForm.newTodoDesc.value != '') todoObj.description = document.theUpdateTodoForm.newTodoDesc.value;
+    if (document.theUpdateTodoForm.newTodoImg.value != '') todoObj.imgUrl = document.theUpdateTodoForm.newTodoImg.value;
+
+    axios.put('https://api.vschool.io/gvd/todo/' + idNum, todoObj)
+        .then(response => {
+            clearAll();
+            loadToDos();
+            document.theUpdateTodoForm.className = 'hidden';
+        })
+        .catch(err => alert(err));
+});
+
+document.getElementById('canx-edit-todo-btn').addEventListener('click', e => {
+    e.preventDefault();
+    clearAll();
+    loadToDos();
+    document.theUpdateTodoForm.className = 'hidden';
+});
+
 
 clearAll();
 loadToDos();
