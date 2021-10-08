@@ -5,6 +5,10 @@ function clearAll() {
     document.theNewTodoForm.newTodoPrice.value = ''
     document.theNewTodoForm.newTodoDesc.value = ''
     document.theNewTodoForm.newTodoImg.value = ''
+    document.theUpdateTodoForm.newTodoTitle.value = ''
+    document.theUpdateTodoForm.newTodoPrice.value = ''
+    document.theUpdateTodoForm.newTodoDesc.value = ''
+    document.theUpdateTodoForm.newTodoImg.value = ''
 }
 
 function loadToDos() {
@@ -43,7 +47,6 @@ function editTodo(idNum) {
     loadToDos();
     axios.get('https://api.vschool.io/gvd/todo/' + idNum)
         .then(response => {
-            console.log(response.data.price);
             document.theUpdateTodoForm.newTodoTitle.value = response.data.title;
             if(typeof response.data.price !== 'undefined') document.theUpdateTodoForm.newTodoPrice.value = response.data.price;
             if(typeof response.data.description !== 'undefined') document.theUpdateTodoForm.newTodoDesc.value = response.data.description;

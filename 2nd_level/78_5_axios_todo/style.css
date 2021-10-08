@@ -14,23 +14,7 @@ body {
     transform: translate(-50%);
 }
 
-form[name="theNewTodoForm"] {
-    position: fixed;
-    left: 50%;
-    top: 8px;
-    transform: translate(-50%);
-    background-color: lightblue;
-    border: 1px solid blue;
-    padding: 10px;
-    transition: all 250ms linear;
-}
-
-form[name="theNewTodoForm"].hidden {
-    position: absolute;
-    top: -360px;
-    transition: all 250ms linear;
-}
-
+form[name="theNewTodoForm"],
 form[name="theUpdateTodoForm"] {
     position: fixed;
     left: 50%;
@@ -42,6 +26,7 @@ form[name="theUpdateTodoForm"] {
     transition: all 250ms linear;
 }
 
+form[name="theNewTodoForm"].hidden,
 form[name="theUpdateTodoForm"].hidden {
     position: absolute;
     top: -360px;
@@ -90,7 +75,6 @@ form[name="theUpdateTodoForm"].hidden {
 .todo-card[data-completed='true'] .todo-desc {
     text-decoration: line-through;
 }
-
 
 .todo-desc, .todo-price, .todo-img {
     display: none;
