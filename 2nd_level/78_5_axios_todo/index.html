@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Axios Todo</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <button id="new-todo-btn">Enter New ToDo</button>
+    <form name="theForm" class="hidden">
+        <input name="newTodoTitle" class="form-input-fld" placeholder="New Todo Title"><br>
+        <input name="newTodoPrice" class="form-input-fld" placeholder="New Todo Price"><br>
+        <input name="newTodoDesc" class="form-input-fld" placeholder="New Todo Description"><br>
+        <input name="newTodoImg" class="form-input-fld" placeholder="New Todo Image URL"><br><br>
+        <button id="submit-todo-btn" class="closeButton">Submit</button>
+        <button id="canx-todo-btn" class="closeButton">Cancel</button>
+    </form>
+    <section id="todo-list">
+    </section>
+</body>
+
+</html>

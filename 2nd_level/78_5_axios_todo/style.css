@@ -1,0 +1,75 @@
+* {
+    font-size: xx-large;
+}
+
+body {
+    background-color:lightgoldenrodyellow;
+}
+
+#new-todo-btn {
+    font-weight: bold;
+    padding: 10px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+form[name="theForm"] {
+    position: fixed;
+    left: 50%;
+    top: 8px;
+    transform: translate(-50%);
+    background-color: lightblue;
+    border: 1px solid blue;
+    padding: 10px;
+    transition: all 250ms linear;
+}
+
+form[name="theForm"].hidden {
+    position: absolute;
+    top: -360px;
+    transition: all 250ms linear;
+}
+
+.form-input-fld {
+    margin: 10px;
+}
+
+.todo-btn {
+    display: none;
+    margin-left: 50px;
+}
+
+.todo-card {
+    border-bottom: 1px dashed black;
+    margin: 10px;
+    padding: 10px;
+}
+
+.todo-price::before {
+    content: "Price: ";
+}
+
+.todo-desc::before {
+    content: "Description: ";
+}
+
+.todo-desc, .todo-price, .todo-img {
+    color: blue; 
+    margin-left: 50px;   
+}
+
+.todo-card[data-completed='true'] .todo-title,
+.todo-card[data-completed='true'] .todo-price,
+.todo-card[data-completed='true'] .todo-desc {
+    text-decoration: line-through;
+}
+
+
+.todo-desc, .todo-price, .todo-img {
+    display: none;
+}
+
+.todo-card:hover * {
+    display: block;
+}

@@ -1,0 +1,127 @@
+{
+    "appetizers": [
+        {
+            "name": "Shrimp Cocktail",
+            "ingredients": [
+                "Shrimp",
+                "Cocktail Sauce"
+            ],
+            "description": "Yummy yummy shrimp in my tummy.",
+            "price": 18.50
+        },
+        {
+            "name": "Cheese Sticks",
+            "ingredients": [
+                "Cheese",
+                "Eggs",
+                "Flour"
+            ],
+            "description": "Get it while its hot.",
+            "price": 5.50
+        }
+    ],
+    "cold sandwiches": [
+        {
+            "name": "Ham Sammich",
+            "ingredients": [
+                "Bread",
+                "Ham",
+                "Lettus",
+                "Onions",
+                "Tomato",
+                "Mayonnaise",
+                "Mustard"
+            ],
+            "description": "An American Classic.",
+            "price": 11.50
+        },
+        {
+            "name": "Tuna on Rye",
+            "ingredients": [
+                "Bread",
+                "Tuna",
+                "Lettus",
+                "Onions",
+                "Tomato",
+                "Mayonnaise"
+            ],
+            "description": "Seafood is good food.",
+            "price": 10.00
+        }
+    ],
+    "hot sandwiches": [
+        {
+            "name": "Cheese Burger",
+            "ingredients": [
+                "Bread",
+                "Beef Patty",
+                "Lettus",
+                "Onions",
+                "Tomato",
+                "Mayonnaise",
+                "Mustard"
+            ],
+            "description": "Another American Classic.",
+            "price": 12.50
+        },
+        {
+            "name": "Philly Cheese Steak",
+            "ingredients": [
+                "Bread",
+                "Beef Steak",
+                "Onions",
+                "Cheese"
+            ],
+            "description": "Direct from Phils kitchen.",
+            "price": 14.50
+        }
+    ],
+    "desserts": [
+        {
+            "name": "Ice Cream Cookie Sandwich",
+            "ingredients": [
+                "Ice Cream",
+                "Chocolate Chip Cookie",
+                "Caramel Syrup",
+                "Whipped Cream"
+            ],
+            "description": "Freash baked cookie melts the ice cream!!!",
+            "price": 12.50
+        },
+        {
+            "name": "Chocolate Cake",
+            "ingredients": [
+                "Flour",
+                "Sugar",
+                "Cocoa",
+                "Vanilla Frosting"
+            ],
+            "description": "Gosh darn this is good.",
+            "price": 14.50
+        }
+    ],
+    "drinks": [
+        {
+            "name": "Root Beer",
+            "ingredients": [
+                "Carbonated Water",
+                "Sugar",
+                "Birch Bark Extract"
+            ],
+            "description": "Soda water mixed with soda syrup in the soda fountain.",
+            "price": 4.50
+        },
+        {
+            "name": "Fruit Smoothie",
+            "ingredients": [
+                "Milk",
+                "Sugar",
+                "Pineapple",
+                "Strawberries",
+                "Yogurt"
+            ],
+            "description": "Made fresh in our juice bar.",
+            "price": 7.50
+        }
+    ]
+}
