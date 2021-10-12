@@ -1,0 +1,26 @@
+.friend-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: aquamarine;
+}
+
+.friend-name {
+    grid-column: 1/4;
+    text-align: center;
+    height: 50px;
+    border-bottom: 1px dashed black;    
+}
+
+.pets-table {
+    background-color:cornsilk;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.pets-table th {
+    width: 25%;
+    text-align: left;
+}
