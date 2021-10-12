@@ -23,17 +23,21 @@ function loadCumulativeProgPts(arr) {
 }
 
 function calcPointsPerDay(day) {
+    if (day.Level === null || day.ProgPt === null) return null;
+    const totPts = getCumulativePts(7, 0);
     const cDay = new Date(day.Date).getTime();
     const lDay = new Date(lastDay).getTime();
-    return (getCumulativePts(7, 0) - day.Cumulative) / (Math.round((lDay - cDay) / 86400000) + 1);
+    return Math.round((totPts - day.Cumulative) / ((lDay - cDay) / 86400000 + 1) * 10) / 10;
 }
 
 function calcPointsPerWkDay(day) {
+    if (day.Level === null || day.ProgPt === null) return null;
+    const totPts = getCumulativePts(7, 0);
     const cDay = new Date(day.Date);
     const lDay = new Date(lastDay);
     let totNumWeekDays = 0;
     for (let dt = cDay; dt <= lDay; dt.setDate(dt.getDate() + 1)) if (dt.getDay() != 0 & dt.getDay() != 6) totNumWeekDays++;
-    return (getCumulativePts(7, 0) - day.Cumulative) / totNumWeekDays;
+    return Math.round((totPts - day.Cumulative) / totNumWeekDays * 10) / 10;
 }
 
 function loadSchedProgPts(arr) {
@@ -51,8 +55,8 @@ function loadReqPtsPerDay(arr) {
     let retArr = [];
     arr.forEach(day => retArr.push({ ...day }));
     retArr.sort((a, b) => new Date(a.Date) - new Date(b.Date))
-    retArr.forEach(day => day.reqPtPerDay = Math.round(calcPointsPerDay(day) * 10) / 10);
-    retArr.forEach(day => day.reqPtPerWkDay = Math.round(calcPointsPerWkDay(day) * 10) / 10);
+    retArr.forEach(day => day.reqPtPerDay = calcPointsPerDay(day));
+    retArr.forEach(day => day.reqPtPerWkDay = calcPointsPerWkDay(day));
     return retArr;
 }
 
