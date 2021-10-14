@@ -83,6 +83,33 @@ header h3 {
     font-size: 1.125rem;
 }
 
+#just-to-make-the-f-ing-thing-align-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#older-posts {
+    padding: 25px;
+    margin: 50px 20%;
+    background-color: #0085A1;
+    color: white;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-weight: 800;
+    letter-spacing: 0.0625em;
+}
+
 footer {
-    
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#social-media div{
+    margin: 20px;
+}
+
+#copyright {
+    color: #6c757d;
+    font-size: 1.2em;
 }
