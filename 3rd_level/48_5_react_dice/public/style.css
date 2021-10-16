@@ -1,0 +1,21 @@
+* {
+    box-sizing: border-box;
+}
+
+.die {
+    width: 15%;
+    aspect-ratio: 1;
+    border: 1px solid black;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+    gap: 10%;
+    padding: 1.5%;
+}
+
+.dot {
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: black;
+    border-radius: 50%;
+}
