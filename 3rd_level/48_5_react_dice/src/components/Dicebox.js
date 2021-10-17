@@ -1,51 +1,69 @@
-import React from 'react'
+import React from 'react';
 
-import Die from './Die'
+import Die from './Die';
 
 const randomIntFromInterval = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
 class DiceBox extends React.Component {
     constructor() {
         super();
-        this.diceFaces = [
-            [false, false, false, false, true, false, false, false, false],
-            [true, false, false, false, false, false, false, false, true],
-            [false, false, true, false, true, false, true, false, false],
-            [true, false, true, false, false, false, true, false, true],
-            [true, false, true, false, true, false, true, false, true],
-            [true, false, true, true, false, true, true, false, true]
-        ]
         this.state = {
+            rollsLeft: 3,
             fiveDice: [
-                { val: 1, dots: this.diceFaces[0] },
-                { val: 2, dots: this.diceFaces[1] },
-                { val: 3, dots: this.diceFaces[2] },
-                { val: 4, dots: this.diceFaces[3] },
-                { val: 5, dots: this.diceFaces[4] }
+                { val: 0, lock: false },
+                { val: 0, lock: false },
+                { val: 0, lock: false },
+                { val: 0, lock: false },
+                { val: 0, lock: false }
             ]
         };
+        this.lockDie = this.lockDie.bind(this);
         this.rollFiveDice = this.rollFiveDice.bind(this);
+        this.resetDice = this.resetDice.bind(this);
+    }
+
+    lockDie(dieNum) {
+        const newArr = [];
+        this.state.fiveDice.forEach(die => newArr.push(die));
+        newArr[dieNum].lock = !newArr[dieNum].lock;
+        this.setState({ fiveDice: newArr });
     }
 
     rollFiveDice() {
+        if(this.state.rollsLeft <= 0) {
+            alert('!!! No More Rolls Left !!!\nHit the "Reset" button.');
+            return;
+        };
         const newArr = [];
-        for (let i = 1; i < 6; i++) {
-            let randomVal = randomIntFromInterval(1, 6);
-            newArr.push({
-                val: randomVal,
-                dots: this.diceFaces[randomVal-1]
-            });
-        }
+        this.state.fiveDice.forEach(die => newArr.push(die));
+        newArr
+            .filter(die => !die.lock)
+            .forEach(die => die.val = randomIntFromInterval(1, 6));
         this.setState({ fiveDice: newArr });
+        this.setState({ rollsLeft: this.state.rollsLeft-1 });
+    }
+    
+    resetDice() {
+        const newArr = [];
+        this.state.fiveDice.forEach(die => newArr.push(die));
+        newArr.forEach(die => {
+            die.val = 0;
+            die.lock = false;
+        });
+        this.setState({ fiveDice: newArr });
+        this.setState({ rollsLeft: 3 });
     }
 
     render = () =>
         <>
             <div id='dice-box'>
-                {this.state.fiveDice.map((die,i) => <Die key={i} dots={die.dots} />)}
+                {this.state.fiveDice.map((die, i) => <h1 key={i}>{die.val}</h1>)}
+                {this.state.fiveDice.map((die, i) => <h1 key={i}>{die.lock ? 'locked' : 'unlocked'}</h1>)}
+                {this.state.fiveDice.map((die, i) => <Die key={i} die={die} clickHandler={() => { this.lockDie(i) }} />)}
+                <button onClick={this.rollFiveDice}>Roll Dice</button>
+                <h1>Roll: {this.state.rollsLeft}</h1>
+                <button onClick={this.resetDice}>Reset Dice</button>
             </div>
-            <button onClick={this.rollFiveDice}>Roll All 5 Dice</button>
-            {this.state.fiveDice.map((die,i) => <p key={i}>{i} = {die.val}</p>)}
         </>
 }
 

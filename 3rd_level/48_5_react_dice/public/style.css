@@ -3,19 +3,20 @@
 }
 
 #dice-box {
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    place-items: center;
 }
 
 .die {
-    width: 15%;
+    width: 80%;
     aspect-ratio: 1;
     border: 1px solid black;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     place-items: center;
     gap: 10%;
-    padding: 1.5%;
+    padding: 10%;
 }
 
 .dot {
@@ -23,4 +24,12 @@
     aspect-ratio: 1;
     background-color: black;
     border-radius: 50%;
+}
+
+button {
+    margin: 50px;
+    width: 75%;
+    aspect-ratio: 2;
+    grid-column: span 2;
+    font-size: xx-large;
 }
