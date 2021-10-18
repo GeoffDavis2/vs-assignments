@@ -30,7 +30,7 @@ class Die extends React.Component {
         <div
             className='die'
             style={{ backgroundColor: this.props.die.lock ? 'Grey' : 'White' }}
-            onClick={this.props.clickHandler}
+            onClick={() => this.props.clickHandler(this.props.die.id)}
         >
             {this.setDots(this.props.die.val).map((dot, i) => <Dot key={i} showDot={dot} />)}
         </div>

@@ -10,11 +10,11 @@ class DiceBox extends React.Component {
         this.state = {
             rollsLeft: 3,
             fiveDice: [
-                { val: 0, lock: false },
-                { val: 0, lock: false },
-                { val: 0, lock: false },
-                { val: 0, lock: false },
-                { val: 0, lock: false }
+                { id: 0, val: 0, lock: false },
+                { id: 1, val: 0, lock: false },
+                { id: 2, val: 0, lock: false },
+                { id: 3, val: 0, lock: false },
+                { id: 4, val: 0, lock: false }
             ]
         };
         this.lockDie = this.lockDie.bind(this);
@@ -23,35 +23,36 @@ class DiceBox extends React.Component {
     }
 
     lockDie(dieNum) {
-        const newArr = [];
-        this.state.fiveDice.forEach(die => newArr.push(die));
-        newArr[dieNum].lock = !newArr[dieNum].lock;
-        this.setState({ fiveDice: newArr });
+        const tempArr = JSON.parse(JSON.stringify(this.state.fiveDice));
+        tempArr[dieNum].lock = !tempArr[dieNum].lock;
+        this.setState({ fiveDice: tempArr });
     }
 
     rollFiveDice() {
-        if(this.state.rollsLeft <= 0) {
+        if (this.state.rollsLeft <= 0) {
             alert('!!! No More Rolls Left !!!\nHit the "Reset" button.');
             return;
         };
-        const newArr = [];
-        this.state.fiveDice.forEach(die => newArr.push(die));
-        newArr
+        const tempArr = JSON.parse(JSON.stringify(this.state.fiveDice));
+        tempArr
             .filter(die => !die.lock)
             .forEach(die => die.val = randomIntFromInterval(1, 6));
-        this.setState({ fiveDice: newArr });
-        this.setState({ rollsLeft: this.state.rollsLeft-1 });
+        this.setState({
+            rollsLeft: this.state.rollsLeft - 1,
+            fiveDice: tempArr
+        });
     }
-    
+
     resetDice() {
-        const newArr = [];
-        this.state.fiveDice.forEach(die => newArr.push(die));
-        newArr.forEach(die => {
+        const tempArr = JSON.parse(JSON.stringify(this.state.fiveDice));
+        tempArr.forEach(die => {
             die.val = 0;
             die.lock = false;
         });
-        this.setState({ fiveDice: newArr });
-        this.setState({ rollsLeft: 3 });
+        this.setState({
+            rollsLeft: 3,
+            fiveDice: tempArr
+        });
     }
 
     render = () =>
@@ -59,7 +60,7 @@ class DiceBox extends React.Component {
             <div id='dice-box'>
                 {this.state.fiveDice.map((die, i) => <h1 key={i}>{die.val}</h1>)}
                 {this.state.fiveDice.map((die, i) => <h1 key={i}>{die.lock ? 'locked' : 'unlocked'}</h1>)}
-                {this.state.fiveDice.map((die, i) => <Die key={i} die={die} clickHandler={() => { this.lockDie(i) }} />)}
+                {this.state.fiveDice.map((die, i) => <Die key={i} die={die} clickHandler={this.lockDie} />)}
                 <button onClick={this.rollFiveDice}>Roll Dice</button>
                 <h1>Roll: {this.state.rollsLeft}</h1>
                 <button onClick={this.resetDice}>Reset Dice</button>
