@@ -26,42 +26,37 @@ class ParentComponent extends React.Component {
   }
 
   smallTimeButtonHandler() {
-    const newArr = [];
-    this.state.squareObjs.map(obj => newArr.push(obj));
-    const newColor = newArr[0].color === 'white' ? 'black' : 'white';
-    newArr.forEach(obj => obj.color = newColor);
-    this.setState({ squareObjs: newArr });
-
+    const tempArr = JSON.parse(JSON.stringify(this.state.squareObjs));
+    const newColor = tempArr[0].color === 'white' ? 'black' : 'white';
+    tempArr.forEach(obj => obj.color = newColor);
+    this.setState({ squareObjs: tempArr });
   }
+  
   partyDjButtonHandler() {
-    const newArr = [];
-    this.state.squareObjs.map(obj => newArr.push(obj));
-    newArr[0].color = 'purple';
-    newArr[1].color = 'purple';
-    this.setState({ squareObjs: newArr });
+    const tempArr = JSON.parse(JSON.stringify(this.state.squareObjs));
+    tempArr[0].color = 'purple';
+    tempArr[1].color = 'purple';
+    this.setState({ squareObjs: tempArr });
   }
 
   leftBlueButtonHandler() {
-    const newArr = [];
-    this.state.squareObjs.map(obj => newArr.push(obj));
-    newArr[2].color = 'blue';
-    this.setState({ squareObjs: newArr });
+    const tempArr = JSON.parse(JSON.stringify(this.state.squareObjs));
+    tempArr[2].color = 'blue';
+    this.setState({ squareObjs: tempArr });
   }
 
   rightBlueButtonHandler() {
-    const newArr = [];
-    this.state.squareObjs.map(obj => newArr.push(obj));
-    newArr[3].color = 'blue';
-    this.setState({ squareObjs: newArr });
+    const tempArr = JSON.parse(JSON.stringify(this.state.squareObjs));
+    tempArr[3].color = 'blue';
+    this.setState({ squareObjs: tempArr });
   }
 
   randomColorButtonHandler(i) {
-    const newArr = [];
-    this.state.squareObjs.map(obj => newArr.push(obj));
+    const tempArr = JSON.parse(JSON.stringify(this.state.squareObjs));
     const colors = ['Red', 'DeepPink', 'OrangeRed', 'Yellow', 'Purple', 'Green', 'Blue', 'Cyan', 'Brown', 'White', 'Grey', 'Black']
     let colorNum = randomIntFromInterval(0, colors.length) - 1;
-    newArr[i].color = colors[colorNum];
-    this.setState({ squareObjs: newArr });
+    tempArr[i].color = colors[colorNum];
+    this.setState({ squareObjs: tempArr });
   }
 
   makeNoiseButtonHandler() {
