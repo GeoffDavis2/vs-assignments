@@ -1,0 +1,53 @@
+* {
+    box-sizing: border-box;
+}
+
+#input-form {
+    border: 1px solid black;
+    margin: 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    justify-items: stretch;
+    gap: 25px;
+    padding: 25px
+}
+
+#input-desc {
+    height: 100px;
+    grid-column: span 2;
+}
+
+#input-button {
+    height: 50px;
+    width: 200px;
+    grid-column: span 2;
+    justify-self: center;
+}
+
+.badge {
+    border: 1px solid black;
+    margin: 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    justify-items: stretch;
+    gap: 25px;
+    padding: 25px
+}
+
+.badge-header {
+    grid-column: span 2;
+    color: white;
+    margin: -26px -26px 0px -26px;
+    padding: 5px;
+    font-weight: bolder;
+    font-size: x-large;
+}
+
+.badge-desc {
+    border: 1px solid black;
+    height: 100px;
+    grid-column: span 2;
+    padding: 5px;
+}

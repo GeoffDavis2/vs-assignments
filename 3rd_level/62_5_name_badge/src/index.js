@@ -12,7 +12,8 @@ class RootComponent extends Component {
       email: '',
       birthPlace: '',
       phone: '',
-      favFood: ''
+      favFood: '',
+      desc: ''
     },
     badgeList: []
   }
@@ -25,11 +26,12 @@ class RootComponent extends Component {
       }
     })
 
-  handleClick = () => {
+  handleClick = e => {
+    e.preventDefault();
     const tempArr = JSON.parse(JSON.stringify(this.state.badgeList));
     tempArr.push(this.state.newBadge);
     this.setState({
-      newBadge: {firstName: '', lastName: '', email: '', birthPlace: '', phone: '', favFood: ''},
+      newBadge: {firstName: '', lastName: '', email: '', birthPlace: '', phone: '', favFood: '', desc: ''},
       badgeList: tempArr
     });
   }
