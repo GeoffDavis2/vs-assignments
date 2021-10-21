@@ -2,6 +2,11 @@
     background-color: lightgrey;
 }
 
+#loading {
+    font-size: 15vw;
+    text-align: center;
+}
+
 #banner {
     display: flex;
     background-color: black;
@@ -30,6 +35,16 @@
 .person {
     position: relative;
     margin: 15px;
+}
+
+.case-closed:after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        content: "\274c";
+        font-size: 20vw; 
+        line-height: 100px;
 }
 
 .person-image {
