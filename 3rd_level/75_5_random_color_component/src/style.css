@@ -9,6 +9,5 @@
     transform: translate(-50%, -50%);
     aspect-ratio: 1;
     border-radius: 50%;
-    background-color: red;
     border: 1px solid black;
 }
