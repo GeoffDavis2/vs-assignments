@@ -26,6 +26,15 @@ class RootComponent extends Component {
       }
     })
 
+    handleChange2 = ({ target: { name, value } }) =>
+    this.setState(prevState => ({ 
+      newBadge: { 
+        ...prevState.newBadge, 
+        [name]: value
+      },
+      badgeList: [...prevState.badgeList]
+    }))
+
   handleClick = e => {
     e.preventDefault();
     const tempArr = JSON.parse(JSON.stringify(this.state.badgeList));
