@@ -63,7 +63,7 @@ function loadReqPtsPerDay(arr) {
 console.log('\033c');
 
 const progPtsPerLevel = [91.5, 78, 89, 72.5, 80.5, 72];
-let theArray = parseJSONdata(loadJSONfile('data.json'));
+let theArray = parseJSONdata(loadJSONfile('old_data.json'));
 const lastDay = theArray.reduce((maxDt, day) => new Date(Math.max(Date.parse(day.Date), Date.parse(maxDt))).toLocaleDateString(), '1/1/1')
 
 theArray = loadCumulativeProgPts(theArray);
