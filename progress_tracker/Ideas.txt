@@ -1,0 +1,25 @@
+Use the V School Air Table API?
+
+Use the V School ToDo API?
+    title: String (required)
+        Date
+    description: String
+        Level
+    price: Number
+        TotProgPts
+    imgUrl: String
+        Flag for Progress Tracker
+    completed: Boolean
+        Logged?
+    sessionId: String (required)
+
+Use React
+    to dsiplay data as table
+    to display chart (see below)
+    to add / delete entries?
+    to edit entries
+    to change start/end date
+
+Use one of the Chart tools to display the data as lines, bars, etc
+    Schedules vs actual Progress
+    Required Points per day (& week day)
