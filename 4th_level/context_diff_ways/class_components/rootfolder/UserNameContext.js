@@ -6,13 +6,11 @@ class UserNameContextProvider extends Component {
 
     handleClick = (userName) => this.setState({ userName })
 
-    render() {
-        return (
-            <Provider value={{ userName: this.state.userName, handleClick:this.handleClick }}>
-                {this.props.children}
-            </Provider>
-        )
-    }
+    render() {return (
+        <Provider value={{ userName: this.state.userName, handleClick:this.handleClick }}>
+            {this.props.children}
+        </Provider>
+    )}
 }
 
 export { UserNameContextProvider, Consumer as UserNameContextConsumer };

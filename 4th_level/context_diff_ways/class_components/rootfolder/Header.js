@@ -1,8 +1,8 @@
-import React from "react"
+import React, { Component } from "react"
 import { UserNameContextConsumer } from "./UserNameContext"
 
-function Header() {
-    return (
+class Header extends Component {
+    render() {return (
         <header>
             <UserNameContextConsumer>
                 {({ userName }) => (
@@ -10,7 +10,6 @@ function Header() {
                 )}
             </UserNameContextConsumer>
         </header>
-    )
-}
+    )}}
 
 export default Header
