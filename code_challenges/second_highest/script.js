@@ -10,9 +10,31 @@ function getSecondHighest(numbers) {
     return tempArr[1];
 }
 
-console.log(getSecondHighest([4, 6, 2, 43, 3, 9])) // => 9
-console.log(getSecondHighest([4, 100, 2, 43, 3, 9])) // => 43
-console.log(getSecondHighest([1])) // => 1
-console.log(getSecondHighest([])) // => Empty Array
-console.log(getSecondHighest(32)) // => Not an Array
-console.log(getSecondHighest()) // => Not an Array
+// console.log(getSecondHighest([4, 6, 2, 43, 3, 9])) // => 9
+// console.log(getSecondHighest([4, 100, 2, 43, 3, 9])) // => 43
+// console.log(getSecondHighest([1])) // => 1
+// console.log(getSecondHighest([])) // => Empty Array
+// console.log(getSecondHighest(32)) // => Not an Array
+// console.log(getSecondHighest()) // => Not an Array
+
+let x = {
+    a: 1,
+    b: 2,
+    c: 3,
+    show: false
+}
+
+x.show = !x.show
+x.show = !x.show
+x.show = !x.show
+x.show = !x.show
+x.show = !x.show
+x.show = !x.show
+
+const bar = { ...x, ...(x.show ? {d:9} : {}) }
+
+console.log('\033c');
+console.log(bar);
+
+// console.log({...x});
+// console.log(x);
