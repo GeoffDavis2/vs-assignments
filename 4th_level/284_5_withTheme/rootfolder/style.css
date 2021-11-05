@@ -1,0 +1,100 @@
+body {
+    margin: 0;
+    height: 100%;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    font-size: larger;
+}
+
+.navbar-light-theme {
+    background-color: cyan;
+    color: black;
+}
+
+.navbar-dark-theme {
+    background-color: black;
+    color: cyan;
+}
+
+.navbar-green-theme {
+    background-color: darkgreen;
+    color: lightgreen;
+}
+
+.main {
+    font-size: 10vw;
+    text-align: center;
+}
+
+.main-light-theme {
+    background-color: white;
+    color: black;
+    margin: 10vh 0% 30vh  0%;  
+}
+
+.main-dark-theme {
+    background-color: black;
+    color: Red;
+    margin: 20vh 0% 20vh  0%;  
+}
+
+.main-green-theme {
+    background-color: green;
+    color: white;  
+    margin: 30vh 0% 10vh  0%;  
+}
+
+.radio {
+    width: fit-content;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2vh 5vw 2vh 5vw;
+    font-size: 4vw;
+}
+
+.radio-button {
+    top: 50%;
+    transform: translateY(-50%) scale(1.5);
+}
+
+.radio-light-theme {
+    background-color: black;
+    color: lightgray;
+}
+
+.radio-dark-theme {
+    background-color: lightgray;
+    color: black;
+}
+
+.radio-green-theme {
+    background-color: greenyellow;
+    color: black;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+    font-size: larger;
+    text-align: center;
+}
+
+.footer-light-theme {
+    background-color: white;
+    color: black;
+}
+
+.footer-dark-theme {
+    background-color: black;
+    color: lightgray;
+}
+
+.footer-green-theme {
+    background-color: darkgreen;
+    color: lightgreen;
+}
