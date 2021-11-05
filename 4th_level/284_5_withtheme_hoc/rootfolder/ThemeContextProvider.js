@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
-export const ThemeContext = React.createContext();
+const ThemeContext = React.createContext();
 
-export const ThemeContextProvider = (props) => {
+export const withTheme = Component => props => {
+    const { theme, changeTheme } = useContext(ThemeContext);
+    return <Component theme={theme} changeTheme={changeTheme}/>
+};
+
+export const ThemeContextProvider = props => {
     const [theme, setTheme] = useState("light");
 
     let pageTheme = {
@@ -13,6 +18,7 @@ export const ThemeContextProvider = (props) => {
     document.body.style.backgroundColor = pageTheme[theme];
 
     function changeTheme(e) {
+        // I think I can put all the theme styles that change in here and remove from the style.css file
         setTheme(e.target.value)
     }
 
