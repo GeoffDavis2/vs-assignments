@@ -1,16 +1,4 @@
-const SmallThing = (id) => {
-    console.log('SmallThing ' + id);
-    // Smaller (uniform) size image
-    // title
-    // descriptions (may be more than one)
-    // delete button
-    //    get api key
-    //    delete call to api
-    //    getThingsIntoContext
-    //    go back to list
-    // click on small thing to render (just one) EditThing
-    //    use array index number (somehow)
-  }
+
   
   const BaseThing = () => {
     console.log('BaseThing');

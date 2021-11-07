@@ -1,3 +1,10 @@
 * {
     background-color: aqua;
 }
+
+.small-image {
+    /* width: 5vw;     */
+    width: 50px;
+    object-fit: cover;
+    aspect-ratio: 1;
+}
