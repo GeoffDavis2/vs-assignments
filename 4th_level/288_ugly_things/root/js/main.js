@@ -1,110 +1,92 @@
-import React from 'react';
+// TODO remove stuff not used below...
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import '../css/style.css';
 
-// context
-//    Things Array
-//    Theme?
-//    User?
-//    BaseApiUrl?
+const ThingsContext = React.createContext();
 
-const getThingsIntoContext = () => {
-  console.log('getThingsIntoContext');
-  // api call to get all things and load into array of objects
-  // mutate all objects in array add other fields
+/* contexts...?
+  Things Array
+  Theme?
+  User?
+  BaseApiUrl?
+*/
+
+const GetThingsIntoContext = () => {
+  const axios = require("axios"); // TODO is this line needed?
+  const [_, setThings] = useState([]);
+
+  // const getThings = async () => {
+  //   const res = await axios('https://api.vschool.io/geoffdavis/thing');
+  //   setThings(res.data);
+  //   console.log(res.data);
+  // };
+
+  useEffect(() => async () => {
+      const res = await axios('https://api.vschool.io/geoffdavis/thing');
+      setThings(res.data);
+      console.log(res.data);
+    }, []
+  )
 }
 
-const SmallThing = (id) => {
-  console.log('SmallThing ' + id);
-  // Smaller (uniform) size image
-  // title
-  // descriptions (may be more than one)
-  // delete button
-  //    get api key
-  //    delete call to api
-  //    getThingsIntoContext
-  //    go back to list
-  // click on small thing to render (just one) EditThing
-  //    use array index number (somehow)
-}
+
 
 const ThingList = () => {
-  console.log('ThingList');
-
-  SmallThing()
+  
+  // const things = useContext(ThingsContext);
+  // GetThingsIntoContext();
+  // const things = useContext(ThingsContext);
+  // SmallThing();
   // add new thing button at top
   //    post thing to api
   //    getThingsIntoContext
   //    go back to list
+
   // array.map through things and for each thing render SmallThing
   // click on small thing to render (just one) EditThing
+  // return <h1>ThingList: {things[0].a}</h1>
+  
+  return (<h1>ThingList:</h1>)
 }
 
-const BaseThing = () => {
-  console.log('BaseThing');
-  // states
-  //    imgUrl state
-  //    title state
-  //    descs state (array or object of strings)
-  // handleChange
-  // image (large size)
-  //    from imgUrl state
-  // image url
-  //    name = imgUrl state
-  //    onChange = handleChange(e=>handleChange(e))
-  // title
-  //    title = imgUrl state
-  //    onChange = handleChange(e=>handleChange(e))
-  // descriptions
-  //    descs = imgUrl state
-  //    onChange = handleChange(e=>handleChange(e))
+
+/*
+const HomeProvider = () => {
+  const [things, setThings] = useState([]);
+
+  const getThings = async() => {
+    const res = await axios('https://api.vschool.io/geoffdavis/thing');
+    setThings(res.data);
+    console.log(res.data);
+  };
+
+  useEffect(() => getThings(), []);
+
+  return (
+    <ThingsContext.Provider value={things}>
+      <h1>HomeProvider</h1>
+    </ThingsContext.Provider>
+  )
 }
+*/
 
-const NewThing = BaseThing => {
-  console.log('NewThing');
-  console.log(BaseThing);
-  // BaseThing "wrapped with"...
-  //    add thing button
-  //        post to api
-  //        getThingsIntoContext
-  //        go back to list
-}
+const TempComp = () => {
+  const axios = require("axios"); // TODO is this line needed?
+  const [things, setThings] = useState([]);
 
-const EditThing = BaseThing => {
-  console.log('EditThing');
-  console.log(BaseThing);
-  // BaseThing "wrapped with"...
-  //    key/id from api
-  //        only for developemnt
-  //        comment out when not needed
-  //    delete thing button
-  //        delete from api
-  //        getThingsIntoContext
-  //        go back to list
-  //    update thing button
-  //        push to api
-  //        get data from api for thing
-  //        re-generate just the applicable object in things array
-  //        DON'T go back to list, stay here
-  //    next thing button
-  //        get array index for current object
-  //        get next index number (min of currId+1 and array.length-1)
-  //        load editThing using next index number
-  //    prev thing button (state or context) for array index number
-  //        get array index for current object
-  //        get prev index number (max of currId-1 and 0)
-  //        load editThing using next index number
-}
+  const getThingsFromApi = async() => setThings((await axios('https://api.vschool.io/geoffdavis/thing')).data);
+  useEffect(() => getThingsFromApi(), []);
 
-getThingsIntoContext();
 
-ThingList();
-
-NewThing(BaseThing());
-
-EditThing(BaseThing());
+  // TODO see if I can rename value (below) to things???
+  return <ThingsContext.Provider value={things}>
+    <ThingList />
+  </ThingsContext.Provider>
+};
 
 ReactDOM.render(
-  <>Hello World!!!</>,
+  <TempComp />,
   document.getElementById('root-div')
 );
