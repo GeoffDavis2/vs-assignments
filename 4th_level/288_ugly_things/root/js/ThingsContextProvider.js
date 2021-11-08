@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getAll, addThing, delThing } from "./api";
+import { getAll, addThing, delThing, updateThing } from "./api";
 
 export const ThingsContext = React.createContext();
 
@@ -35,12 +35,21 @@ export const ThingsContextProvider = props => {
         const { status } = await delThing(id);
         if (status === 200) {
             getAllThings();
-            setMode('ThingList');        }
+            setMode('ThingList');
+        }
     }
 
     const handleEditThing = async id => {
         setActiveThingID(id);
         setMode('EditThing');
+    }
+
+    const handleUpdateThing = async (thing) => {
+        const { status } = await updateThing(thing._id, thing);
+        if (status === 200) {
+            getAllThings();
+            setMode('ThingList');
+        }
     }
 
     return (
@@ -51,7 +60,8 @@ export const ThingsContextProvider = props => {
             handleAddThing,
             handleDeleteThing,
             handleEditThing,
-            activeThingID
+            activeThingID,
+            handleUpdateThing
         }}>
             {props.children}
         </ThingsContext.Provider>

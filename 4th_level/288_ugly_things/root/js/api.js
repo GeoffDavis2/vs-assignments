@@ -10,18 +10,14 @@ export const getAll = () => {
   return axios.get(endpoint);
 };
 
-export const addThing = todo => {
-  return axios.post(endpoint, todo);
+export const addThing = thing => {
+  return axios.post(endpoint, thing);
 };
 
 export const delThing = id => {
   return axios.delete(`${endpoint}/${id}`);
 };
 
-// export default {
-//   todos: {
-//     getAll,
-//     create,
-//     destroy
-//   }
-// };
+export const updateThing = (id, thing) => {
+  return axios.put(`${endpoint}/${id}`, thing);
+};
