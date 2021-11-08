@@ -10,13 +10,13 @@ export const getAll = () => {
   return axios.get(endpoint);
 };
 
-// const create = todo => {
-//   return axios.post(endpoint + "/todos", todo);
-// };
+export const addThing = todo => {
+  return axios.post(endpoint, todo);
+};
 
-// const destroy = id => {
-//   return axios.delete(endpoint + `/todos/${id}`);
-// };
+export const delThing = id => {
+  return axios.delete(`${endpoint}/${id}`);
+};
 
 // export default {
 //   todos: {

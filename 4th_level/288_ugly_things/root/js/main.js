@@ -1,20 +1,23 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import '../css/style.css';
 
 import { ThingsContextProvider, ThingsContext } from './ThingsContextProvider';
 import { ThingsList } from './ThingsList';
+import { BaseThing } from './BaseThing';
 
 const MainComponent = () => {
-  const { mode, things } = React.useContext(ThingsContext);
+  const { mode } = React.useContext(ThingsContext);
   return (<>
     {mode === 'Loading' ? <h1>Loading...</h1> : ''}
     {mode === 'ThingList' ? <ThingsList/> : ''}
-    {mode === 'EditThing' ? <h1>Edit the thing</h1> : ''}
-
+    {mode === 'EditThing' ? <BaseThing/> : ''}
   </>
   );
 };
+
+// TODO fix it so app can handle multiple descriptions
+// TODO delete random console logs, or setup console logs everywhere for debugging...
 
 ReactDOM.render(
   <ThingsContextProvider>

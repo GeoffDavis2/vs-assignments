@@ -6,9 +6,6 @@
     //    imgUrl state
     //    title state
     //    descs state (array or object of strings)
-    // handleChange
-    // image (large size)
-    //    from imgUrl state
     // image url
     //    name = imgUrl state
     //    onChange = handleChange(e=>handleChange(e))
@@ -18,6 +15,7 @@
     // descriptions
     //    descs = imgUrl state
     //    onChange = handleChange(e=>handleChange(e))
+    // handleSubmit Button
   }
   
   const NewThing = BaseThing => {
