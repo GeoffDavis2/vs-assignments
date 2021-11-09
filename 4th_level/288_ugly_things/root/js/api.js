@@ -1,23 +1,17 @@
 import axios from "axios";
 
-// TODO remove all references to todo (except for my comments)
-
-// ... if I want to get Fancy with protecting my session key, just gitignore the process.env file
-// const endpoint = `https://jsonbox.io/box_${process.env.JSONBOX_KEY}`;
-const endpoint = 'https://api.vschool.io/geoffdavis/thing';
-
-export const getAll = () => {
+export const apiGetAll = (endpoint) => {
   return axios.get(endpoint);
 };
 
-export const addThing = thing => {
+export const apiPost = (endpoint, thing) => {
   return axios.post(endpoint, thing);
 };
 
-export const delThing = id => {
+export const apiDelete = (endpoint, id) => {
   return axios.delete(`${endpoint}/${id}`);
 };
 
-export const updateThing = (id, thing) => {
-  return axios.put(`${endpoint}/${id}`, thing);
+export const apiPut = (endpoint, id, data) => {
+  return axios.put(`${endpoint}/${id}`, data);
 };

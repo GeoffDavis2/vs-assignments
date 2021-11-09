@@ -4,14 +4,19 @@ import '../css/style.css';
 
 import { ThingsContextProvider, ThingsContext } from './ThingsContextProvider';
 import { ThingsList } from './ThingsList';
-import { BaseThing } from './BaseThing';
+import { TestBaseThing, EditThing } from './TestBaseThing';
+
 
 const MainComponent = () => {
-  const { mode } = React.useContext(ThingsContext);
+  const { things, activeThing, mode } = React.useContext(ThingsContext);
+  // const ndx = things.findIndex(thing => thing._id === activeThingID);
+  // const [activeThing, setActiveThing] = useState(JSON.parse(JSON.stringify(things[ndx])));
+
   return (<>
     {mode === 'Loading' ? <h1>Loading...</h1> : ''}
-    {mode === 'ThingList' ? <ThingsList/> : ''}
-    {mode === 'EditThing' ? <BaseThing/> : ''}
+    {mode === 'ThingList' ? <ThingsList /> : ''}
+    {/* {mode === 'EditThing' ? <TestBaseThing thing={activeThing} /> : ''} */}
+    {mode === 'EditThing' ? <EditThing thing={activeThing} /> : ''}
   </>
   );
 };

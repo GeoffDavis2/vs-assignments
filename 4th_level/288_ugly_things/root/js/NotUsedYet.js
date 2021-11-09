@@ -1,26 +1,6 @@
 
   
-  const BaseThing = () => {
-    console.log('BaseThing');
-    // states
-    //    imgUrl state
-    //    title state
-    //    descs state (array or object of strings)
-    // image url
-    //    name = imgUrl state
-    //    onChange = handleChange(e=>handleChange(e))
-    // title
-    //    title = imgUrl state
-    //    onChange = handleChange(e=>handleChange(e))
-    // descriptions
-    //    descs = imgUrl state
-    //    onChange = handleChange(e=>handleChange(e))
-    // handleSubmit Button
-  }
-  
   const NewThing = BaseThing => {
-    console.log('NewThing');
-    console.log(BaseThing);
     // BaseThing "wrapped with"...
     //    add thing button
     //        post to api
@@ -32,9 +12,6 @@
     console.log('EditThing');
     console.log(BaseThing);
     // BaseThing "wrapped with"...
-    //    key/id from api
-    //        only for developemnt
-    //        comment out when not needed
     //    delete thing button
     //        delete from api
     //        getThingsIntoContext
