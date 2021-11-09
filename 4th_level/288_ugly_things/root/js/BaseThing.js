@@ -1,44 +1,37 @@
 import React, { useState } from "react";
-import { ThingsContext } from "./ThingsContextProvider";
 
-export const BaseThing = () => {
-    const { things, activeThingID, handleDeleteThing, handleUpdateThing } = React.useContext(ThingsContext);
-    const ndx = things.findIndex(thing => thing._id === activeThingID);
-    const [activeThing, setActiveThing] = useState(JSON.parse(JSON.stringify(things[ndx])));
+// Custom Hook
+export const useField = (type, initVal) => {
+    const [value, setValue] = useState(initVal);
+    const onChange = event => setValue(event.target.value);
 
-    const handleChange = ({ target: { name, value } }) => setActiveThing(prev => ({ ...prev, [name]: value }));
+    return { type, value, onChange }
+}
 
-    // TODO create easy way for user to pick an image
-    // TODO make this  pretty
-    // TODO Create EditThing and AddThing component, then Wrap this around them
-    // TODO Handle multiple descriptions
-    return <div>
-        <img src={activeThing.imgUrl} alt='' className='small-image' /><br />
-        {/* TODO Just for testing, remove for production */}
-        <p>API _id: {activeThing._id}</p>
-        <input
-            type="text"
-            name="imgUrl"
-            placeholder="Image URL..."
-            value={activeThing.imgUrl}
-            onChange={e => handleChange(e)}
-        />
-        <br />
-        <input
-            type="text"
-            name="title"
-            placeholder="Title..."
-            value={activeThing.title}
-            onChange={e => handleChange(e)}
-        /><br />
-        <input
-            type="text"
-            name="description"
-            placeholder="description..."
-            value={activeThing.description}
-            onChange={e => handleChange(e)}
-        /><br />
-        {/* <button onClick={() => handleUpdateThing(activeThing)}>Submit</button>
-        <button onClick={() => handleDeleteThing(activeThing._id)}>Delete</button> */}
-    </div>
+// I don't even know what you would call this??? But it works!!!
+export const BaseThing = props => {
+    const { ...title } = useField('text', props.title);
+    const { ...description } = useField('text', props.description);
+    const { ...imgUrl } = useField('text', props.imgUrl);
+
+    // TODO make this prettier
+    return {
+        renderForm: (<>
+            <img
+                src={props.imgUrl}
+                alt=''
+                className='base-image'
+            />
+            <form>
+                Image URL: <input {...imgUrl} type='text'/><br />
+                Title: <input {...title} type='text' /><br />
+                Desc: <input {...description} type='text' />
+            </form>
+        </>),
+        thing: {
+            title: title.value,
+            description: description.value,
+            imgUrl: imgUrl.value
+        }
+    }
 }

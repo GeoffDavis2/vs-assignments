@@ -4,26 +4,22 @@ import '../css/style.css';
 
 import { ThingsContextProvider, ThingsContext } from './ThingsContextProvider';
 import { ThingsList } from './ThingsList';
-import { TestBaseThing, EditThing } from './TestBaseThing';
-
+import { NewThing } from './NewThing';
+import { EditThing } from './EditThing';
 
 const MainComponent = () => {
-  const { things, activeThing, mode } = React.useContext(ThingsContext);
-  // const ndx = things.findIndex(thing => thing._id === activeThingID);
-  // const [activeThing, setActiveThing] = useState(JSON.parse(JSON.stringify(things[ndx])));
+  const { activeThing, mode } = React.useContext(ThingsContext);
 
   return (<>
     {mode === 'Loading' ? <h1>Loading...</h1> : ''}
     {mode === 'ThingList' ? <ThingsList /> : ''}
-    {/* {mode === 'EditThing' ? <TestBaseThing thing={activeThing} /> : ''} */}
     {mode === 'EditThing' ? <EditThing thing={activeThing} /> : ''}
+    {mode === 'NewThing' ? <NewThing /> : ''}
   </>
   );
 };
 
 // TODO fix it so app can handle multiple descriptions
-// TODO delete random console logs, or setup console logs everywhere for debugging...
-
 ReactDOM.render(
   <ThingsContextProvider>
     <MainComponent />

@@ -1,12 +1,30 @@
-// import { useBaseThing } from './useBaseThing';
+import React from "react";
+import { ThingsContext } from "./ThingsContextProvider";
+import { BaseThing } from "./BaseThing";
 
-export const EditThing = () => {
-    // const { baseThing } = useBaseThing();
-    // console.log(useBaseThing());
-    return <>
-        {/* {(baseThing)} */}
-        <button >Submit Update</button>
-        {/* <button onClick={() => handleUpdateThing(activeThing)}>Submit</button> */}
-        <button >Delete</button>
-    </>
+
+// TODO add prev/next button
+export const EditThing = (props) => {
+    const { handlePutThing, handleDeleteThing, setMode } = React.useContext(ThingsContext);
+    const { renderForm, thing } = BaseThing(props.thing);
+
+    const handleClick = () => {
+        const mergedThing = {
+            ...props.thing,
+            title: thing.title,
+            description: thing.description,
+            imgUrl: thing.imgUrl
+        };
+        handlePutThing(mergedThing)
+    }
+
+    // TODO make this prettier
+    return <div className='edit-thing'>
+        {renderForm}
+        <div>
+            <button onClick={handleClick}>Submit</button>
+            <button onClick={() => handleDeleteThing(props.thing)}>Delete</button>
+            <button onClick={() => setMode('ThingList')}>Cancel</button>
+        </div>
+    </div>
 }

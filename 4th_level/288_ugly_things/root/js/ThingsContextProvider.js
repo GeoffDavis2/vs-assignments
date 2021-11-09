@@ -8,31 +8,36 @@ export const ThingsContextProvider = props => {
     const [mode, setMode] = React.useState('Loading');
     const [things, setThings] = React.useState([]);
     const [activeThing, setActiveThing] = React.useState([]);
-    // const [activeThingID, setActiveThingID] = React.useState([]);
 
-    // TODO change this to zero ms for production
-    useEffect(() => setTimeout(() => getAllThings(), 10), []);
+    useEffect(() => setTimeout(() => getAllThings(), 0), []);
     const getAllThings = async () => {
         const { status, data } = await apiGetAll(endpoint);
         if (status === 200) {
             setThings(data);
-            setMode('ThingList');
+
+            // TODO just for testing
+            // setMode('ThingList');
+            setMode('EditThing');
+            setActiveThing(data[0]);
         }
     };
 
-    const handleAddThing = async () => {
-        const timestamp = new Date();  // TODO this is a temporary thing, delete when not needed for testing/dev
-        const newThing = {
-            "title": `Title: ${timestamp.getTime()}`,
-            "description": `Description: ${timestamp}`,
-            "imgUrl": "https://i.imgflip.com/1g8my4.jpg"
-        }
-        const { status } = await apiPost(endpoint, newThing);
+    const handlePostThing = async thing => {
+        const { status } = await apiPost(endpoint, thing);
         if (status === 200) {
             getAllThings();
+            setMode('ThingList');
         }
     }
 
+    const handlePutThing = async (thing) => {
+        const { status } = await apiPut(endpoint, thing._id, thing);
+        if (status === 200) {
+            getAllThings();
+            setMode('ThingList');
+        }
+    }
+    
     const handleDeleteThing = async thing => {
         const { status } = await apiDelete(endpoint, thing._id);
         if (status === 200) {
@@ -41,20 +46,15 @@ export const ThingsContextProvider = props => {
         }
     }
 
+    const handleAddThing = async thing => {
+        setMode('NewThing');
+    }
+
     const handleEditThing = async thing => {
         setActiveThing(thing);
         setMode('EditThing');
     }
 
-    const handleUpdateThing = async (thing) => {
-        const { status } = await apiPut(endpoint, thing._id, thing);
-        if (status === 200) {
-            getAllThings();
-            setMode('ThingList');
-        }
-    }
-
-    // TODO clean up all the context params, sure I don't need them all
     return (
         <ThingsContext.Provider value={{
             mode,
@@ -63,9 +63,9 @@ export const ThingsContextProvider = props => {
             activeThing,
             handleAddThing,
             handleDeleteThing,
+            handlePostThing,
             handleEditThing,
-            // activeThingID,
-            handleUpdateThing
+            handlePutThing
         }}>
             {props.children}
         </ThingsContext.Provider>
