@@ -6,7 +6,7 @@ import { BaseThing } from "./BaseThing";
 // TODO add prev/next button
 export const EditThing = (props) => {
     const { handlePutThing, handleDeleteThing, setMode } = React.useContext(ThingsContext);
-    const { renderForm, thing } = BaseThing(props.thing);
+    const { renderBaseThing, thing } = BaseThing(props.thing);
 
     const handleClick = () => {
         const mergedThing = {
@@ -20,7 +20,7 @@ export const EditThing = (props) => {
 
     // TODO make this prettier
     return <div className='edit-thing'>
-        {renderForm}
+        {renderBaseThing}
         <div>
             <button onClick={handleClick}>Submit</button>
             <button onClick={() => handleDeleteThing(props.thing)}>Delete</button>

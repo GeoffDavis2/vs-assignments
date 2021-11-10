@@ -16,7 +16,7 @@ export const BaseThing = (props) => {
 
     // TODO make this prettier
     return {
-        renderForm: (<>
+        renderBaseThing: (<>
             <img
                 src={props.imgUrl}
                 alt=''
