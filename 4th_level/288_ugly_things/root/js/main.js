@@ -1,25 +1,22 @@
-import React from 'react';
+import { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import '../css/style.css';
 
-import { ThingsContextProvider, ThingsContext } from './ThingsContextProvider';
+import { ThingsContext, ThingsContextProvider } from './ThingsContextProvider';
 import { ThingsList } from './ThingsList';
-import { NewThing } from './NewThing';
 import { EditThing } from './EditThing';
 
 const MainComponent = () => {
-  const { activeThing, mode } = React.useContext(ThingsContext);
+  const { mode } = useContext(ThingsContext);
 
   return (<>
     {mode === 'Loading' ? <h1>Loading...</h1> : ''}
     {mode === 'ThingList' ? <ThingsList /> : ''}
-    {mode === 'EditThing' ? <EditThing thing={activeThing} /> : ''}
-    {mode === 'NewThing' ? <NewThing /> : ''}
+    {mode === 'EditThing' ? <EditThing /> : ''}
+    {mode === 'NewThing' ? <EditThing /> : ''}
   </>
   );
 };
-
-// TODO fix it so app can handle multiple descriptions
 
 // Wrap MainComponent (and its children) with the ThingsContextProvider HOC
 ReactDOM.render(

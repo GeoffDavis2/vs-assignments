@@ -1,24 +1,21 @@
-import React, { useEffect } from "react";
+import { useEffect, createContext, useState } from "react";
 import { apiGetAll, apiPost, apiDelete, apiPut } from "./api";
 
-export const ThingsContext = React.createContext();
+export const ThingsContext = createContext();
 
 // HOC for adding all the Context Stuff to props.children (components)
 export const ThingsContextProvider = (props) => {
     const endpoint = 'https://api.vschool.io/geoffdavis/thing';
-    const [mode, setMode] = React.useState('Loading');
-    const [things, setThings] = React.useState([]);
-    const [activeThing, setActiveThing] = React.useState([]);
+    const [mode, setMode] = useState('Loading');
+    const [activeThing, setActiveThing] = useState([]);
+    const [things, setThings] = useState([]);
 
     useEffect(() => setTimeout(() => getAllThings(), 0), []);
     const getAllThings = async () => {
         const { status, data } = await apiGetAll(endpoint);
         if (status === 200) {
             setThings(data);
-
-            // TODO just for testing
-            // setMode('ThingList');
-            setMode('EditThing');
+            setMode('ThingList');
             setActiveThing(data[0]);
         }
     };
@@ -39,6 +36,7 @@ export const ThingsContextProvider = (props) => {
     }
 
     const handleAddThing = async () => {
+        setActiveThing({title: '', description: '', imgUrl: ''});
         setMode('NewThing');
     }
 
@@ -50,9 +48,9 @@ export const ThingsContextProvider = (props) => {
     return (
         <ThingsContext.Provider value={{
             mode,
-            setMode,
-            things,
+            setMode,            
             activeThing,
+            things,
             handleAddThing,
             handleDeleteThing,
             handlePostThing,
