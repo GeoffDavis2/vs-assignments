@@ -15,7 +15,7 @@ export const EditThing = (props) => {
             description: thing.description,
             imgUrl: thing.imgUrl
         };
-        handlePutThing(mergedThing)
+        handlePutThing(mergedThing);
     }
 
     // TODO make this prettier

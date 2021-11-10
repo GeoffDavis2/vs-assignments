@@ -9,7 +9,7 @@ export const useField = (type, initVal) => {
 }
 
 // I don't even know what you would call this??? But it works!!!
-export const BaseThing = props => {
+export const BaseThing = (props) => {
     const { ...title } = useField('text', props.title);
     const { ...description } = useField('text', props.description);
     const { ...imgUrl } = useField('text', props.imgUrl);

@@ -20,6 +20,8 @@ const MainComponent = () => {
 };
 
 // TODO fix it so app can handle multiple descriptions
+
+// Wrap MainComponent (and its children) with the ThingsContextProvider HOC
 ReactDOM.render(
   <ThingsContextProvider>
     <MainComponent />

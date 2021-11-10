@@ -3,7 +3,8 @@ import { apiGetAll, apiPost, apiDelete, apiPut } from "./api";
 
 export const ThingsContext = React.createContext();
 
-export const ThingsContextProvider = props => {
+// HOC for adding all the Context Stuff to props.children (components)
+export const ThingsContextProvider = (props) => {
     const endpoint = 'https://api.vschool.io/geoffdavis/thing';
     const [mode, setMode] = React.useState('Loading');
     const [things, setThings] = React.useState([]);
@@ -22,35 +23,26 @@ export const ThingsContextProvider = props => {
         }
     };
 
-    const handlePostThing = async thing => {
+    const handlePostThing = async (thing) => {
         const { status } = await apiPost(endpoint, thing);
-        if (status === 200) {
-            getAllThings();
-            setMode('ThingList');
-        }
+        if (status === 200) getAllThings();
     }
 
     const handlePutThing = async (thing) => {
         const { status } = await apiPut(endpoint, thing._id, thing);
-        if (status === 200) {
-            getAllThings();
-            setMode('ThingList');
-        }
-    }
-    
-    const handleDeleteThing = async thing => {
-        const { status } = await apiDelete(endpoint, thing._id);
-        if (status === 200) {
-            getAllThings();
-            setMode('ThingList');
-        }
+        if (status === 200) getAllThings();
     }
 
-    const handleAddThing = async thing => {
+    const handleDeleteThing = async (thing) => {
+        const { status } = await apiDelete(endpoint, thing._id);
+        if (status === 200) getAllThings();
+    }
+
+    const handleAddThing = async () => {
         setMode('NewThing');
     }
 
-    const handleEditThing = async thing => {
+    const handleEditThing = async (thing) => {
         setActiveThing(thing);
         setMode('EditThing');
     }

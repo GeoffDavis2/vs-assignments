@@ -18,7 +18,7 @@ const SmallThing = props => {
     </div>
 }
 
-export const ThingsList = props => {
+export const ThingsList = () => {
     const { things, handleAddThing } = React.useContext(ThingsContext);
 
     // TODO style Add New Thing Button to be absolute position so it stays in same place regarless of scroll
