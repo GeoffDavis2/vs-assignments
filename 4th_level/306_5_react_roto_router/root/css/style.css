@@ -1,0 +1,51 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: beige;
+    position: relative;
+}
+
+nav {
+    position: fixed;
+    font-size: 3em;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: cadetblue;
+    padding: 25px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+}
+
+main {
+    width: 90vw;
+    margin: 125px auto;
+    padding: 20px;
+}
+
+article h2 {
+    text-decoration: underline;
+}
+
+article p {
+    font-size: 1.5em;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: cadetblue;
+    display: flex;
+    justify-content: space-around;
+    padding: 25px;
+    font-size: 3em;
+}
