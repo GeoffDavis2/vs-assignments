@@ -43,6 +43,7 @@ export const EditThing = () => {
             {mode === 'EditThing' ? <>
                 <button onClick={handleUpdateThingClick}>Submit</button>
                 <button onClick={() => handleDeleteThing(activeThing)}>Delete</button>
+                // TODO setup prev/next button handlers
                 <button >Prev</button>
                 <button>Next</button>
             </> : ''}

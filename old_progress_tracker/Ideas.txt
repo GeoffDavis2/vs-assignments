@@ -1,3 +1,8 @@
+If I use the Notion API...
+    API Key=secret_RWpwxW4ULhtkfuBmQOjIqQxvMH4KYmG1WsT4cnXbxlZ
+    Notion Database Id = c6e1385b02044e4a9b2e47636b15226b
+
+
 Use the V School Air Table API?
 
 Use the V School ToDo API?
