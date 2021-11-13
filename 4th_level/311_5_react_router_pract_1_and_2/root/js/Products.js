@@ -8,7 +8,7 @@ function Products() {
     return (<>
         <h1>Products Page</h1>
         {ProductsData.map(obj => <h3 key={obj.id} className='product'>
-            <Link to={`/products/${obj.id}`}>{obj.name}</Link>
+            <Link to={`/products/${obj.id}`}>{obj.name}: ${obj.price}</Link>
         </h3>)}
     </>)
 }
