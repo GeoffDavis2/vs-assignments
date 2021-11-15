@@ -12,6 +12,10 @@ export const apiDelete = (endpoint, id) => {
   return axios.delete(`${endpoint}/${id}`);
 };
 
-export const apiPut = (endpoint, id, data) => {
-  return axios.put(`${endpoint}/${id}`, data);
+// export const apiPut = (endpoint, id, data) => {
+//   return axios.put(`${endpoint}/${id}`, data);
+// };
+
+export const apiPut = (endpoint, data) => {
+  return axios.put(`${endpoint}`, data);
 };

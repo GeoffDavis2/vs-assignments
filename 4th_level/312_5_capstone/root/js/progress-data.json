@@ -1,0 +1,890 @@
+[
+    {
+        "Day": 0,
+        "Date": "8/10/2021",
+        "Level": 1,
+        "TotProgPts": 0
+    },
+    {
+        "Day": 1,
+        "Date": "8/11/2021",
+        "Level": 1,
+        "TotProgPts": 0
+    },
+    {
+        "Day": 2,
+        "Date": "8/12/2021",
+        "Level": 1,
+        "TotProgPts": 2
+    },
+    {
+        "Day": 3,
+        "Date": "8/13/2021",
+        "Level": 1,
+        "TotProgPts": 4.5
+    },
+    {
+        "Day": 4,
+        "Date": "8/14/2021",
+        "Level": 1,
+        "TotProgPts": 4.5
+    },
+    {
+        "Day": 5,
+        "Date": "8/15/2021",
+        "Level": 1,
+        "TotProgPts": 4.5
+    },
+    {
+        "Day": 6,
+        "Date": "8/16/2021",
+        "Level": 1,
+        "TotProgPts": 5.5
+    },
+    {
+        "Day": 7,
+        "Date": "8/17/2021",
+        "Level": 1,
+        "TotProgPts": 6.5
+    },
+    {
+        "Day": 8,
+        "Date": "8/18/2021",
+        "Level": 1,
+        "TotProgPts": 8
+    },
+    {
+        "Day": 9,
+        "Date": "8/19/2021",
+        "Level": 1,
+        "TotProgPts": 9
+    },
+    {
+        "Day": 10,
+        "Date": "8/20/2021",
+        "Level": 1,
+        "TotProgPts": 9
+    },
+    {
+        "Day": 11,
+        "Date": "8/21/2021",
+        "Level": 1,
+        "TotProgPts": 9
+    },
+    {
+        "Day": 12,
+        "Date": "8/22/2021",
+        "Level": 1,
+        "TotProgPts": 9
+    },
+    {
+        "Day": 13,
+        "Date": "8/23/2021",
+        "Level": 1,
+        "TotProgPts": 9
+    },
+    {
+        "Day": 14,
+        "Date": "8/24/2021",
+        "Level": 1,
+        "TotProgPts": 17.5
+    },
+    {
+        "Day": 15,
+        "Date": "8/25/2021",
+        "Level": 1,
+        "TotProgPts": 23
+    },
+    {
+        "Day": 16,
+        "Date": "8/26/2021",
+        "Level": 1,
+        "TotProgPts": 23
+    },
+    {
+        "Day": 17,
+        "Date": "8/27/2021",
+        "Level": 1,
+        "TotProgPts": 23
+    },
+    {
+        "Day": 18,
+        "Date": "8/28/2021",
+        "Level": 1,
+        "TotProgPts": 23
+    },
+    {
+        "Day": 19,
+        "Date": "8/29/2021",
+        "Level": 1,
+        "TotProgPts": 23
+    },
+    {
+        "Day": 20,
+        "Date": "8/30/2021",
+        "Level": 1,
+        "TotProgPts": 29
+    },
+    {
+        "Day": 21,
+        "Date": "8/31/2021",
+        "Level": 1,
+        "TotProgPts": 32
+    },
+    {
+        "Day": 22,
+        "Date": "9/1/2021",
+        "Level": 1,
+        "TotProgPts": 36.5
+    },
+    {
+        "Day": 23,
+        "Date": "9/2/2021",
+        "Level": 1,
+        "TotProgPts": 42.5
+    },
+    {
+        "Day": 24,
+        "Date": "9/3/2021",
+        "Level": 1,
+        "TotProgPts": 42.5
+    },
+    {
+        "Day": 25,
+        "Date": "9/4/2021",
+        "Level": 1,
+        "TotProgPts": 42.5
+    },
+    {
+        "Day": 26,
+        "Date": "9/5/2021",
+        "Level": 1,
+        "TotProgPts": 42.5
+    },
+    {
+        "Day": 27,
+        "Date": "9/6/2021",
+        "Level": 1,
+        "TotProgPts": 42.5
+    },
+    {
+        "Day": 28,
+        "Date": "9/7/2021",
+        "Level": 1,
+        "TotProgPts": 44.5
+    },
+    {
+        "Day": 29,
+        "Date": "9/8/2021",
+        "Level": 1,
+        "TotProgPts": 50.5
+    },
+    {
+        "Day": 30,
+        "Date": "9/9/2021",
+        "Level": 1,
+        "TotProgPts": 51.5
+    },
+    {
+        "Day": 31,
+        "Date": "9/10/2021",
+        "Level": 1,
+        "TotProgPts": 51.5
+    },
+    {
+        "Day": 32,
+        "Date": "9/11/2021",
+        "Level": 1,
+        "TotProgPts": 51.5
+    },
+    {
+        "Day": 33,
+        "Date": "9/12/2021",
+        "Level": 1,
+        "TotProgPts": 51.5
+    },
+    {
+        "Day": 34,
+        "Date": "9/13/2021",
+        "Level": 1,
+        "TotProgPts": 62
+    },
+    {
+        "Day": 35,
+        "Date": "9/14/2021",
+        "Level": 1,
+        "TotProgPts": 66.5
+    },
+    {
+        "Day": 36,
+        "Date": "9/15/2021",
+        "Level": 1,
+        "TotProgPts": 73.5
+    },
+    {
+        "Day": 37,
+        "Date": "9/16/2021",
+        "Level": 1,
+        "TotProgPts": 89.5
+    },
+    {
+        "Day": 38,
+        "Date": "9/17/2021",
+        "Level": 1,
+        "TotProgPts": 89.5
+    },
+    {
+        "Day": 39,
+        "Date": "9/18/2021",
+        "Level": 1,
+        "TotProgPts": 89.5
+    },
+    {
+        "Day": 40,
+        "Date": "9/19/2021",
+        "Level": 1,
+        "TotProgPts": 89.5
+    },
+    {
+        "Day": 41,
+        "Date": "9/20/2021",
+        "Level": 2,
+        "TotProgPts": 93.5
+    },
+    {
+        "Day": 42,
+        "Date": "9/21/2021",
+        "Level": 2,
+        "TotProgPts": 100
+    },
+    {
+        "Day": 43,
+        "Date": "9/22/2021",
+        "Level": 2,
+        "TotProgPts": 112
+    },
+    {
+        "Day": 44,
+        "Date": "9/23/2021",
+        "Level": 2,
+        "TotProgPts": 117.5
+    },
+    {
+        "Day": 45,
+        "Date": "9/24/2021",
+        "Level": 2,
+        "TotProgPts": 122.5
+    },
+    {
+        "Day": 46,
+        "Date": "9/25/2021",
+        "Level": 2,
+        "TotProgPts": 122.5
+    },
+    {
+        "Day": 47,
+        "Date": "9/26/2021",
+        "Level": 2,
+        "TotProgPts": 122.5
+    },
+    {
+        "Day": 48,
+        "Date": "9/27/2021",
+        "Level": 2,
+        "TotProgPts": 124.5
+    },
+    {
+        "Day": 49,
+        "Date": "9/28/2021",
+        "Level": 2,
+        "TotProgPts": 124.5
+    },
+    {
+        "Day": 50,
+        "Date": "9/29/2021",
+        "Level": 2,
+        "TotProgPts": 124.5
+    },
+    {
+        "Day": 51,
+        "Date": "9/30/2021",
+        "Level": 2,
+        "TotProgPts": 138
+    },
+    {
+        "Day": 52,
+        "Date": "10/1/2021",
+        "Level": 2,
+        "TotProgPts": 142.5
+    },
+    {
+        "Day": 53,
+        "Date": "10/2/2021",
+        "Level": 2,
+        "TotProgPts": 142.5
+    },
+    {
+        "Day": 54,
+        "Date": "10/3/2021",
+        "Level": 2,
+        "TotProgPts": 147
+    },
+    {
+        "Day": 55,
+        "Date": "10/4/2021",
+        "Level": 2,
+        "TotProgPts": 154.5
+    },
+    {
+        "Day": 56,
+        "Date": "10/5/2021",
+        "Level": 2,
+        "TotProgPts": 155
+    },
+    {
+        "Day": 57,
+        "Date": "10/6/2021",
+        "Level": 2,
+        "TotProgPts": 162
+    },
+    {
+        "Day": 58,
+        "Date": "10/7/2021",
+        "Level": 2,
+        "TotProgPts": 170
+    },
+    {
+        "Day": 59,
+        "Date": "10/8/2021",
+        "Level": 3,
+        "TotProgPts": 170
+    },
+    {
+        "Day": 60,
+        "Date": "10/9/2021",
+        "Level": 3,
+        "TotProgPts": 176.5
+    },
+    {
+        "Day": 61,
+        "Date": "10/10/2021",
+        "Level": 3,
+        "TotProgPts": 183
+    },
+    {
+        "Day": 62,
+        "Date": "10/11/2021",
+        "Level": 3,
+        "TotProgPts": 187.5
+    },
+    {
+        "Day": 63,
+        "Date": "10/12/2021",
+        "Level": 3,
+        "TotProgPts": 196
+    },
+    {
+        "Day": 64,
+        "Date": "10/13/2021",
+        "Level": 3,
+        "TotProgPts": 198
+    },
+    {
+        "Day": 65,
+        "Date": "10/14/2021",
+        "Level": 3,
+        "TotProgPts": 210
+    },
+    {
+        "Day": 66,
+        "Date": "10/15/2021",
+        "Level": 3,
+        "TotProgPts": 214
+    },
+    {
+        "Day": 67,
+        "Date": "10/16/2021",
+        "Level": 3,
+        "TotProgPts": 214
+    },
+    {
+        "Day": 68,
+        "Date": "10/17/2021",
+        "Level": 3,
+        "TotProgPts": 221.5
+    },
+    {
+        "Day": 69,
+        "Date": "10/18/2021",
+        "Level": 3,
+        "TotProgPts": 228
+    },
+    {
+        "Day": 70,
+        "Date": "10/19/2021",
+        "Level": 3,
+        "TotProgPts": 234.5
+    },
+    {
+        "Day": 71,
+        "Date": "10/20/2021",
+        "Level": 3,
+        "TotProgPts": 243
+    },
+    {
+        "Day": 72,
+        "Date": "10/21/2021",
+        "Level": 3,
+        "TotProgPts": 245
+    },
+    {
+        "Day": 73,
+        "Date": "10/22/2021",
+        "Level": 3,
+        "TotProgPts": 245
+    },
+    {
+        "Day": 74,
+        "Date": "10/23/2021",
+        "Level": 3,
+        "TotProgPts": 245
+    },
+    {
+        "Day": 75,
+        "Date": "10/24/2021",
+        "Level": 3,
+        "TotProgPts": 254
+    },
+    {
+        "Day": 76,
+        "Date": "10/25/2021",
+        "Level": 3,
+        "TotProgPts": 254
+    },
+    {
+        "Day": 77,
+        "Date": "10/26/2021",
+        "Level": 3,
+        "TotProgPts": 254
+    },
+    {
+        "Day": 78,
+        "Date": "10/27/2021",
+        "Level": 3,
+        "TotProgPts": 254
+    },
+    {
+        "Day": 79,
+        "Date": "10/28/2021",
+        "Level": 3,
+        "TotProgPts": 262
+    },
+    {
+        "Day": 80,
+        "Date": "10/29/2021",
+        "Level": 4,
+        "TotProgPts": 267.5
+    },
+    {
+        "Day": 81,
+        "Date": "10/30/2021",
+        "Level": 4,
+        "TotProgPts": 267.5
+    },
+    {
+        "Day": 82,
+        "Date": "10/31/2021",
+        "Level": 4,
+        "TotProgPts": 269
+    },
+    {
+        "Day": 83,
+        "Date": "11/1/2021",
+        "Level": 4,
+        "TotProgPts": 273.5
+    },
+    {
+        "Day": 84,
+        "Date": "11/2/2021",
+        "Level": 4,
+        "TotProgPts": 279
+    },
+    {
+        "Day": 85,
+        "Date": "11/3/2021",
+        "Level": 4,
+        "TotProgPts": 282.5
+    },
+    {
+        "Day": 86,
+        "Date": "11/4/2021",
+        "Level": 4,
+        "TotProgPts": 284
+    },
+    {
+        "Day": 87,
+        "Date": "11/5/2021",
+        "Level": 4,
+        "TotProgPts": 284
+    },
+    {
+        "Day": 88,
+        "Date": "11/6/2021",
+        "Level": 4,
+        "TotProgPts": 288
+    },
+    {
+        "Day": 89,
+        "Date": "11/7/2021",
+        "Level": 4,
+        "TotProgPts": 288
+    },
+    {
+        "Day": 90,
+        "Date": "11/8/2021",
+        "Level": 4,
+        "TotProgPts": 304
+    },
+    {
+        "Day": 91,
+        "Date": "11/9/2021",
+        "Level": 4,
+        "TotProgPts": 304
+    },
+    {
+        "Day": 92,
+        "Date": "11/10/2021",
+        "Level": 4,
+        "TotProgPts": 306.5
+    },
+    {
+        "Day": 93,
+        "Date": "11/11/2021",
+        "Level": 4,
+        "TotProgPts": 311.5
+    },
+    {
+        "Day": 94,
+        "Date": "11/12/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 95,
+        "Date": "11/13/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 96,
+        "Date": "11/14/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 97,
+        "Date": "11/15/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 98,
+        "Date": "11/16/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 99,
+        "Date": "11/17/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 100,
+        "Date": "11/18/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 101,
+        "Date": "11/19/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 102,
+        "Date": "11/20/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 103,
+        "Date": "11/21/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 104,
+        "Date": "11/22/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 105,
+        "Date": "11/23/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 106,
+        "Date": "11/24/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 107,
+        "Date": "11/25/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 108,
+        "Date": "11/26/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 109,
+        "Date": "11/27/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 110,
+        "Date": "11/28/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 111,
+        "Date": "11/29/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 112,
+        "Date": "11/30/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 113,
+        "Date": "12/1/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 114,
+        "Date": "12/2/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 115,
+        "Date": "12/3/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 116,
+        "Date": "12/4/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 117,
+        "Date": "12/5/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 118,
+        "Date": "12/6/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 119,
+        "Date": "12/7/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 120,
+        "Date": "12/8/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 121,
+        "Date": "12/9/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 122,
+        "Date": "12/10/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 123,
+        "Date": "12/11/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 124,
+        "Date": "12/12/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 125,
+        "Date": "12/13/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 126,
+        "Date": "12/14/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 127,
+        "Date": "12/15/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 128,
+        "Date": "12/16/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 129,
+        "Date": "12/17/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 130,
+        "Date": "12/18/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 131,
+        "Date": "12/19/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 132,
+        "Date": "12/20/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 133,
+        "Date": "12/21/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 134,
+        "Date": "12/22/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 135,
+        "Date": "12/23/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 136,
+        "Date": "12/24/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 137,
+        "Date": "12/25/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 138,
+        "Date": "12/26/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 139,
+        "Date": "12/27/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 140,
+        "Date": "12/28/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 141,
+        "Date": "12/29/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 142,
+        "Date": "12/30/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 143,
+        "Date": "12/31/2021",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 144,
+        "Date": "1/1/2022",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 145,
+        "Date": "1/2/2022",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 146,
+        "Date": "1/3/2022",
+        "Level": null,
+        "TotProgPts": null
+    },
+    {
+        "Day": 147,
+        "Date": "1/4/2022",
+        "Level": null,
+        "TotProgPts": null
+    }
+]
