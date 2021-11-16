@@ -1,40 +1,44 @@
 import React from "react";
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import data from "./progress-data.json";
+import { getDay } from "./api";
+import { useEffect } from "react";
 
-const useField = (type, initVal) => {
-    const [value, setValue] = useState(initVal);
-    const onChange = event => setValue(event.target.value);
-    return { type, value, onChange }
-}
 
 export const EditDay = () => {
     const params = useParams();
-    
-    const day = data.find(obj => obj.Day === parseInt(params.Day))
+    const [dayTest, setDayTest] = useState({ Day: 0, Date: "0", Level: 0, TotProgPts: 0 });
 
-    const {...date} = useField('text', day.Date);
-    const {...level} = useField('number', day.Level); 
-    const {...totProgPts} = useField('number', day.TotProgPts);
+    // eslint-disable-next-line
+    useEffect(async () => setDayTest(await getDay(params.Day)), [params.Day]);
 
-    const handleSubmitClick = (e) => {
-        e.preventDefault();
-        console.log('do put on API DB');
+    const handleChange = ({ target: { name, value } }) => setDayTest({ ...dayTest, [name]: value });
 
+    // TODO Add logic for when user click submit
+    const handleSubmitClick = () => {
+        console.log('handleSubmitClick');
     }
 
+    const handleReloadClick = async (e) => {
+        e.preventDefault();
+        setDayTest(await getDay(params.Day));
+    }
+
+    // TODO Add validation to make sure input values are within a range
     return (<>
         <nav>
-            <Link to="/">Back to Progress Table</Link>
+            <Link to="/progress-table">Progress Table</Link>
+            <Link to="/progress-charts">Progress charts</Link>
+            <Link to="/settings">Settings</Link>
         </nav>
 
-        <h1>Edit Progress For Day {day.Day}</h1>
+        <h1>Edit Progress For Day {params.Day}</h1>
         <form>
-            Date: <input {...date}/><br/>
-            Level: <input {...level}/><br/>
-            Total Prog Pts: <input {...totProgPts}/><br/>
-            <button onClick={handleSubmitClick}>Submit Change to API</button><br/>
+            Date: <input name='Date' value={dayTest.Date} onChange={handleChange} type='date' /><br />
+            Level: <input name='Level' value={dayTest.Level} onChange={(e) => handleChange(e)} type='number' min="1" max="6" /><br />
+            Date: <input name='TotProgPts' value={dayTest.TotProgPts} onChange={handleChange} type='number' /><br />
+            <button onClick={handleSubmitClick}>Submit Change to API</button><br />
+            <button onClick={handleReloadClick}>Reload Day</button><br />
         </form>
     </>)
 }

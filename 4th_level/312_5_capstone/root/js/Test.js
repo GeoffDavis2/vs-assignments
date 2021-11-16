@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+
 import { apiGetAll, apiPost, apiDelete, apiPut } from "./api";
 
 export const Test = () => {
@@ -21,7 +22,7 @@ export const Test = () => {
         }
     };
 
-    setTimeout(() => testPost(), 1000);
+    // setTimeout(() => testPost(), 1000);
     const testPost = async () => {
         const obj = JSON.stringify( { name: "Benita" });
         const { status, data } = await apiPost(endpoint, obj);

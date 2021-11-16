@@ -20,17 +20,17 @@ nav {
     padding: 25px;
 }
 
+nav {
+    color: black;
+    /* text-decoration: underline; */
+}
+
 nav a {
+    text-decoration: none;
     color: white;
-    text-decoration: none;
 }
 
-.product {
-    margin: 10px;
-    border-top: 1px dashed black;
-}
-
-.product a {
-    text-decoration: none;
-    color: blue;
+nav.sub-nav a {
+    color:blue;
+    font-size: .75em;
 }
