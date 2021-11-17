@@ -1,22 +1,20 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
 
-// TODO Add in either chart from a Javascript Chart Library
-//      TODO Each Chart should have 2 lines (Baseline and Actual)
+// ToDo figure out way to bring in chart from google sheets or maybe some other JS Chart library?
+//      ToDo Add in either chart from a Javascript Chart Library
+//      ToDo Each Chart should have 2 lines (Baseline and Actual)
 
 export const ChartProgPt = () => <>
-    <br /><br /><br /><br /><br />
-    <h1>This is a stub for the Progress Pts Chart</h1>
+    <div className='chart-container'>
+        <img src="/TotProgPts.GIF" alt=""></img>
+    </div>
 </>
 
 export const ChartReqPerDay = () => <>
-    <br /><br /><br /><br /><br />
-    <h1>This is a stub for the Required Progress Per Day Chart</h1>
-</>
-
-export const ChartReqPerWDay = () => <>
-    <br /><br /><br /><br /><br />
-    <h1>This is a stub for the Required Progress Per Week Day Chart</h1>
+    <div className='chart-container'>
+        <img src="/ReqPtsPerDay.GIF" alt=""></img>
+    </div>
 </>
 
 export const ProgressCharts = () => {
@@ -29,9 +27,8 @@ export const ProgressCharts = () => {
         </nav>
 
         <nav className='sub-nav'>
-            <Link to="prog-pts">Progress Pts</Link>
-            <Link to="req-per-day">Req'd per Day</Link>
-            <Link to="req-per-wday">Req'd per Week Day</Link>
+            <Link to="prog-pts">Total Progress Pts</Link>
+            <Link to="req-per-day">Required Per Day</Link>
         </nav>
 
         <Outlet />

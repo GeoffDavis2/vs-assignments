@@ -7,10 +7,11 @@ export const ProgressTable = (props) => {
 
     const handleRowClick = (day) => navigate(`/edit-day/${day}`);
 
-    // TODO Figure out how to make a "loading screen" while data is loading
-    // TODO Figure out how to make the app go back to Progress Table every time app refreshes
-    // TODO Add "Re-Load" button to (re-get) all data for table
-    // TODO Make table look like a real table, with columns lining up and boxes around each cell (header a different color)
+    // ToDo Display Start Date, Number of Days, and End Date above chart
+    // ToDo Add "Re-Load" button to (re-get) all data for table
+    // ToDo Put total Progress Points for course at bottom
+    // ToDo Pick better color combinations
+    // TODO add in rest of columns from old progress tracker
     return (<>
         <nav>
             <div className='active-page'>Progress Table</div>
@@ -18,7 +19,7 @@ export const ProgressTable = (props) => {
             <Link to="/settings">Settings</Link>
         </nav>
 
-        <table>
+        <table className='table'>
 
             <thead>
                 <tr>

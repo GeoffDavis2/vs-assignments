@@ -1,29 +1,30 @@
-// import React from "react";
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { putDay, testPost } from "./api";
+import { putDay } from "./api";
 
 
 export const EditDay = (props) => {
     const params = useParams();
-    const [dayTest, setDayTest] = useState(props.allDays[params.Day]);
 
-    const handleChange = ({ target: { name, value } }) => setDayTest({ ...dayTest, [name]: value });
+    // This is just for convenience while styling the EditDay component
+    // const [day, setDay] = useState({Day: 100, Date: '2021-11-18', Level: '', TotProgPts: ''});
 
-    // TODO Rename dayTest to something else
-    // TODO Add logic for when user click submit
+    const [day, setDay] = useState(props.allDays[params.Day]);
+
+    const handleChange = ({ target: { name, value } }) => setDay({ ...day, [name]: value });
+
     const handleSubmitClick = (e) => {
         e.preventDefault();
-        putDay(dayTest);
-        // console.log('hi');
+        props.handleUpdateDayState(day);
+        putDay(day);
     }
 
     const handleReloadClick = (e) => {
         e.preventDefault();
-        setDayTest(props.allDays[params.Day]);
+        setDay(props.allDays[params.Day]);
     }
 
-    // TODO Add validation to make sure input values are within a range
+    // ToDo Add validation to make sure input values are within a range
     return (<>
         <nav>
             <Link to="/progress-table">Progress Table</Link>
@@ -31,13 +32,13 @@ export const EditDay = (props) => {
             <Link to="/settings">Settings</Link>
         </nav>
 
-        <h1>Edit Progress For Day {params.Day}</h1>
-        <form>
-            Date: <input name='Date' value={dayTest.Date} onChange={handleChange} type='date' /><br />
-            Level: <input name='Level' value={dayTest.Level} onChange={handleChange} type='number' min="1" max="6" /><br />
-            Total Prog Pts: <input name='TotProgPts' value={dayTest.TotProgPts} onChange={handleChange} type='number' /><br />
-            <button onClick={handleSubmitClick}>Submit Change to API</button><br />
-            <button onClick={handleReloadClick}>Reload Day</button><br />
+        <form className='edit-day'>
+            <h3>Edit Progress For Day {params.Day}</h3>
+            Date: <input name='Date' value={day.Date} onChange={handleChange} type='date' /><br />
+            Level: <input name='Level' value={day.Level} onChange={handleChange} type='number' min="1" max="6" /><br />
+            Total Prog Pts: <input name='TotProgPts' value={day.TotProgPts} onChange={handleChange} type='number' /><br />
+            <button onClick={handleSubmitClick}>Submit</button>
+            <button onClick={handleReloadClick}>Reload Day</button>
         </form>
     </>)
 }

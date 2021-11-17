@@ -1,42 +1,40 @@
 import axios from "axios";
 import dayjs from 'dayjs';
 
-const endpoint = 'https://script.google.com/macros/s/AKfycbz6M1jC6V3R7r3zKCb8lfzL-rHG3xWiFBeHkVNqYcNaEjYcSQNwZzULej0nH285zrfj/exec';
+const endpoint = 'https://script.google.com/macros/s/AKfycbyORHVV2qx2V1zVoXNWtYGgeW_OZANf_KBoqg2Uz2kDPa62Lq9c6BqIpjAdMMhdlGDj/exec';
 
-export const apiGetAll = () => {
-  return axios.get(endpoint);
-};
-
+// Omit id to get all data from the API
 export const apiGet = (id) => {
-  return axios.get(`${endpoint}?day=${id}`);
+  return axios.get(`${endpoint}?Day=${id}`);
 };
 
-export const apiPost = (obj) => {
+export const apiPut = (obj) => {
   return axios.post(endpoint, obj);
 };
 
+// Post not setup yet
+// export const apiPost = (obj) => {
+//   return axios.post(endpoint, obj);
+// };
+
+// Delete not setup yet
 // export const apiDelete = (endpoint, id) => {
 //   return axios.delete(`${endpoint}/${id}`);
 // };
 
-// export const apiPut = (endpoint, id, data) => {
-//   return axios.put(`${endpoint}/${id}`, data);
-// };
 
-// export const apiPut = (endpoint, data) => {
-//   return axios.put(`${endpoint}`, data);
-// };
+
 
 export const getALLDays = async () => {
-  const { status, data } = await apiGetAll();
+  const { status, data } = await apiGet();
   if (status === 200) {
     data.forEach(day => day.Date = dayjs(day.Date).format('YYYY-MM-DD'))
-    console.log(status);
     return data;
   }
+  console.log('status: ' + status);
+  console.log(data);
   return [];
 }
-
 
 export const getDay = async (id) => {
   const { status, data } = await apiGet(id);
@@ -47,12 +45,18 @@ export const getDay = async (id) => {
   return {};
 }
 
-// TODO figure out why status isn't being destructured here
 export const putDay = async (day) => {
-  const obj = JSON.stringify({action: 'put', ...day});
-  console.log(obj);
-  const { status } = apiPost(obj);
-  // if (status === 200) {
+  const obj = JSON.stringify({ action: 'put', ...day });
+  const { status } = await apiPut(obj);
+  if (status !== 200) {
     console.log(status);
-  // }
+  }
 }
+
+// ToDo Add useEffect to "listen" for changes to API and...
+//    ToDo Update the setAllDays array, but just the changed object???
+//    ToDo Re-render progress table whenever setAllDays array changes
+
+// ToDo Figure out (proper) way around CORS issue without diabling in Chrome or using the VSchool thing
+
+
