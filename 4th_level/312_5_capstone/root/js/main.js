@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
+
+import { getALLDays } from "./api";
 
 import { ProgressTable } from "./ProgressTable";
 import { EditDay } from './EditDay';
@@ -10,6 +12,7 @@ import { Settings } from './Settings';
 
 import '../css/style.css';
 
+// TODO Add "loading screen using context"
 // TODO add API calls to google sheets (or use the V School todo api instead...?)
 // TODO add functionality to update the API when user clicks the submit button
 // TODO add in rest of columns from old progress tracker
@@ -23,24 +26,35 @@ import '../css/style.css';
 // TODO add useEffect to "listen" for changes to API and...
 //    TODO re-render progress table (verify only if on the Progress Table page)
 //    TODO and/or update the Global data array (just the changed object???)
+// TODO set EditDay component to get prop from arry to make it quicker
+//    TODO Add reload from state array button
+//    TODO then if record is changed by EditDay, do the following async...
+//        TODO update value in alldays state array
+//        TODO update value in google sheets
 
+const App = () => {
+  const [allDays, setAllDays] = useState([]);
 
-// import { Test } from './Test';
-// Test();
+  // eslint-disable-next-line
+  useEffect(async () => setAllDays(await getALLDays()), []);
 
-ReactDOM.render(
-  <Router>
-    <Routes>
-      <Route path="/" element={<ProgressTable />} />
-      <Route path="/progress-table" element={<ProgressTable />} />
-      <Route path="/edit-day/:Day" element={<EditDay />} />
-      <Route path="/progress-charts" element={<ProgressCharts />}>
-        <Route path="prog-pts" element={<ChartProgPt />} />
-        <Route path="req-per-day" element={<ChartReqPerDay />} />
-        <Route path="req-per-wday" element={<ChartReqPerWDay />} />
-      </Route>
-      <Route path="/settings" element={<Settings />} />
-      <Route path="*" element={<ProgressTable />} />
-    </Routes>
-  </Router>
-  , document.getElementById("root-div"));
+  // TODO can I pass individual object to EditDay instead of whole array? (not sure how to pass the "Day" variable to the props)
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<ProgressTable allDays={allDays} />} />
+        <Route path="/progress-table" element={<ProgressTable allDays={allDays} />} />
+        <Route path="/edit-day/:Day" element={<EditDay allDays={allDays} />} />
+        <Route path="/progress-charts" element={<ProgressCharts />}>
+          <Route path="prog-pts" element={<ChartProgPt />} />
+          <Route path="req-per-day" element={<ChartReqPerDay />} />
+          <Route path="req-per-wday" element={<ChartReqPerWDay />} />
+        </Route>
+        <Route path="/settings" element={<Settings />} />
+        <Route path="*" element={<ProgressTable allDays={allDays} />} />
+      </Routes>
+    </Router>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById("root-div"));

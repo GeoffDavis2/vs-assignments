@@ -1,15 +1,14 @@
-import React from "react";
 import { useNavigate, Link } from "react-router-dom";
-import data from "./progress-data.json";
+
 import dayjs from 'dayjs';
-// var dayjs = require('dayjs'); 
 
-export const ProgressTable = () => {
-
+export const ProgressTable = (props) => {
     let navigate = useNavigate();
 
     const handleRowClick = (day) => navigate(`/edit-day/${day}`);
 
+    // TODO Figure out how to make a "loading screen" while data is loading
+    // TODO Figure out how to make the app go back to Progress Table every time app refreshes
     // TODO Add "Re-Load" button to (re-get) all data for table
     // TODO Make table look like a real table, with columns lining up and boxes around each cell (header a different color)
     return (<>
@@ -31,7 +30,7 @@ export const ProgressTable = () => {
             </thead>
 
             <tbody>
-                {data.map(obj => <tr key={obj.Day} onClick={() => handleRowClick(obj.Day)}>
+                {props.allDays.map(obj => <tr key={obj.Day} onClick={() => handleRowClick(obj.Day)}>
                     <td>{obj.Day}</td>
                     <td>{dayjs(obj.Date).format('MM/DD/YYYY')}</td>
                     <td>{obj.Level}</td>

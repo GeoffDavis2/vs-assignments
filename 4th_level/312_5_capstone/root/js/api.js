@@ -1,38 +1,58 @@
 import axios from "axios";
+import dayjs from 'dayjs';
 
-const endpoint = 'https://script.google.com/macros/s/AKfycbykU0fFJMzuP2_RweDQF69LaRUGRlHisOcnA-A-p-H8toXa9laCi8CTib0ql_t3aVd-/exec';
+const endpoint = 'https://script.google.com/macros/s/AKfycbz6M1jC6V3R7r3zKCb8lfzL-rHG3xWiFBeHkVNqYcNaEjYcSQNwZzULej0nH285zrfj/exec';
 
-export const apiGetAll = (endpoint) => {
-  return axios.get(endpoint, 23);
+export const apiGetAll = () => {
+  return axios.get(endpoint);
 };
 
-export const apiPost = (endpoint, thing) => {
-  return axios.post(endpoint, thing);
+export const apiGet = (id) => {
+  return axios.get(`${endpoint}?day=${id}`);
 };
 
-export const apiDelete = (endpoint, id) => {
-  return axios.delete(`${endpoint}/${id}`);
+export const apiPost = (obj) => {
+  return axios.post(endpoint, obj);
 };
+
+// export const apiDelete = (endpoint, id) => {
+//   return axios.delete(`${endpoint}/${id}`);
+// };
 
 // export const apiPut = (endpoint, id, data) => {
 //   return axios.put(`${endpoint}/${id}`, data);
 // };
 
-export const apiPut = (endpoint, data) => {
-  return axios.put(`${endpoint}`, data);
-};
+// export const apiPut = (endpoint, data) => {
+//   return axios.put(`${endpoint}`, data);
+// };
 
+export const getALLDays = async () => {
+  const { status, data } = await apiGetAll();
+  if (status === 200) {
+    data.forEach(day => day.Date = dayjs(day.Date).format('YYYY-MM-DD'))
+    console.log(status);
+    return data;
+  }
+  return [];
+}
 
-//https://spreadsheet.dev/reading-from-writing-to-range-in-google-sheets-using-apps-script
 
 export const getDay = async (id) => {
-  // console.log(`Inside getDay, id: ${id}`);
-  const { status, data } = await apiGetAll(endpoint);
+  const { status, data } = await apiGet(id);
   if (status === 200) {
-    console.log(data);
-    // console.log(tempdata);
-    var x = { Day: 999, Date: "1600-01-01", Level: 0, TotProgPts: 10000 };
+    data.Date = dayjs(data.Date).format('YYYY-MM-DD');
+    return data;
   }
-  // console.log(x);
-  return x;
+  return {};
+}
+
+// TODO figure out why status isn't being destructured here
+export const putDay = async (day) => {
+  const obj = JSON.stringify({action: 'put', ...day});
+  console.log(obj);
+  const { status } = apiPost(obj);
+  // if (status === 200) {
+    console.log(status);
+  // }
 }
