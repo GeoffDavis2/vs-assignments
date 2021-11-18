@@ -5,30 +5,30 @@ import { Route, Routes } from "react-router-dom";
 
 import { getALLDays } from "./api";
 
+import { addColumnsToAllDays } from './addColumnsToAllDays';
 import { ProgressTable } from "./ProgressTable";
 import { EditDay } from './EditDay';
-import { ProgressCharts, ChartProgPt, ChartReqPerDay, ChartReqPerWDay } from './ProgressCharts';
+import { ProgressCharts, ChartProgPt, ChartReqPerDay } from './ProgressCharts';
 import { Settings } from './Settings';
 
 import '../css/style.css';
 
 
-// ToDo Figure out how to make a "loading screen" route page data is loading
-//    ToDo Or add "loading" screen using context?
-// ToDo Figure out how to make the app go back to Progress Table (or loading page) every time app refreshes
-// TODO Clean up: remove console.log's, remove un-needed imports functions and variables
-
+// TODO Figure out how to make a "loading screen" route page data is loading
+//    TODO Or add "loading" screen using context?
+// TODO Figure out how to make the app go back to Progress Table (or loading page) every time app refreshes
+// TODO Clean up: remove remove fix warnings
 
 const App = () => {
   const [allDays, setAllDays] = useState([]);
 
   // eslint-disable-next-line
-  useEffect(async () => setAllDays(await getALLDays()), []);
+  useEffect(async () => setAllDays(addColumnsToAllDays(await getALLDays())), []);
 
   const handleUpdateDayState = (day) => {
     setAllDays((prev) => {
       prev[day.Day]=day;
-      return prev;
+      return addColumnsToAllDays(prev);
     })
   }
 

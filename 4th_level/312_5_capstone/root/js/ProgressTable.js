@@ -3,15 +3,11 @@ import { useNavigate, Link } from "react-router-dom";
 import dayjs from 'dayjs';
 
 export const ProgressTable = (props) => {
+        
     let navigate = useNavigate();
 
     const handleRowClick = (day) => navigate(`/edit-day/${day}`);
 
-    // ToDo Display Start Date, Number of Days, and End Date above chart
-    // ToDo Add "Re-Load" button to (re-get) all data for table
-    // ToDo Put total Progress Points for course at bottom
-    // ToDo Pick better color combinations
-    // TODO add in rest of columns from old progress tracker
     return (<>
         <nav>
             <div className='active-page'>Progress Table</div>
@@ -26,7 +22,10 @@ export const ProgressTable = (props) => {
                     <th>Day</th>
                     <th>Date</th>
                     <th>Level</th>
-                    <th>Tot Prog Points</th>
+                    <th>Act Prog Pts</th>
+                    <th>Baseline</th>
+                    <th>Req Per Day</th>
+                    <th>Req Per WkDay</th>
                 </tr>
             </thead>
 
@@ -36,6 +35,9 @@ export const ProgressTable = (props) => {
                     <td>{dayjs(obj.Date).format('MM/DD/YYYY')}</td>
                     <td>{obj.Level}</td>
                     <td>{obj.TotProgPts}</td>
+                    <td>{obj.Scheduled}</td>
+                    <td>{obj.ReqPtPerDay}</td>
+                    <td>{obj.ReqPtPerWkDay}</td>
                 </tr>)}
             </tbody>
 

@@ -1,0 +1,27 @@
+General
+    Change TotProgPts to ActProgPts EVERYWHERE (including the API)
+    Change empty string '' to null EVERYWHERE (including API responses)
+
+api.js
+    Add useEffect to "listen" for changes to API and...
+    Update the setAllDays array, but just the changed object???
+    Re-render progress table whenever setAllDays array changes
+    Figure out (proper) way around CORS issue without diabling in Chrome or using the VSchool thing
+
+EditDay.js
+    Add validation to make sure input values are within a range
+
+ProgressCharts.js
+    Figure out way to bring in real chart from google sheets or maybe some other JS Chart library?
+    Add in either chart from a Javascript Chart Library
+    Should look like images I have now
+
+ProgressTable.js
+    Display Start Date, Number of Days, and End Date above table and charts
+    Add "Re-Load" button to (re-get) all data for table
+    Put total Progress Points for course at bottom
+    Pick better color combinations
+    Add special style for current day row
+
+Settings.js
+    Make this really do the functions

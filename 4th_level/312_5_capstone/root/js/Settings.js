@@ -3,13 +3,6 @@ import { Link } from "react-router-dom";
 
 export const Settings = () => {
 
-    // TODO Add in non-functional form with inputs for the following...
-    //      TODO Start Date
-    //      TODO End Date
-    // TODO Add the following Buttons
-    //      TODO Regenerate Planned Points
-    //      TODO Color Theme
-
     return (<>
         <nav>
             <Link to="/progress-table">Progress Table</Link>
@@ -17,9 +10,21 @@ export const Settings = () => {
             <div className='active-page'>Settings</div>
         </nav>
 
-        <br /><br /><br /><br /><br />
-
-        <h1>This is a stub for the Settings Page</h1>
+        <form className='settings'>
+            <h3>Edit Settings</h3>
+            Total Progress Points for Course: <input type='number' /><br />
+            Start Date: <input type='date' /><br />
+            End Date: <input type='date' /><br />
+            Total Number of Days<br />
+            Progress Points Required per Day<br />
+            Total Number of Week Days<br />
+            Progress Points Required per Week Day<br />
+            Color Theme: <select name="theme" id="theme">
+                <option value="Light">Light</option>
+                <option value="Dark">Dark</option>
+            </select><br />
+            <button >Submit Changes</button>
+        </form>
 
     </>)
 }

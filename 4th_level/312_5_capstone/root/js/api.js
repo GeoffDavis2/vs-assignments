@@ -23,8 +23,6 @@ export const apiPut = (obj) => {
 // };
 
 
-
-
 export const getALLDays = async () => {
   const { status, data } = await apiGet();
   if (status === 200) {
@@ -45,18 +43,17 @@ export const getDay = async (id) => {
   return {};
 }
 
+// Only upload fields kept in API
 export const putDay = async (day) => {
-  const obj = JSON.stringify({ action: 'put', ...day });
+  const obj = JSON.stringify({
+    action: 'put',
+    Day: day.Day,
+    Date: day.Date,
+    Level: day.Level,
+    TotProgPts: day.TotProgPts
+  });
   const { status } = await apiPut(obj);
   if (status !== 200) {
-    console.log(status);
+  console.log(status);
   }
 }
-
-// ToDo Add useEffect to "listen" for changes to API and...
-//    ToDo Update the setAllDays array, but just the changed object???
-//    ToDo Re-render progress table whenever setAllDays array changes
-
-// ToDo Figure out (proper) way around CORS issue without diabling in Chrome or using the VSchool thing
-
-

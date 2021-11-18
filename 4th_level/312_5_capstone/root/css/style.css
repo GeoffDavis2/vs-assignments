@@ -34,13 +34,12 @@ nav a {
 }
 
 nav.sub-nav a {
-    color:blue;
+    color:darkblue;
     font-size: .75em;
 }
 
 .table {
     border-collapse: collapse;
-    /* border-collapse: separate; */
     margin: 25px 0;
     font-size: 1.5em;
     width: 100vw;
@@ -48,27 +47,19 @@ nav.sub-nav a {
 
 .table thead tr {
     background-color: cadetblue;
-    color: black;
     text-align: center;
+    color: darkblue ;
 }
 
 .table th,
 .table td {
     text-align: center;
     padding: 5px;
-    border-right: 3px solid black;
-}
-
-.table tbody tr {
-    /* border-bottom: 1px solid black; */
+    border-right: 3px solid darkblue;
 }
 
 .table tbody tr:nth-of-type(even) {
     background-color: lightgrey;
-}
-
-.table tbody tr:last-of-type {
-    /* border-bottom: 2px solid black; */
 }
 
 .edit-day {
@@ -76,21 +67,28 @@ nav.sub-nav a {
     margin: 3vw;
     padding: 3vw;
     border: 1px solid black;
-    /* display: flex; */
 }
 
 .edit-day input,
 .edit-day button {
     font-size: 3.5vw;
     margin: 10px;
-    padding: 5px;
+    padding: 5px 10px;
 }
 
-.chart-container{
-    /* width: 100%; */
-    /* border: 1px solid black; */
-    /* display: flex; */
-    /* justify-content: center; */
+.settings {
+    font-size: 5vw;
+    margin: 3vw;
+    padding: 3vw;
+    border: 1px solid black;
+}
+
+.settings input,
+.settings button,
+.settings select {
+    font-size: 3.5vw;
+    margin: 10px;
+    padding: 5px 10px;
 }
 
 img {

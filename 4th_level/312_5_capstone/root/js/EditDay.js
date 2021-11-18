@@ -6,9 +6,6 @@ import { putDay } from "./api";
 export const EditDay = (props) => {
     const params = useParams();
 
-    // This is just for convenience while styling the EditDay component
-    // const [day, setDay] = useState({Day: 100, Date: '2021-11-18', Level: '', TotProgPts: ''});
-
     const [day, setDay] = useState(props.allDays[params.Day]);
 
     const handleChange = ({ target: { name, value } }) => setDay({ ...day, [name]: value });
@@ -24,7 +21,6 @@ export const EditDay = (props) => {
         setDay(props.allDays[params.Day]);
     }
 
-    // ToDo Add validation to make sure input values are within a range
     return (<>
         <nav>
             <Link to="/progress-table">Progress Table</Link>
