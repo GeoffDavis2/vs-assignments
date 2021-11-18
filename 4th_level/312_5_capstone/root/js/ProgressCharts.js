@@ -1,13 +1,86 @@
 import React from "react";
+import { Line } from 'react-chartjs-2';
 import { Link, Outlet } from "react-router-dom";
 
-export const ChartProgPt = () => <>
-        <img src="/TotProgPts.GIF" alt=""></img>
-</>
+export const ChartProgPt = (props) => {
+    const chartData = {
+        labels: props.allDays.map(day => day.Date),
+        datasets: [
+            {
+                label: 'Scheduled',
+                backgroundColor: 'red',
+                borderColor: 'red',
+                borderWidth: 2,
+                data: props.allDays.map(day => day.Scheduled),
+                pointRadius: 0
+            },
+            {
+                label: 'Actual',
+                backgroundColor: 'green',
+                borderColor: 'green',
+                borderWidth: 2,
+                data: props.allDays.map(day => day.TotProgPts === '' ? null : day.TotProgPts),
+                pointRadius: 0
+            }
+        ]
+    };
 
-export const ChartReqPerDay = () => <>
-        <img src="/ReqPtsPerDay.GIF" alt=""></img>
-</>
+    return (<>
+        <h1>Total Progress</h1>
+        <div className='charts'><Line
+            data={chartData}
+            options={{
+                legend: {
+                    display: true,
+                    position: 'right'
+                }
+            }}
+        /></div>
+    </>)
+}
+
+export const ChartReqPerDay = (props) => {
+    const chartData = {
+        labels: props.allDays
+            .filter(day => day.ReqPtPerDay !== '')
+            .map(day => day.Date),
+        datasets: [
+            {
+                label: 'Pts Required Per Day',
+                backgroundColor: 'blue',
+                borderColor: 'blue',
+                borderWidth: 2,
+                data: props.allDays
+                    .filter(day => day.ReqPtPerDay !== '')
+                    .map(day => day.ReqPtPerDay),
+                pointRadius: 0
+            },
+            {
+                label: 'Pts Required Per Week Day',
+                backgroundColor: 'orange',
+                borderColor: 'orange',
+                borderWidth: 2,
+                data: props.allDays
+                    .filter(day => day.ReqPtPerWkDay !== '')
+                    .map(day => day.ReqPtPerWkDay),
+                pointRadius: 0
+            }
+        ]
+    };
+
+    return (<>
+        <h1>Total Progress</h1>
+        <div className='charts'><Line
+            data={chartData}
+            options={{
+                legend: {
+                    display: true,
+                    position: 'right'
+                }
+            }}
+        /></div>
+    </>)
+}
 
 export const ProgressCharts = () => {
 

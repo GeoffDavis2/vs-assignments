@@ -5,10 +5,9 @@ import dayjs from 'dayjs';
 export const ProgressTable = (props) => {
         
     let navigate = useNavigate();
-
     const handleRowClick = (day) => navigate(`/edit-day/${day}`);
 
-    return (<>
+    return (!props.allDays.length ? <h1>Loading...</h1> : <>
         <nav>
             <div className='active-page'>Progress Table</div>
             <Link to="/progress-charts">Progress charts</Link>

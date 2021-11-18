@@ -1,6 +1,7 @@
 General
     Change TotProgPts to ActProgPts EVERYWHERE (including the API)
     Change empty string '' to null EVERYWHERE (including API responses)
+    I think I can remove the leading fwd slash (/) from all (or most) route paths???
 
 api.js
     Add useEffect to "listen" for changes to API and...
@@ -10,11 +11,6 @@ api.js
 
 EditDay.js
     Add validation to make sure input values are within a range
-
-ProgressCharts.js
-    Figure out way to bring in real chart from google sheets or maybe some other JS Chart library?
-    Add in either chart from a Javascript Chart Library
-    Should look like images I have now
 
 ProgressTable.js
     Display Start Date, Number of Days, and End Date above table and charts

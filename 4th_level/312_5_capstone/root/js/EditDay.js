@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { putDay } from "./api";
 
@@ -7,6 +7,8 @@ export const EditDay = (props) => {
     const params = useParams();
 
     const [day, setDay] = useState(props.allDays[params.Day]);
+
+    useEffect(() => setDay(props.allDays[params.Day]), [props.allDays]);
 
     const handleChange = ({ target: { name, value } }) => setDay({ ...day, [name]: value });
 
@@ -21,7 +23,7 @@ export const EditDay = (props) => {
         setDay(props.allDays[params.Day]);
     }
 
-    return (<>
+    return (!day ? <h1>Loading...</h1> : <>
         <nav>
             <Link to="/progress-table">Progress Table</Link>
             <Link to="/progress-charts">Progress charts</Link>

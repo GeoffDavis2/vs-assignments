@@ -13,12 +13,6 @@ import { Settings } from './Settings';
 
 import '../css/style.css';
 
-
-// TODO Figure out how to make a "loading screen" route page data is loading
-//    TODO Or add "loading" screen using context?
-// TODO Figure out how to make the app go back to Progress Table (or loading page) every time app refreshes
-// TODO Clean up: remove remove fix warnings
-
 const App = () => {
   const [allDays, setAllDays] = useState([]);
 
@@ -27,7 +21,7 @@ const App = () => {
 
   const handleUpdateDayState = (day) => {
     setAllDays((prev) => {
-      prev[day.Day]=day;
+      prev[day.Day] = day;
       return addColumnsToAllDays(prev);
     })
   }
@@ -38,16 +32,17 @@ const App = () => {
       <Routes>
         <Route path="/" element={<ProgressTable allDays={allDays} />} />
         <Route path="/progress-table" element={<ProgressTable allDays={allDays} />} />
-        <Route path="/edit-day/:Day" element={<EditDay allDays={allDays} handleUpdateDayState={handleUpdateDayState}/>} />
+        <Route path="/edit-day/:Day" element={<EditDay allDays={allDays} handleUpdateDayState={handleUpdateDayState} />} />
         <Route path="/progress-charts" element={<ProgressCharts />}>
-          <Route path="prog-pts" element={<ChartProgPt />} />
-          <Route path="req-per-day" element={<ChartReqPerDay />} />
+          <Route index element={<ChartProgPt allDays={allDays}/>} />
+          <Route path="prog-pts" element={<ChartProgPt allDays={allDays}/>} />
+          <Route path="req-per-day" element={<ChartReqPerDay allDays={allDays}/>} />
+          {/* <Route path="test-chart" element={<TestChart allDays={allDays}/>} /> */}
         </Route>
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<ProgressTable allDays={allDays} />} />
       </Routes>
-    </Router>
-  );
+    </Router>);
 }
 
 ReactDOM.render(<App />, document.getElementById("root-div"));
