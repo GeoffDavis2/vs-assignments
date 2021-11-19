@@ -8,7 +8,7 @@ export const EditDay = (props) => {
 
     const [day, setDay] = useState(props.allDays[params.Day]);
 
-    useEffect(() => setDay(props.allDays[params.Day]), [props.allDays]);
+    useEffect(() => setDay(props.allDays[params.Day]), [props.allDays, params.Day]);
 
     const handleChange = ({ target: { name, value } }) => setDay({ ...day, [name]: value });
 

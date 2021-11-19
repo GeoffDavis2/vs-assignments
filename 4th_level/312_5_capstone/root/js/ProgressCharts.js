@@ -26,16 +26,18 @@ export const ChartProgPt = (props) => {
     };
 
     return (<>
-        <h1>Total Progress</h1>
-        <div className='charts'><Line
-            data={chartData}
-            options={{
-                legend: {
-                    display: true,
-                    position: 'right'
-                }
-            }}
-        /></div>
+        <div className='charts'>
+            <h1>Total Progress</h1>
+            <Line
+                data={chartData}
+                options={{
+                    legend: {
+                        display: true,
+                        position: 'right'
+                    },
+                    maintainAspectRatio: false
+                }}
+            /></div>
     </>)
 }
 
@@ -46,7 +48,7 @@ export const ChartReqPerDay = (props) => {
             .map(day => day.Date),
         datasets: [
             {
-                label: 'Pts Required Per Day',
+                label: 'Per Day',
                 backgroundColor: 'blue',
                 borderColor: 'blue',
                 borderWidth: 2,
@@ -56,7 +58,7 @@ export const ChartReqPerDay = (props) => {
                 pointRadius: 0
             },
             {
-                label: 'Pts Required Per Week Day',
+                label: 'Per Week Day',
                 backgroundColor: 'orange',
                 borderColor: 'orange',
                 borderWidth: 2,
@@ -69,16 +71,19 @@ export const ChartReqPerDay = (props) => {
     };
 
     return (<>
-        <h1>Total Progress</h1>
-        <div className='charts'><Line
-            data={chartData}
-            options={{
-                legend: {
-                    display: true,
-                    position: 'right'
-                }
-            }}
-        /></div>
+        <div className='charts'>
+            <h1>Required Points Per Day</h1>
+            <Line
+                className='chart'
+                data={chartData}
+                options={{
+                    legend: {
+                        display: true,
+                        position: 'right'
+                    },
+                    maintainAspectRatio: false
+                }}
+            /></div>
     </>)
 }
 

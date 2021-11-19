@@ -66,7 +66,7 @@ nav.sub-nav a {
     font-size: 5vw;
     margin: 3vw;
     padding: 3vw;
-    border: 1px solid black;
+    border: 3px solid black;
 }
 
 .edit-day input,
@@ -77,16 +77,16 @@ nav.sub-nav a {
 }
 
 .settings {
-    font-size: 5vw;
+    font-size: 2.5vw;
     margin: 3vw;
-    padding: 3vw;
-    border: 1px solid black;
+    /* padding: 3vw; */
+    /* border: 1px solid black; */
 }
 
 .settings input,
 .settings button,
 .settings select {
-    font-size: 3.5vw;
+    font-size: 2.5vw;
     margin: 10px;
     padding: 5px 10px;
 }
@@ -97,5 +97,9 @@ img {
 }
 
 .charts {
-    height: 200px;
+    height: calc(100vh - 250px);
+    width: calc(100vw - 25px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

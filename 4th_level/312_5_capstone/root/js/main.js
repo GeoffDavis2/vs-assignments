@@ -16,8 +16,10 @@ import '../css/style.css';
 const App = () => {
   const [allDays, setAllDays] = useState([]);
 
-  // eslint-disable-next-line
-  useEffect(async () => setAllDays(addColumnsToAllDays(await getALLDays())), []);
+  useEffect(() => {
+    const fetchData = async () => setAllDays(addColumnsToAllDays(await getALLDays()));
+    fetchData();
+  }, []);
 
   const handleUpdateDayState = (day) => {
     setAllDays((prev) => {
@@ -34,10 +36,9 @@ const App = () => {
         <Route path="/progress-table" element={<ProgressTable allDays={allDays} />} />
         <Route path="/edit-day/:Day" element={<EditDay allDays={allDays} handleUpdateDayState={handleUpdateDayState} />} />
         <Route path="/progress-charts" element={<ProgressCharts />}>
-          <Route index element={<ChartProgPt allDays={allDays}/>} />
-          <Route path="prog-pts" element={<ChartProgPt allDays={allDays}/>} />
-          <Route path="req-per-day" element={<ChartReqPerDay allDays={allDays}/>} />
-          {/* <Route path="test-chart" element={<TestChart allDays={allDays}/>} /> */}
+          <Route index element={<ChartProgPt allDays={allDays} />} />
+          <Route path="prog-pts" element={<ChartProgPt allDays={allDays} />} />
+          <Route path="req-per-day" element={<ChartReqPerDay allDays={allDays} />} />
         </Route>
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<ProgressTable allDays={allDays} />} />
