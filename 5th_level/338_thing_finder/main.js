@@ -27,6 +27,6 @@ app.get("/sea/rch", (req, res) => {
     res.status(200).json(yeild);
 });
 
-app.listen(6789, () => {
+app.listen(7654, () => {
     console.log("Server is running on port 6789");
 });

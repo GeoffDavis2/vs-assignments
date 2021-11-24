@@ -41,6 +41,6 @@ app.get("/sea/rch", (req, res) => {
     else res.status(500).send(`In query get, didn't get expected add-on from middleware. Got "${req.body.test}" instead.`);
 });
 
-app.listen(6789, () => {
+app.listen(7654, () => {
     console.log("Server is running on port 6789");
 });

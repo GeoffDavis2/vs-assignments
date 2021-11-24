@@ -81,6 +81,6 @@ app.post('/bounties', (req, res) => {
         });
 })
 
-app.listen(6789, () => {
+app.listen(7654, () => {
     console.log('Server is running on port 6789');
 });
