@@ -1,13 +1,17 @@
-const express = require("express")
+const express = require("express");
 const app = express();
 const { v4: uuid } = require("uuid");
+
+// npm install morgan
+const morgan = require("morgan");
 
 let { data } = require("./data");
 
 console.log("\033c");
-console.table(data);
+// console.table(data);
 
 app.use(express.json());
+app.use(morgan("dev"));
 
 app.get("/", (_, res) => res.status(200).json(data));
 
