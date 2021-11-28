@@ -1,6 +1,6 @@
 // To start / stop the mysql DB...
-// sudo /etc/init.d/mysql start
-// sudo /etc/init.d/mysql stop
+// sudo service mysql start
+// sudo service mysql stop
 const mariadb = require('mariadb');
 const dataBase = mariadb.createPool({
   host: 'localhost',
@@ -44,8 +44,11 @@ app.get("/bounties", async (_, res) => {
 });
 
 app.get("/bounties/:id", async (req, res) => {
+  if (DEBUG) {
+    console.log(`\n********** app.get **********`);
+    console.log(req);
+  }
   const id = parseInt(req.params.id);
-  if (DEBUG) console.log(`\n********** app.get **********\nreq.params.id = ${id}`);
   const data = await dataBase.query(`SELECT * FROM bounties WHERE _id = ${id};`);
   data.map(obj => obj.Living = obj.Living === 'true');
   if (DEBUG) {
@@ -56,10 +59,14 @@ app.get("/bounties/:id", async (req, res) => {
 });
 
 app.post("/bounties", async (req, res) => {
-  if (DEBUG) console.log(`\n********** app.post **********\nreq.body = ${JSON.stringify(req.body)}`);
+  if (DEBUG) {
+    console.log(`\n********** app.post **********`);
+    console.log(req);
+  }
   const { insertId } = await dataBase.query(`INSERT INTO bounties value (null, \
-    '${req.body.FirstName}', '${req.body.LastName}', '${req.body.Living}', ${req.body.BountyAmount}, '${req.body.Type}');`);
+    '${req.body.FirstName}', '${req.body.LastName}', '${req.body.Living}', ${req.body.BountyAmount}, '${req.body.BountyType}');`);
   const data = await dataBase.query(`SELECT * FROM bounties WHERE _id = ${insertId};`);
+  data[0].Living = data[0].Living === 'true';
   if (DEBUG) {
     console.log('Returning new row...');
     console.log(data[0]);
@@ -72,17 +79,16 @@ app.put("/bounties/:id", async (req, res) => {
     console.log(`\n********** app.put **********`);
     console.log(req);
   }
-  const id = parseInt(req.params.id);
-  // if (DEBUG) console.log(`\n********** app.put **********\nreq.params.id = ${id}\nreq.body = ${JSON.stringify(req.body)}`);
-
+  
   // Create Update Query and then Add Select Query to end...
+  const id = parseInt(req.params.id);
   let theQuery = "UPDATE bounties SET ";
   Object.entries(req.body).map(obj => theQuery += `${obj[0]} = '${obj[1]}', `);
   theQuery = theQuery.slice(0, -2);
   theQuery += ` WHERE _id = ${id}; SELECT * FROM bounties WHERE _id = ${id};`;
-  const data = await dataBase.query(theQuery);
+  let data = await dataBase.query(theQuery);
+  data[1][0].Living = data[1][0].Living === 'true';
 
-  // const data = await dataBase.query(`SELECT * FROM bounties WHERE _id = ${id};`);
   if (DEBUG) {
     console.log('Returning changed row...');
     console.log(data[1][0]);
@@ -91,8 +97,11 @@ app.put("/bounties/:id", async (req, res) => {
 })
 
 app.delete("/bounties/:id", async (req, res) => {
+  if (DEBUG) {
+    console.log(`\n********** app.delete **********`);
+    console.log(req);
+  }
   const id = parseInt(req.params.id);
-  if (DEBUG) console.log(`\n********** app.delete **********\nreq.params.id = ${id}`);
   const data = await dataBase.query(`DELETE FROM bounties WHERE _id = ${id}; SELECT * FROM bounties;`);
   if (DEBUG) {
     delete data[1].meta; // Remove meta to make the console.table look pretty
