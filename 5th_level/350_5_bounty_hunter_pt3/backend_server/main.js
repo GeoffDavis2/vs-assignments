@@ -21,6 +21,10 @@ const express = require("express")
 const app = express();
 
 const DEBUG = true;
+if (DEBUG) {
+  const morgan = require('morgan');
+  app.use(morgan('dev'));
+}
 // Clear the terminal
 console.log("\033c");
 
@@ -28,10 +32,10 @@ console.log("\033c");
 app.use(express.json());
 
 app.get("/bounties", async (_, res) => {
+  if (DEBUG) console.log('\n********** app.get ********** \nCalled without params...');
   const data = await dataBase.query("SELECT * FROM bounties;");
   data.map(obj => obj.Living = obj.Living === 'true');
   if (DEBUG) {
-    console.log('\n********** app.get ********** \nCalled without params...');
     delete data.meta; // Remove meta to make the console.table look pretty
     console.log('Returning all rows...');
     console.table(data);
@@ -41,10 +45,10 @@ app.get("/bounties", async (_, res) => {
 
 app.get("/bounties/:id", async (req, res) => {
   const id = parseInt(req.params.id);
+  if (DEBUG) console.log(`\n********** app.get **********\nreq.params.id = ${id}`);
   const data = await dataBase.query(`SELECT * FROM bounties WHERE _id = ${id};`);
   data.map(obj => obj.Living = obj.Living === 'true');
   if (DEBUG) {
-    console.log(`\n********** app.get **********\nreq.params.id = ${id}`);
     console.log('Returning found row...');
     console.log(data[0]);
   }
@@ -52,11 +56,11 @@ app.get("/bounties/:id", async (req, res) => {
 });
 
 app.post("/bounties", async (req, res) => {
+  if (DEBUG) console.log(`\n********** app.post **********\nreq.body = ${JSON.stringify(req.body)}`);
   const { insertId } = await dataBase.query(`INSERT INTO bounties value (null, \
     '${req.body.FirstName}', '${req.body.LastName}', '${req.body.Living}', ${req.body.BountyAmount}, '${req.body.Type}');`);
   const data = await dataBase.query(`SELECT * FROM bounties WHERE _id = ${insertId};`);
   if (DEBUG) {
-    console.log(`\n********** app.post **********\nreq.body = ${JSON.stringify(req.body)}`);
     console.log('Returning new row...');
     console.log(data[0]);
   }
@@ -64,7 +68,12 @@ app.post("/bounties", async (req, res) => {
 })
 
 app.put("/bounties/:id", async (req, res) => {
+  if (DEBUG) {
+    console.log(`\n********** app.put **********`);
+    console.log(req);
+  }
   const id = parseInt(req.params.id);
+  // if (DEBUG) console.log(`\n********** app.put **********\nreq.params.id = ${id}\nreq.body = ${JSON.stringify(req.body)}`);
 
   // Create Update Query and then Add Select Query to end...
   let theQuery = "UPDATE bounties SET ";
@@ -75,7 +84,6 @@ app.put("/bounties/:id", async (req, res) => {
 
   // const data = await dataBase.query(`SELECT * FROM bounties WHERE _id = ${id};`);
   if (DEBUG) {
-    console.log(`\n********** app.put **********\nreq.params.id = ${id}\nreq.body = ${JSON.stringify(req.body)}`);
     console.log('Returning changed row...');
     console.log(data[1][0]);
   }
@@ -84,9 +92,9 @@ app.put("/bounties/:id", async (req, res) => {
 
 app.delete("/bounties/:id", async (req, res) => {
   const id = parseInt(req.params.id);
+  if (DEBUG) console.log(`\n********** app.delete **********\nreq.params.id = ${id}`);
   const data = await dataBase.query(`DELETE FROM bounties WHERE _id = ${id}; SELECT * FROM bounties;`);
   if (DEBUG) {
-    console.log(`\n********** app.delete **********\nreq.params.id = ${id}`);
     delete data[1].meta; // Remove meta to make the console.table look pretty
     console.log('Returning all rows...');
     console.log(data[1]);

@@ -1,0 +1,22 @@
+* {
+    background-color: aqua;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.input-field {
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    /* width: 300px; */
+    /* margin-left: auto; */
+    /* margin-right: auto;     */
+    width: 100px;
+    padding: 5px;
+    height: 25px;
+    margin: 5px;
+}
