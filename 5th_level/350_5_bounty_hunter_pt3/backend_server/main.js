@@ -1,3 +1,7 @@
+// Clear the terminal
+console.log("\033c");
+
+
 // To start / stop the mysql DB...
 // sudo service mysql start
 // sudo service mysql stop
@@ -13,9 +17,10 @@ const dataBase = mariadb.createPool({
 
 dataBase.getConnection((err, connection) => {
   if (err) console.log(err);
-  if (connection) connection.release();
+  if (connection) connection.release()
   return;
 });
+console.log("********** Connected to MariaDB **********");
 
 const express = require("express")
 const app = express();
@@ -25,8 +30,6 @@ if (DEBUG) {
   const morgan = require('morgan');
   app.use(morgan('dev'));
 }
-// Clear the terminal
-console.log("\033c");
 
 
 app.use(express.json());
@@ -64,7 +67,7 @@ app.post("/bounties", async (req, res) => {
     console.log(req);
   }
   const { insertId } = await dataBase.query(`INSERT INTO bounties value (null, \
-    '${req.body.FirstName}', '${req.body.LastName}', '${req.body.Living}', ${req.body.BountyAmount}, '${req.body.BountyType}');`);
+    '${req.body.FirstName}', '${req.body.LastName}', '${req.body.Living}', ${req.body.BountyAmount ? req.body.BountyAmount : 0}, '${req.body.BountyType}');`);
   const data = await dataBase.query(`SELECT * FROM bounties WHERE _id = ${insertId};`);
   data[0].Living = data[0].Living === 'true';
   if (DEBUG) {
@@ -79,7 +82,7 @@ app.put("/bounties/:id", async (req, res) => {
     console.log(`\n********** app.put **********`);
     console.log(req);
   }
-  
+
   // Create Update Query and then Add Select Query to end...
   const id = parseInt(req.params.id);
   let theQuery = "UPDATE bounties SET ";
