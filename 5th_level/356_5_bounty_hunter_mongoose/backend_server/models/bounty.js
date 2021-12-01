@@ -10,7 +10,7 @@ const bountySchema = new Schema({
     LastName: String,
     Living: Boolean,
     BountyAmount: Number,
-    BountyType: String
+    Affiliation: String
 });
 
 module.exports = mongoose.model("Bounty", bountySchema);

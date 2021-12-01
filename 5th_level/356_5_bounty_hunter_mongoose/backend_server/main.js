@@ -24,7 +24,7 @@ app.use(express.json());
 
 app.get("/bounties", async (_, res, next) => {
   if (DEBUG) console.log('\n********** app.get ********** \nCalled without params...');
-  Bounty.find((err, data) => {
+   Bounty.find((err, data) => {
     if (err) {
       res.status(500);
       return next(err);
@@ -33,12 +33,12 @@ app.get("/bounties", async (_, res, next) => {
       console.log('Returning all rows...');
       console.log(data);
     }
-    return res.status(200).send(data);
-  })
+    return res.status(200).json(data);
+  }).sort({ BountyAmount: -1 })
 });
 
 // TODO Convert to MongoDB
-app.get("/bounties/:id", async (req, res) => {
+app.get("/bounties/id/:id", async (req, res) => {
   if (DEBUG) {
     console.log(`\n********** app.get **********`);
     console.log(req);
@@ -51,6 +51,24 @@ app.get("/bounties/:id", async (req, res) => {
     console.log(data[0]);
   }
   res.status(200).json(data[0]);
+});
+
+app.get("/bounties/search", async (req, res, next) => {
+  if (DEBUG) {
+    console.log(`\n********** app.get (with search query) **********`);
+    console.log(req.query);
+  }
+  Bounty.find(req.query, (err, data) => {
+    if (err) {
+      res.status(500);
+      return next(err);
+    }
+    if (DEBUG) {
+      console.log('Returning all rows...');
+      console.log(data);
+    }
+    return res.status(200).json(data);
+  }) //.sort({ BountyAmount: -1 })
 });
 
 app.post("/bounties", async (req, res, next) => {
@@ -118,7 +136,7 @@ app.delete("/bounties/:id", async (req, res, next) => {
       console.log('Returning all rows...');
       console.log(data);
     }
-    return res.status(200).send(data);
+    return res.status(200).json(data);
   });
 });
 

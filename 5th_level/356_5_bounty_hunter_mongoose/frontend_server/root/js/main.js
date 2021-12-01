@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import '../css/style.css';
 import axios from 'axios';
-import {Form} from './InputForm';
+import { Form } from './InputForm';
 
 const App = () => {
   const [bounties, setBounties] = useState([]);
@@ -27,9 +27,14 @@ const App = () => {
     const { data } = await axios.delete(`/bounties/${_id}`);
     setBounties(data);
   }
-  
+
   return <>
-    <Form mode="Add" bounty={{FirstName: "", LastName: "", Living: true, BountyAmount: "", BountyType: ""}} handleSubmit={addBounty}/>
+    <Form mode="Add" bounty={{ FirstName: "", LastName: "", Living: true, BountyAmount: "", BountyType: "" }} handleSubmit={addBounty} /><br />
+    Filter by Affiliation <select name="affiliation" id="affiliation">
+      <option value="Jedi">Jedi</option>
+      <option value="Sith">Sith</option>
+      <option value="Neutral">Neutral</option>
+    </select>
     <hr />
     {bounties.map((bounty) => <Form mode="Display" bounty={bounty} handleSubmit={updateBounty} handleDeleteClick={deleteBounty} key={bounty._id} />)}
   </>
