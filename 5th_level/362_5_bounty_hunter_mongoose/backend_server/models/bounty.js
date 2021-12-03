@@ -8,9 +8,15 @@ const bountySchema = new Schema({
         required: true
     },
     LastName: String,
-    Living: Boolean,
+    Living: {
+        type: Boolean,
+        required: true
+    },
     BountyAmount: Number,
-    Affiliation: String
+    Affiliation: {
+        type: String,
+        enum: ['Jedi', 'Sith', 'Neutral']
+    }
 });
 
 module.exports = mongoose.model("Bounty", bountySchema);

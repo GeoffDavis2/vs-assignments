@@ -8,92 +8,85 @@ const DEBUG = true;
 // sudo mongod --dbpath .
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/bounty-hunter",
-  () => console.log("\n********** Connected to MongoDB **********"));
+  () => { if (DEBUG) console.log("\n********** Connected to MongoDB **********") });
 const Bounty = require("./models/bounty");
 
 
-const express = require("express")
+const express = require("express");
 const app = express();
 
 if (DEBUG) {
   const morgan = require('morgan');
   app.use(morgan('dev'));
-}
+};
 
 app.use(express.json());
 
+// TODO make sure get /bounties, get /bounties/search, and get /bounties/:id don't conflict with each other
 app.get("/bounties", async (_, res, next) => {
   if (DEBUG) console.log('\n********** app.get ********** \nCalled without params...');
-   Bounty.find((err, data) => {
+  Bounty.find((err, data) => {
     if (err) {
       res.status(500);
       return next(err);
     }
-    if (DEBUG) {
-      console.log('Returning all rows...');
-      console.log(data);
-    }
+    if (DEBUG) console.log('---------------------- Returning data\n', data);
     return res.status(200).json(data);
-  }).sort({ BountyAmount: -1 })
+  }).sort({ BountyAmount: -1 });
 });
 
-// TODO Convert to MongoDB
-app.get("/bounties/id/:id", async (req, res) => {
+// TODO make sure get /bounties, get /bounties/search, and get /bounties/:id don't conflict with each other
+app.get("/bounties/:id", async (req, res, next) => {
   if (DEBUG) {
-    console.log(`\n********** app.get **********`);
-    console.log(req);
+    console.log(`\n********** app.get (with id params) **********`);
+    for (const prop in req) if (["params", "query", "body"].includes(prop)) console.log(`---------------------- ${prop}\n`, req[prop]);
   }
-  const id = parseInt(req.params.id);
-  const data = await dataBase.query(`SELECT * FROM bounties WHERE _id = ${id};`);
-  data.map(obj => obj.Living = obj.Living === 'true');
-  if (DEBUG) {
-    console.log('Returning found row...');
-    console.log(data[0]);
-  }
-  res.status(200).json(data[0]);
+  Bounty.findOne({_id: req.params.id }, (err, data) => {
+    if (err) {
+      res.status(500);
+      return next(err);
+    }
+    if (DEBUG) console.log('---------------------- Returning data\n', data);
+    return res.status(200).json(data);
+  }).sort({ quantity: 1 });
 });
 
+// TODO make sure get /bounties, get /bounties/search, and get /bounties/:id don't conflict with each other
 app.get("/bounties/search", async (req, res, next) => {
   if (DEBUG) {
     console.log(`\n********** app.get (with search query) **********`);
-    console.log(req.query);
+    for (const prop in req) if (["params", "query", "body"].includes(prop)) console.log(`---------------------- ${prop}\n`, req[prop]);
   }
   Bounty.find(req.query, (err, data) => {
     if (err) {
       res.status(500);
       return next(err);
     }
-    if (DEBUG) {
-      console.log('Returning all rows...');
-      console.log(data);
-    }
+    if (DEBUG) console.log('---------------------- Returning data\n', data);
     return res.status(200).json(data);
-  }) //.sort({ BountyAmount: -1 })
+  }).sort({ BountyAmount: -1 });
 });
 
 app.post("/bounties", async (req, res, next) => {
   if (DEBUG) {
     console.log(`\n********** app.post **********`);
-    console.log(req);
+    for (const prop in req) if (["params", "query", "body"].includes(prop)) console.log(`---------------------- ${prop}\n`, req[prop]);
   }
   const newBounty = new Bounty(req.body);
   newBounty.save((err, data) => {
-    if (err) {
+    if (err) {      
       res.status(500);
       return next(err);
     }
-    if (DEBUG) {
-      console.log('Returning new row...');
-      console.log(data);
-    }
+    if (DEBUG) console.log('---------------------- Returning data\n', data);
     return res.status(201).send(data);
   })
-})
+});
 
 app.put("/bounties/:id", async (req, res) => {
   if (DEBUG) {
     console.log(`\n********** app.put **********`);
-    console.log(req);
+    for (const prop in req) if (["params", "query", "body"].includes(prop)) console.log(`---------------------- ${prop}\n`, req[prop]);
   }
 
   Bounty.findOneAndUpdate(
@@ -105,19 +98,16 @@ app.put("/bounties/:id", async (req, res) => {
         res.status(500);
         return next(err);
       }
-      if (DEBUG) {
-        console.log('Returning changed row...');
-        console.log(data);
-      }
+      if (DEBUG) console.log('---------------------- Returning data\n', data);
       return res.status(200).json(data);
     }
   )
-})
+});
 
 app.delete("/bounties/:id", async (req, res, next) => {
   if (DEBUG) {
     console.log(`\n********** app.delete **********`);
-    console.log(req);
+    for (const prop in req) if (["params", "query", "body"].includes(prop)) console.log(`---------------------- ${prop}\n`, req[prop]);
   }
 
   Bounty.findOneAndDelete({ _id: req.params.id }, (err) => {
@@ -132,18 +122,15 @@ app.delete("/bounties/:id", async (req, res, next) => {
       res.status(500);
       return next(err);
     }
-    if (DEBUG) {
-      console.log('Returning all rows...');
-      console.log(data);
-    }
+    if (DEBUG) console.log('---------------------- Returning data\n', data);
     return res.status(200).json(data);
   });
 });
 
 app.use((err, req, res, next) => {
-  if (DEBUG) console.log(err);
+  if (DEBUG) console.log('---------------------- Error\n', err);
   return res.send({ errMsg: err.message });
-})
+});
 
 app.listen(7654, () => {
   if (DEBUG) console.log("\n********** app.listen **********\nListening on port 7654");

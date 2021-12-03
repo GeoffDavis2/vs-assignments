@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 export const Form = (props) => {
     const [inputs, setInputs] = useState(props.bounty);
-    const { _id, FirstName, LastName, Living, BountyAmount, BountyType } = inputs;
+    const { _id, FirstName, LastName, Living, BountyAmount, Affiliation } = inputs;
     const [mode, setMode] = useState(props.mode);
   
     const handleChange = ({ target: { name, value } }) => setInputs({ ...inputs, [name]: value });
@@ -42,9 +42,9 @@ export const Form = (props) => {
         ? <input type="number" name="BountyAmount" value={BountyAmount} onChange={handleChange} placeholder="Bounty" className="input-field" />
         : <div className="input-field">{BountyAmount}</div>}
     
-    <label className="input-label">Type</label>{["Add","Edit"].includes(mode)
-        ? <input name="BountyType" value={BountyType} onChange={handleChange} placeholder="Type" className="input-field" />
-        : <div className="input-field">{BountyType}</div>}
+    <label className="input-label">Affiliation</label>{["Add","Edit"].includes(mode)
+        ? <input name="Affiliation" value={Affiliation} onChange={handleChange} placeholder="Affiliation" className="input-field" />
+        : <div className="input-field">{Affiliation}</div>}
   
       {mode === "Add" && <button onClick={handleAddSubmitClick}>Submit</button>}
       {mode === "Add" && <button type="button" onClick={() => setInputs(props.bounty)}>Cancel</button>}
