@@ -1,19 +1,19 @@
 const express = require("express");
-const inventoryRouter = express.Router();
-const Inventory = require("../models/inventory");
+const bountyRouter = express.Router();
+const Bounty = require("../models/bounty");
 const DEBUG = require('../main');
 
-inventoryRouter.route("/")
+bountyRouter.route("/")
     .get(async (_, res, next) => {
         if (DEBUG) console.log('\n********** get ********** \nCalled without params...');
-        Inventory.find((err, data) => {
+        Bounty.find((err, data) => {
             if (err) {
                 res.status(500);
                 return next(err);
             }
             if (DEBUG) console.log('---------------------- Returning data\n', data);
             return res.status(200).json(data);
-        }).sort({ quantity: 1 });
+        }).sort({ BountyAmount: -1 });
     })
 
     .post(async (req, res, next) => {
@@ -22,25 +22,25 @@ inventoryRouter.route("/")
             for (const prop in req) if (["params", "query", "body"].includes(prop))
                 console.log(`---------------------- ${prop}\n`, req[prop]);
         }
-        const newInventory = new Inventory(req.body);
-        newInventory.save((err, data) => {
+        const newBounty = new Bounty(req.body);
+        newBounty.save((err, data) => {
             if (err) {
                 res.status(500);
                 return next(err);
             }
             if (DEBUG) console.log('---------------------- Returning data\n', data);
             return res.status(201).send(data);
-        })
+        });
     });
 
-inventoryRouter.route("/:id")
+bountyRouter.route("/id/:id")
     .get(async (req, res, next) => {
         if (DEBUG) {
             console.log(`\n********** get (with id params) **********`);
             for (const prop in req) if (["params", "query", "body"].includes(prop))
                 console.log(`---------------------- ${prop}\n`, req[prop]);
         }
-        Inventory.findOne({ _id: req.params.id }, (err, data) => {
+        Bounty.findOne({ _id: req.params.id }, (err, data) => {
             if (err) {
                 res.status(500);
                 return next(err);
@@ -56,7 +56,7 @@ inventoryRouter.route("/:id")
             for (const prop in req) if (["params", "query", "body"].includes(prop))
                 console.log(`---------------------- ${prop}\n`, req[prop]);
         };
-        Inventory.findOneAndUpdate(
+        Bounty.findOneAndUpdate(
             { _id: req.params.id },
             req.body,
             { new: true },
@@ -77,20 +77,42 @@ inventoryRouter.route("/:id")
             for (const prop in req) if (["params", "query", "body"].includes(prop))
                 console.log(`---------------------- ${prop}\n`, req[prop]);
         };
-        Inventory.findOneAndDelete({ _id: req.params.id }, (err) => {
+        Bounty.findOneAndDelete({ _id: req.params.id }, (err) => {
             if (err) {
                 res.status(500);
                 return next(err);
             };
         });
-        Inventory.find((err, data) => {
+        Bounty.find((err, data) => {
             if (err) {
                 res.status(500);
                 return next(err);
             };
             if (DEBUG) console.log('---------------------- Returning data\n', data);
             return res.status(200).json(data);
-        });
+        }).sort({ BountyAmount: -1 });
     });
 
-module.exports = inventoryRouter;
+bountyRouter.route("/search").get(async (req, res, next) => {
+    if (DEBUG) {
+        console.log(`\n********** app.get (with search query) **********`);
+        for (const prop in req) if (["params", "query", "body"].includes(prop))
+            console.log(`---------------------- ${prop}\n`, req[prop]);
+    };
+    Bounty.find(req.query, (err, data) => {
+        if (err) {
+            res.status(500);
+            return next(err);
+        };
+        if (DEBUG) console.log('---------------------- Returning data\n', data);
+        return res.status(200).json(data);
+    }).sort({ BountyAmount: -1 });
+});
+
+
+
+
+
+
+
+module.exports = bountyRouter;

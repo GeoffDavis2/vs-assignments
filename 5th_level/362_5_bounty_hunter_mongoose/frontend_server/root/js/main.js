@@ -34,7 +34,7 @@ const App = () => {
   const updateBounty = async (bounty) => {
     try {
       let { _id, ...body } = bounty;
-      const { data } = await axios.put(`/bounties/${_id}`, body);
+      const { data } = await axios.put(`/bounties/id/${_id}`, body);
       setBounties(prev => prev.map(obj => obj._id === data._id ? data : obj));
     }
     catch (err) {
@@ -45,7 +45,7 @@ const App = () => {
 
   const deleteBounty = async (_id) => {
     try {
-      const { data } = await axios.delete(`/bounties/${_id}`);
+      const { data } = await axios.delete(`/bounties/id/${_id}`);
       setBounties(data);
     }
     catch (err) {

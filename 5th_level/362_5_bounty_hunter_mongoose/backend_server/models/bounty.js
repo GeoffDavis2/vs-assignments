@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
-// Bounty Blueprint
-const bountySchema = new Schema({
+const BountySchema = new mongoose.Schema({
     FirstName: {
         type: String,
         required: true
@@ -15,8 +13,9 @@ const bountySchema = new Schema({
     BountyAmount: Number,
     Affiliation: {
         type: String,
-        enum: ['Jedi', 'Sith', 'Neutral']
+        enum: ['Jedi', 'Sith', 'Neutral'],
+        required: true
     }
 });
 
-module.exports = mongoose.model("Bounty", bountySchema);
+module.exports = mongoose.model("Bounty", BountySchema);
