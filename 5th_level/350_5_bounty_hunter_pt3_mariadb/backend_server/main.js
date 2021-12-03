@@ -5,6 +5,9 @@ console.log("\033c");
 // To start / stop the mysql DB...
 // sudo service mysql start
 // sudo service mysql stop
+// Can access the DB from Windows Navicat, however...
+//    I can only figure out how to access the WSL/Ubuntu/MariaDB server via localhost:3306
+//    So I have to shutdown my real Windows MySQL server (also on localhost:3306) before starting the MaridB server
 const mariadb = require('mariadb');
 const dataBase = mariadb.createPool({
   host: 'localhost',
