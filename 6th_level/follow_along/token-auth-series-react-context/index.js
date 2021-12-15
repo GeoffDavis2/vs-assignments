@@ -12,7 +12,6 @@ app.use(morgan("dev"))
 app.use(express.json())
 
 //connect to db
-mongoose.set("useCreateIndex", true)
 mongoose.connect(
     "mongodb://localhost:27017/todo-auth-example", { useNewUrlParser: true, useUnifiedTopology: true },
     (err) => {
