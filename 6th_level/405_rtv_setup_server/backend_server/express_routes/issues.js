@@ -23,6 +23,7 @@ issuesRouter.route("/")
             for (const prop in req) if (["params", "query", "body"].includes(prop))
                 console.log(`---------------------- ${prop}\n`, req[prop]);
         }
+        req.body.user = req.user._id;
         const newIssue = new Issue(req.body);
         newIssue.save((err, data) => {
             if (err) {
@@ -58,7 +59,7 @@ issuesRouter.route("/id/:id")
                 console.log(`---------------------- ${prop}\n`, req[prop]);
         };
         Issue.findOneAndUpdate(
-            { _id: req.params.id },
+            { _id: req.params.id, user: req.user._id },
             req.body,
             { new: true },
             (err, data) => {
@@ -79,7 +80,7 @@ issuesRouter.route("/id/:id")
             for (const prop in req) if (["params", "query", "body"].includes(prop))
                 console.log(`---------------------- ${prop}\n`, req[prop]);
         };
-        Issue.findOneAndDelete({ _id: req.params.id }, (err, data) => {
+        Issue.findOneAndDelete({ _id: req.params.id, user: req.user._id }, (err, data) => {
             if (err) {
                 res.status(500);
                 return next(err);
@@ -88,6 +89,16 @@ issuesRouter.route("/id/:id")
             return res.status(200).json(data);
         })
     });
+
+issuesRouter.get("/user", (req, res, next) => {
+    Issue.find({ user: req.user._id }, (err, data) => {
+        if (err) {
+            res.status(500);
+            return next(err);
+        }
+        return res.status(200).json(data);
+    });
+});
 
 // TODO Test this
 issuesRouter.route("/search").get(async (req, res, next) => {

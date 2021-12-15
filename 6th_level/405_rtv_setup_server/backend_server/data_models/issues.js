@@ -17,6 +17,12 @@ const IssuesSchema = new mongoose.Schema({
     votes: {
         type: Number,
         default: 0
+    },
+    user: {
+        // type: mongoose.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Users",
+        required: true
     }
 });
 
