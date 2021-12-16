@@ -6,7 +6,7 @@ const DEBUG = require('../main');
 
 issuesRouter.route("/")
     .get(async (_, res, next) => {
-        DEBUG && console.log('\n********** get ********** \nCalled without params...');
+        DEBUG && console.log('\n********** get to /secure/issue ********** \nCalled without params...');
         Issue.find((err, data) => {
             if (err) {
                 res.status(500);
@@ -54,7 +54,7 @@ issuesRouter.route("/id/:id")
 
     .put(async (req, res) => {
         if (DEBUG) {
-            console.log(`\n********** app.put **********`);
+            console.log(`\n********** app.put2 **********`);
             for (const prop in req) if (["params", "query", "body"].includes(prop))
                 console.log(`---------------------- ${prop}\n`, req[prop]);
         };
@@ -87,10 +87,15 @@ issuesRouter.route("/id/:id")
             }
             if (DEBUG) console.log('---------------------- Returning data\n', data);
             return res.status(200).json(data);
-        })
+        });
     });
 
 issuesRouter.get("/user", (req, res, next) => {
+    if (DEBUG) {
+        console.log(`\n********** app.delete **********`);
+        for (const prop in req) if (["params", "query", "body"].includes(prop))
+            console.log(`---------------------- ${prop}\n`, req[prop]);
+    };
     Issue.find({ user: req.user._id }, (err, data) => {
         if (err) {
             res.status(500);
@@ -100,7 +105,9 @@ issuesRouter.get("/user", (req, res, next) => {
     });
 });
 
-// TODO Test this
+// TODO Test this 
+// TODO     rearrange to issuesRouter.get("/search", ...
+// TODO     Test again to make sure it still works
 issuesRouter.route("/search").get(async (req, res, next) => {
     if (DEBUG) {
         console.log(`\n********** app.get (with search query) **********`);

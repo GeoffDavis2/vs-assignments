@@ -1,8 +1,7 @@
-// TODO Do thorough testing of authenticated API calls
 // TODO Add my DEBUG stuff to the newly added authentication (auth route, auth stuff in other routes)
 // TODO Document Authentication stuff in Notion Backend Checklist
 
-// Clear the terminal and turn DEBUB on/off
+// Clear the terminal and turn DEBUG on/off
 console.log("\033c");
 module.exports = (DEBUG = true);
 
@@ -55,7 +54,7 @@ app.use("/auth", require("./express_routes/auth"));
 app.use("/secure", expressJwt({secret: process.env.SECRET, algorithms: ['HS256']}));
 app.use("/secure/issue", require("./express_routes/issues"));
 
-// TODO Should disable this route
+// TODO Should disable and delete this route
 app.use("/secure/user", require("./express_routes/users"));
 
 // Error Handler(s)

@@ -23,14 +23,13 @@ authRouter.post("/signup", (req, res, next) => {
                 return next(err);
             }
 
-            const token = jwt.sign(savedUser.toObject(), process.env.SECRET);
+            const token = jwt.sign(savedUser.toObject(), process.env.SECRET, { expiresIn: '1800s' });
             return res.status(201).json({ success: true, token, user: savedUser });
         });
     });
 });
 
-// TODO is this supposed to be a post???
-authRouter.post("/login", (req, res, next) => {
+authRouter.get("/login", (req, res, next) => {
     User.findOne({ username: req.body.username.toLowerCase() }, (err, user) => {
         if (err) {
             return next(err);
@@ -41,7 +40,7 @@ authRouter.post("/login", (req, res, next) => {
             return next(new Error("Username or Password are incorrect"));
         }
         
-        const token = jwt.sign(user.toObject(), process.env.SECRET);
+        const token = jwt.sign(user.toObject(), process.env.SECRET, { expiresIn: '1800s' });
         return res.status(201).json({ success: true, token, user: user.toObject() })
     });
 });
