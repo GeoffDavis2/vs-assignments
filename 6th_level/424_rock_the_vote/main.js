@@ -23,7 +23,8 @@ mongoose.connect(
 
 
 // Express Setup  
-const express = require("express");
+const express = require("express"); 
+
 const app = express();
 
 // Morgan
@@ -39,23 +40,37 @@ const expressJwt = require('express-jwt');
 // "Body Parser" now built into Express
 app.use(express.json());
 
-// QUESTION Can I have this custom middleware redirect to the "common" error handler just before Listen instead of returning from here???
 // Custom Middleware to check for DB Connection before bothering with any routes
-app.use((_, res, next) => {
+app.use("/", (_, res, next) => {
     if (mongoose.connection.readyState !== 1) {
         DEBUG && console.log('\n---------------------- Error The Server Is Not Connected to the DB\n');
-        res.status(500).json({errMsg: "The Server Is Not Connected to the DB!!!"});
+        res.status(500);
+        return next("The Server Is Not Connected to the DB!!!");
     }
     next();
 });
 
+// Custom Middleware to check for Username and Password before proceeding with /auth route
+app.use("/auth",  (req, res, next) => {
+    if (!req.body.username) {
+        DEBUG && console.log('\n---------------------- Error You did not provide a username\n');
+        res.status(500);
+        return next("You did not provide a username!!!");
+    }
+    if (!req.body.password) {
+        DEBUG && console.log('\n---------------------- Error You did not provide a password\n');
+        res.status(500);
+        return next("You did not provide a password!!!");
+    }
+    next();
+});
+
+// Middleware: check for good security token before proceeding with any /secure routes
+app.use("/secure", expressJwt({secret: process.env.SECRET, algorithms: ['HS256']}));
+
 // Route Handler(s)
 app.use("/auth", require("./express_routes/auth"));
-app.use("/secure", expressJwt({secret: process.env.SECRET, algorithms: ['HS256']}));
 app.use("/secure/issue", require("./express_routes/issues"));
-
-// TODO Should disable and delete this route
-app.use("/secure/user", require("./express_routes/users"));
 
 // Error Handler(s)
 app.use((err, req, res, next) => {

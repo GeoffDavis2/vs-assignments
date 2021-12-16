@@ -10,7 +10,7 @@ issuesRouter.route("/")
         Issue.find((err, data) => {
             if (err) {
                 res.status(500);
-                return next(err);
+                return next(err.message);
             }
             if (DEBUG) console.log('---------------------- Returning data\n', data);
             return res.status(200).json(data);
@@ -28,7 +28,7 @@ issuesRouter.route("/")
         newIssue.save((err, data) => {
             if (err) {
                 res.status(500);
-                return next(err);
+                return next(err.message);
             }
             if (DEBUG) console.log('---------------------- Returning data\n', data);
             return res.status(201).json(data);
@@ -45,7 +45,7 @@ issuesRouter.route("/id/:id")
         Issue.findOne({ _id: req.params.id }, (err, data) => {
             if (err) {
                 res.status(500);
-                return next(err);
+                return next(err.message);
             }
             if (DEBUG) console.log('---------------------- Returning data\n', data);
             return res.status(200).json(data);
@@ -65,7 +65,7 @@ issuesRouter.route("/id/:id")
             (err, data) => {
                 if (err) {
                     res.status(500);
-                    return next(err);
+                    return next(err.message);
                 };
                 if (DEBUG) console.log('---------------------- Returning data\n', data);
                 return res.status(200).json(data);
@@ -83,7 +83,7 @@ issuesRouter.route("/id/:id")
         Issue.findOneAndDelete({ _id: req.params.id, user: req.user._id }, (err, data) => {
             if (err) {
                 res.status(500);
-                return next(err);
+                return next(err.message);
             }
             if (DEBUG) console.log('---------------------- Returning data\n', data);
             return res.status(200).json(data);
@@ -99,7 +99,7 @@ issuesRouter.get("/user", (req, res, next) => {
     Issue.find({ user: req.user._id }, (err, data) => {
         if (err) {
             res.status(500);
-            return next(err);
+            return next(err.message);
         }
         return res.status(200).json(data);
     });
@@ -117,7 +117,7 @@ issuesRouter.route("/search").get(async (req, res, next) => {
     Issue.find(req.query, (err, data) => {
         if (err) {
             res.status(500);
-            return next(err);
+            return next(err.message);
         };
         if (DEBUG) console.log('---------------------- Returning data\n', data);
         return res.status(200).json(data);
