@@ -15,7 +15,7 @@ const UsersSchema = new mongoose.Schema({
     memberSince: {
         type: Date,
         required: true,
-        // default: Date.now
+        default: Date.now
     },
     // In case we need to distinguish types of users in the future
     isAdmin: {
