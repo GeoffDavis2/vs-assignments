@@ -18,7 +18,7 @@ issuesRouter.route("/")
 
     .post(async (req, res, next) => {
         debugSource(req);
-        req.body.user = req.user._id;
+        req.body.createdBy = req.user._id;
         const newIssue = new Issue(req.body);
         newIssue.save((err, data) => {
             if (err) {

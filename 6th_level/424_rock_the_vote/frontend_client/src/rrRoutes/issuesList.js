@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
 import { useStateContext, reducer } from "../StateContext";
+import { IssueCard } from "../issueCard";
 
 export const IssuesList = () => {
     const navigate = useNavigate();
@@ -20,11 +20,7 @@ export const IssuesList = () => {
         <button onClick={() => navigate(`/`)}>To Login UI</button>
         <button onClick={() => navigate(`/edit-view-issue`)}>Add new Issue</button>
         <hr />
-        {issues.map(obj => <div key={obj._id} >
-            {obj.title}
-            {obj.dateAdded.substring(0, 10)}
-            {obj.createdBy}
-        </div>)}
+        {issues.map(obj => <IssueCard {...obj} key={obj._id} />)}
     </>
 
 };

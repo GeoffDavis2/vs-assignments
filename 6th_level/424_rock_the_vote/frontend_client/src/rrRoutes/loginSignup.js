@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-import { useStateContext, reducer } from "../StateContext";
+import { useStateContext } from "../StateContext";
 
 
 export const LoginSignup = () => {
@@ -17,6 +17,7 @@ export const LoginSignup = () => {
 
     const handleChange = ({ target: { name, value } }) => setInputs({ ...inputs, [name]: value });
 
+    // TODO If no other stuff done per click, move the one line of these functions directly to the onclick of the buttons and remove the functions below
     const handleSignup = (e) => {
         // e.preventDefault();
         signup(inputs);
@@ -31,8 +32,6 @@ export const LoginSignup = () => {
         // e.preventDefault();
         logout();
     }
-
-    token && navigate(`/issues-list`);
 
     return <>
         <nav>

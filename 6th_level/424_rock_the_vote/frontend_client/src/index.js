@@ -1,3 +1,5 @@
+// TODO make it all look nicer using React Bootstrap
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 

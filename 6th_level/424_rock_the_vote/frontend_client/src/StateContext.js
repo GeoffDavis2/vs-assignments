@@ -8,7 +8,8 @@ export const useStateContext = () => useContext(StateContext);
 
 const ACTION = {
     LOGIN: "login",
-    LOGOUT: "logout"
+    LOGOUT: "logout",
+    ADDISSUE: "addIssue"
 }
 const reducer = (state, action) => {
     switch (action.type) {
@@ -16,51 +17,23 @@ const reducer = (state, action) => {
             const { token, user } = action.payload;
             return ({ ...state, token, user });
         case ACTION.LOGOUT: return ({ ...state, token: "", user: {} })
+        case ACTION.ADDISSUE:
+            let { data } = action.payload;
+            // TODO can i refactor this to make it dry'er?
+            if (Array.isArray(data)) return { ...state, issues: [...state.issues, ...data] };
+            if (!Array.isArray(data)) return { ...state, issues: [...state.issues, data] };
+        default: return state;
     }
 }
 
 const secureAxios = axios.create();
 secureAxios.interceptors.request.use(config => {
-    const {token} = localStorage.getItem("token");
-    console.log(token);
+    const token = localStorage.getItem("token");
     config.headers.Authorization = `Bearer ${token}`;
-    return config; 
+    return config;
 });
 
 export const StateContextProvider = ({ children }) => {
-
-    const issues = [
-        {
-            _id: "61ba1bda4ac3f426022a7680",
-            title: 'Geoff Issue 1',
-            dateAdded: "2021-12-15",
-            createdBy: "61ba13660808873a6e3914ae"
-        },
-        {
-            _id: "61ba1c724ac3f426022a7682",
-            title: 'Geoff Issue 2',
-            dateAdded: "2021-12-15",
-            createdBy: "61ba13660808873a6e3914ae"
-        },
-        {
-            _id: "61ba23a2d67ceba46a0f790d",
-            title: 'Benita Issue 1',
-            dateAdded: "2021-12-15",
-            createdBy: "61b98b450b9253d9da02ac44"
-        },
-        {
-            _id: "61ba23a7d67ceba46a0f790f",
-            title: 'Benita Issue 2',
-            dateAdded: "2021-12-15",
-            createdBy: "61b98b450b9253d9da02ac44"
-        },
-        {
-            _id: "61ba23abd67ceba46a0f7911",
-            title: 'Benita Issue 3',
-            dateAdded: "2021-12-15",
-            createdBy: "61b98b450b9253d9da02ac44"
-        }
-    ];
 
     // TODO combine signup and login into signlogin, add action parameter ("signup", "login")
     const signup = async (credentials) => {
@@ -72,7 +45,6 @@ export const StateContextProvider = ({ children }) => {
         }
         catch (err) {
             console.log(err.response.data.errMsg);
-
             // alert(err);
         }
     }
@@ -83,6 +55,8 @@ export const StateContextProvider = ({ children }) => {
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
             dispatch({ type: ACTION.LOGIN, payload: { token, user } });
+            const { data } = await secureAxios.get(`/secure/issue`);
+            dispatch({ type: ACTION.ADDISSUE, payload: { data } });
         }
         catch (err) {
             console.log(err.response.data.errMsg);
@@ -98,21 +72,18 @@ export const StateContextProvider = ({ children }) => {
 
     const addIssue = async (newIssue) => {
         try {
-            // const headers = {Authorization: ...}
-            // const { data } = await axios.post(`/secure/issue`, newIssue, headers);
             const { data } = await secureAxios.post(`/secure/issue`, newIssue);
-            // setBounties(prev => [...prev, data]);
+            dispatch({ type: ACTION.ADDISSUE, payload: { data } });
         }
         catch (err) {
-            console.log(err.response.data.errMsg);
-            // alert(err);
+            console.log('addIssue error \n', err);
         }
     }
 
     const initState = {
         user: JSON.parse(localStorage.getItem("user")) || {},
         token: localStorage.getItem("token") || "",
-        issues, signup, login, logout, addIssue
+        issues: [], signup, login, logout, addIssue
     };
     const [state, dispatch] = useReducer(reducer, initState);
 
