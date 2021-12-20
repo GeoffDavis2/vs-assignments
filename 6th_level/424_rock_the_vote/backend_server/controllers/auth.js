@@ -15,7 +15,7 @@ authRouter.post("/signup", (req, res, next) => {
 
         if (userExists) {
             res.status(403);
-            return next({ "message": "That username is already taken!" });
+            return next("That username is already taken!");
         }
 
         const newUser = new User(req.body);
@@ -32,7 +32,7 @@ authRouter.post("/signup", (req, res, next) => {
     });
 });
 
-authRouter.get("/login", (req, res, next) => {
+authRouter.post("/login", (req, res, next) => {
     debugSource(req);
     User.findOne({ username: req.body.username.toLowerCase() }, (err, user) => {
         if (err) {
@@ -41,7 +41,8 @@ authRouter.get("/login", (req, res, next) => {
 
         if (!user || user.password !== req.body.password) {
             res.status(403);
-            return next({ "message": "Username or Password are incorrect!" });
+            // return next({ "message": "Username or Password are incorrect!" });
+            return next("Username or Password are incorrect!");
         }
 
         const token = jwt.sign(user.toObject(), process.env.SECRET, { expiresIn: '86400s' });

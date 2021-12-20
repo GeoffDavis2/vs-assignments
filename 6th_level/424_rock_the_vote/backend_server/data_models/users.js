@@ -16,12 +16,7 @@ const UsersSchema = new mongoose.Schema({
         type: Date,
         required: true,
         default: Date.now
-    },
-    // In case we need to distinguish types of users in the future
-    isAdmin: {
-        type: Boolean,
-        default: false
     }
 });
 
-module.exports = mongoose.model("Users", UsersSchema);
+module.exports = mongoose.model("users", UsersSchema);
