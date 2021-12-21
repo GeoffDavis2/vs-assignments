@@ -11,21 +11,24 @@ import { IssuesList } from "./rrRoutes/issuesList";
 import { AddEditViewIssue } from "./rrRoutes/addViewEditIssues";
 
 // Context HOC (wrapper)
-import { StateContextProvider } from "./StateContext";
+import { StateContextProvider, useStateContext } from "./StateContext";
 
 import './index.css';
 
-const App = () => {  
-  return <Router>
-    <StateContextProvider>
-      <Routes>
-        <Route path="/" element={<LoginSignup />} />
-        <Route path="/issues-list" element={<IssuesList />} />
-        {/* <Route path="/search-instruments" element={<SearchInst/>} /> */}
-        {/* <Route path="/edit-view-issue/:issueId" element={<AddEditViewIssue/>} /> */}
-        <Route path="/edit-view-issue" element={<AddEditViewIssue />} />
-      </Routes>
-    </StateContextProvider>
-  </Router>}
+const App = () => {
 
-ReactDOM.render(<App />, document.getElementById('root'));
+  return <Routes>
+    <Route path="/" element={<LoginSignup x={"test"}/>} />
+    <Route path="/issues-list" element={<IssuesList />} />
+    {/* <Route path="/search-instruments" element={<SearchInst/>} /> */}
+    {/* <Route path="/edit-view-issue/:issueId" element={<AddEditViewIssue/>} /> */}
+    <Route path="/edit-view-issue" element={<AddEditViewIssue />} />
+  </Routes>
+
+}
+
+ReactDOM.render(<Router>
+  <StateContextProvider>
+    <App />
+  </StateContextProvider>
+</Router>, document.getElementById('root'));

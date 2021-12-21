@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const UsersSchema = new mongoose.Schema({
     username: {
@@ -18,5 +19,38 @@ const UsersSchema = new mongoose.Schema({
         default: Date.now
     }
 });
+
+// Pre-save hook to encrypt user password (using bcrypt) before loading to DB
+// TODO add debug stuff here?
+// TODO understand how / when this happens
+UsersSchema.pre("save", function(next){
+    const user = this;
+    if(!user.isModified("password")) return next();
+    bcrypt.hash(user.password, 10, (err, hash) => {
+        if(err) return next(err);
+        user.password = hash;
+        next();
+    })
+})
+
+// Method to check encrypted password on login
+// TODO add debug stuff here?
+// TODO understand how / when this happens
+UsersSchema.methods.checkPassword = function(passwordAttempt, callback) {
+    bcrypt.compare(passwordAttempt, this.password, (err, isMatch) => {
+        if(err) return callback(err);
+        return callback(null, isMatch);
+    })
+}
+
+// Method to remove user's password before sending response
+// TODO add debug stuff here?
+// TODO understand how / when this happens
+UsersSchema.methods.withoutPassword = function() {
+    const user = this.toObject();
+    delete user.password;
+    return user;
+}
+
 
 module.exports = mongoose.model("users", UsersSchema);

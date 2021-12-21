@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useState } from "react";
 import { useStateContext } from "../StateContext";
 
@@ -10,9 +10,7 @@ export const AddEditViewIssue = () => {
     const [inputs, setInputs] = useState(initInputs);
     const { title, desc } = inputs;
 
-    // TODO If statue isn't needed by itself, combine the 2 lines below by desctructuring
-    const state = useStateContext();
-    const { addIssue } = state;
+    const { state: { token }, addIssue } = useStateContext();
 
     const handleChange = ({ target: { name, value } }) => setInputs({ ...inputs, [name]: value });
 
@@ -21,7 +19,7 @@ export const AddEditViewIssue = () => {
         setInputs(initInputs);
     }
 
-    return <>
+    return (token === "") ? <Navigate to="/" /> : <>
         <nav>
             <h1>Add View Edit Issues</h1>
         </nav>

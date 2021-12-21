@@ -9,19 +9,26 @@ export const useStateContext = () => useContext(StateContext);
 const ACTION = {
     LOGIN: "login",
     LOGOUT: "logout",
-    ADDISSUE: "addIssue"
+    ADDISSUES: "addIssues",
+    ADDERRMSG: "addErrMsg",
+    CLEARMSG: "clearMsg",
 }
 const reducer = (state, action) => {
+    console.log('reducer', action);
     switch (action.type) {
         case ACTION.LOGIN:
             const { token, user } = action.payload;
-            return ({ ...state, token, user });
-        case ACTION.LOGOUT: return ({ ...state, token: "", user: {} })
-        case ACTION.ADDISSUE:
-            let { data } = action.payload;
+            console.log("ACTION.LOGIN", token, user);
+            return { ...state, token, user };
+        case ACTION.LOGOUT: return { ...state, user: {}, token: "", issues: [] };
+        case ACTION.ADDISSUES:
             // TODO can i refactor this to make it dry'er?
+            const { data } = action.payload;
             if (Array.isArray(data)) return { ...state, issues: [...state.issues, ...data] };
             if (!Array.isArray(data)) return { ...state, issues: [...state.issues, data] };
+            return state;
+        case ACTION.ADDERRMSG: return { ...state, errMsg: action.payload.errMsg };
+        case ACTION.CLEARMSG: return { ...state, errMsg: "" };
         default: return state;
     }
 }
@@ -36,44 +43,53 @@ secureAxios.interceptors.request.use(config => {
 export const StateContextProvider = ({ children }) => {
 
     // TODO combine signup and login into signlogin, add action parameter ("signup", "login")
+    // TODO Add something to stop signin if already logged in
     const signup = async (credentials) => {
+        dispatch({ type: ACTION.CLEARMSG });
         try {
             const { data: { token, user } } = await axios.post("/auth/signup", credentials);
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
             dispatch({ type: ACTION.LOGIN, payload: { token, user } });
         }
-        catch (err) {
-            console.log(err.response.data.errMsg);
-            // alert(err);
+        catch ({ response: { data: { errMsg } } }) {
+            console.log(errMsg);
+            dispatch({ type: ACTION.ADDERRMSG, payload: { errMsg } });
         }
     }
 
+    // TODO Add something to stop login if already logged in
     const login = async (credentials) => {
+        dispatch({ type: ACTION.CLEARMSG });
         try {
             const { data: { token, user } } = await axios.post("/auth/login", credentials);
+            console.log("login", token, user);
+            dispatch({ type: ACTION.LOGIN, payload: { token, user } });
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
-            dispatch({ type: ACTION.LOGIN, payload: { token, user } });
             const { data } = await secureAxios.get(`/secure/issue`);
-            dispatch({ type: ACTION.ADDISSUE, payload: { data } });
+            dispatch({ type: ACTION.ADDISSUES, payload: { data } });
         }
-        catch (err) {
-            console.log(err.response.data.errMsg);
-            // alert(err);
+        catch ({ response: { data: { errMsg } } }) {
+            console.log(errMsg);
+            // TODO Maybe combine error messages with good messages into an object {msgType, msgText}???
+            dispatch({ type: ACTION.ADDERRMSG, payload: { errMsg } });
         }
     }
 
     const logout = () => {
+        console.log('logout');
+        dispatch({ type: ACTION.CLEARMSG });
+        dispatch({ type: ACTION.LOGOUT });
         localStorage.removeItem("user");
         localStorage.removeItem("token");
-        dispatch({ type: ACTION.LOGOUT });
     }
 
     const addIssue = async (newIssue) => {
+        dispatch({ type: ACTION.CLEARMSG });
         try {
             const { data } = await secureAxios.post(`/secure/issue`, newIssue);
-            dispatch({ type: ACTION.ADDISSUE, payload: { data } });
+            dispatch({ type: ACTION.ADDISSUES, payload: { data } });
         }
         catch (err) {
             console.log('addIssue error \n', err);
@@ -83,11 +99,11 @@ export const StateContextProvider = ({ children }) => {
     const initState = {
         user: JSON.parse(localStorage.getItem("user")) || {},
         token: localStorage.getItem("token") || "",
-        issues: [], signup, login, logout, addIssue
+        issues: [], errMsg: ""        
     };
     const [state, dispatch] = useReducer(reducer, initState);
 
-    return <StateContext.Provider value={state}>
+    return <StateContext.Provider value={{state, signup, login, logout, addIssue}} >
         {children}
     </StateContext.Provider>
 };

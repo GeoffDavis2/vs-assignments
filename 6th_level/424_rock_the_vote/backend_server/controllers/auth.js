@@ -1,5 +1,5 @@
 require('dotenv').config();
-const {debugSource, debugReturn} = require("../debug");
+const { debugSource, debugReturn } = require("../debug");
 const express = require("express");
 const authRouter = express.Router();
 const User = require("../data_models/users");
@@ -24,9 +24,9 @@ authRouter.post("/signup", (req, res, next) => {
                 res.status(500);
                 return next(err);
             }
-            const token = jwt.sign(savedUser.toObject(), process.env.SECRET, { expiresIn: '86400s' });
-            const data = { success: true, token, user: savedUser.toObject() };
-            debugReturn(data);           
+            const token = jwt.sign(savedUser.withoutPassword(), process.env.SECRET, { expiresIn: '86400s' });
+            const data = { success: true, token, user: savedUser.withoutPassword() };
+            debugReturn(data);
             return res.status(201).json(data);
         });
     });
@@ -39,16 +39,21 @@ authRouter.post("/login", (req, res, next) => {
             return next(err);
         };
 
-        if (!user || user.password !== req.body.password) {
-            res.status(403);
-            // return next({ "message": "Username or Password are incorrect!" });
-            return next("Username or Password are incorrect!");
-        }
-
-        const token = jwt.sign(user.toObject(), process.env.SECRET, { expiresIn: '86400s' });
-        const data = { success: true, token, user: user.toObject() };
-        debugReturn(data);           
-        return res.status(201).json(data);
+        // TODO combine this into one if statement instead of 2
+        user.checkPassword(req.body.password, (err, isMatch) => {
+            if (err) {
+                res.status(403);
+                return next("Username or Password are incorrect!");
+            }
+            if (!isMatch) {
+                res.status(403);
+                return next("Username or Password are incorrect!");
+            }
+            const token = jwt.sign(user.withoutPassword(), process.env.SECRET, { expiresIn: '86400s' });
+            const data = { success: true, token, user: user.withoutPassword() };
+            debugReturn(data);
+            return res.status(201).json(data);
+        })
     });
 });
 

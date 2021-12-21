@@ -6,14 +6,11 @@ import { useStateContext } from "../StateContext";
 
 export const LoginSignup = () => {
     const navigate = useNavigate();
-
     const [inputs, setInputs] = useState({ username: "", password: "" });
     const { username, password } = inputs;
 
-    // TODO If statue isn't needed by itself, combine the 2 lines below by desctructuring
-    const state = useStateContext();
-    const { signup, login, logout, token } = state;
-    // console.log(state);
+    const { state:{ errMsg }, signup, login, logout } = useStateContext();
+    // const { signup, login, errMsg } = state;
 
     const handleChange = ({ target: { name, value } }) => setInputs({ ...inputs, [name]: value });
 
@@ -43,6 +40,7 @@ export const LoginSignup = () => {
         <button onClick={handleSignup}>Signup</button>
         <button onClick={handleLogin}>Login</button>
         <button onClick={handleLogout}>Logout</button>
+        <p>{errMsg}</p>
     </>
 
 };
