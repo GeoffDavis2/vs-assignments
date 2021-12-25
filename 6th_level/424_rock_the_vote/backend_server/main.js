@@ -1,13 +1,15 @@
+// TODO fix my error messages to match up with how mongoose embeds error messages...
+// TODO     I might have already done this, check before spending time on this
+// TODO     {"errMsg": "mesage": "this is the error message"}
+
 // Bring in DEBUG boolean variable and Clear the terminal
 const { debugSource, DEBUG } = require("./debug");
 console.log("\033c");
 
-// To start MondoDB...
-// cd into folder with DB
-// sudo mongod --dbpath .
+// Connect to MongoDB using Mongoose, start windows MongoDB service first
 module.exports = (mongoose = require("mongoose"));
 mongoose.connect(
-    "mongodb://localhost:27017/rock-the-vote",
+    "mongodb://172.21.112.1:27017/rock-the-vote",
     // "mongodb+srv://trend_geoff_lev5_capstone:7654@cluster0.7hfsb.mongodb.net/county-clerk",
     () => {
         DEBUG && (mongoose.connection.readyState === 0) && console.log("\n********** Disonnected from MongoDB **********");
@@ -63,12 +65,11 @@ app.use("/auth", (req, res, next) => {
 require('dotenv').config();
 app.use("/secure", expressJwt({ secret: process.env.SECRET, algorithms: ['HS256'] }));
 
-const x = require("./controllers/votes");
 
-
-// Route Handler(s)
+// Route Handlers
 app.use("/auth", require("./controllers/auth"));
 app.use("/secure/issue", require("./controllers/issues"));
+app.use("/secure/issue-vote", require("./controllers/issueVotes"));
 
 // Error Handler(s)
 app.use((err, req, res, next) => {
