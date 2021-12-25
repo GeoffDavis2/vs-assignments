@@ -1,12 +1,20 @@
+// working example of get sum from issuevotes
+// IssueVote.aggregate([{ $group: { _id: "$issue", sum: { $sum: "$value" } } }], (err, data) => {
+//     console.log(data.find(obj => obj._id == "61ba1bda4ac3f426022a7680").sum);
+// });
+
+// query to get just counts db.issues.aggregate([{ $lookup: { from: 'issuevotes', localField: '_id', foreignField: 'issue', as: 'votes' } }, { $addFields: { votecount: { $size: '$votes' } } }, {$project: {votecount:1}}])
+
+
 const {debugSource, debugReturn} = require("../debug");
 const express = require("express");
-const issuesRouter = express.Router();
-const Issue = require("../data_models/issues");
+const votesRouter = express.Router();
+const IssueVote = require("../data_models/issueVotes");
 
-issuesRouter.route("/")
+votesRouter.route("/")
     .get(async (req, res, next) => {
         debugSource(req);
-        Issue.find((err, data) => {
+        IssueVote.find((err, data) => {
             if (err) {
                 res.status(500);
                 return next(err);
@@ -18,9 +26,16 @@ issuesRouter.route("/")
 
     .post(async (req, res, next) => {
         debugSource(req);
-        req.body.addedBy = req.user._id;
-        const newIssue = new Issue(req.body);
-        newIssue.save((err, data) => {
+        req.body.createdBy = req.user._id;
+
+        const count = await IssueVote.count({ issue: req.body.issue, createdBy: req.user._id });
+        if (count > 0) {
+            res.status(403);
+            return next("Only one vote per user per issue.");
+        }
+
+        const newIssueVote = new IssueVote(req.body);
+        newIssueVote.save((err, data) => {
             if (err) {
                 res.status(500);
                 return next(err);
@@ -30,10 +45,10 @@ issuesRouter.route("/")
         });
     });
 
-issuesRouter.route("/id/:id")
+votesRouter.route("/id/:id")
     .get(async (req, res, next) => {
         debugSource(req);
-        Issue.findOne({ _id: req.params.id }, (err, data) => {
+        IssueVote.findOne({ _id: req.params.id }, (err, data) => {
             if (err) {
                 res.status(500);
                 return next(err);
@@ -45,7 +60,7 @@ issuesRouter.route("/id/:id")
 
     .put(async (req, res) => {
         debugSource(req);
-        Issue.findOneAndUpdate(
+        IssueVote.findOneAndUpdate(
             { _id: req.params.id, user: req.user._id },
             req.body,
             { new: true },
@@ -62,7 +77,7 @@ issuesRouter.route("/id/:id")
 
     .delete(async (req, res, next) => {
         debugSource(req);
-        Issue.findOneAndDelete({ _id: req.params.id, user: req.user._id }, (err, data) => {
+        IssueVote.findOneAndDelete({ _id: req.params.id, user: req.user._id }, (err, data) => {
             if (err) {
                 res.status(500);
                 return next(err);
@@ -72,9 +87,9 @@ issuesRouter.route("/id/:id")
         });
     });
 
-issuesRouter.get("/user", (req, res, next) => {
+votesRouter.get("/user", (req, res, next) => {
     debugSource(req);
-    Issue.find({ user: req.user._id }, (err, data) => {
+    IssueVote.find({ user: req.user._id }, (err, data) => {
         if (err) {
             res.status(500);
             return next(err);
@@ -85,9 +100,9 @@ issuesRouter.get("/user", (req, res, next) => {
 });
 
 // TODO Test this 
-issuesRouter.route("/search").get(async (req, res, next) => {
+votesRouter.route("/search").get(async (req, res, next) => {
     debugSource(req);
-    Issue.find(req.query, (err, data) => {
+    IssueVote.find(req.query, (err, data) => {
         if (err) {
             res.status(500);
             return next(err);
@@ -97,4 +112,4 @@ issuesRouter.route("/search").get(async (req, res, next) => {
     }).sort({ Volume: 1, Book: 1, Page: 1 })
 });
 
-module.exports = issuesRouter;
+module.exports = votesRouter;

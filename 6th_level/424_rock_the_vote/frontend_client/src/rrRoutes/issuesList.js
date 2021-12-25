@@ -1,13 +1,13 @@
 import React from "react";
-import { useNavigate, Navigate } from "react-router-dom";
-import { useStateContext } from "../StateContext";
-import { IssueCard } from "../issueCard";
+import { useNavigate } from "react-router-dom";
+import { useStateContext } from "../contexts/StateContext";
+import { IssueCard } from "../components/issueCard";
 
 export const IssuesList = () => {
     const navigate = useNavigate();
-    const { state: {user: { username }, issues, token }} = useStateContext();
+    const { state: {user: { username }, issues }} = useStateContext();
 
-    return (token === "") ? <Navigate to = "/" /> : <>
+    return <>
         <nav>
             <h1>Welcome {username}, Issues List</h1>
         </nav>

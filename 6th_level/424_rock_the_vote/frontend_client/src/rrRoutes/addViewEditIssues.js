@@ -1,6 +1,6 @@
 import { useNavigate, Navigate } from "react-router-dom";
 import { useState } from "react";
-import { useStateContext } from "../StateContext";
+import { useStateContext } from "../contexts/StateContext";
 
 const initInputs = { title: "", desc: "" };
 
@@ -10,7 +10,7 @@ export const AddEditViewIssue = () => {
     const [inputs, setInputs] = useState(initInputs);
     const { title, desc } = inputs;
 
-    const { state: { token }, addIssue } = useStateContext();
+    const { addIssue } = useStateContext();
 
     const handleChange = ({ target: { name, value } }) => setInputs({ ...inputs, [name]: value });
 
@@ -19,7 +19,7 @@ export const AddEditViewIssue = () => {
         setInputs(initInputs);
     }
 
-    return (token === "") ? <Navigate to="/" /> : <>
+    return <>
         <nav>
             <h1>Add View Edit Issues</h1>
         </nav>

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-import { useStateContext } from "../StateContext";
+import { useStateContext } from "../contexts/StateContext";
 
 
 export const LoginSignup = () => {
@@ -23,6 +23,7 @@ export const LoginSignup = () => {
     const handleLogin = (e) => {
         // e.preventDefault();
         login(inputs);
+        // TODO if token then navigate to issuesList, or maybe handle this in the login function in StateContext
     }
 
     const handleLogout = (e) => {

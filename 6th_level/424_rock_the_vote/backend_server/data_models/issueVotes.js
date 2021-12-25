@@ -2,12 +2,17 @@ const mongoose = require("mongoose");
 
 const IssueVotesSchema = new mongoose.Schema({
     issue: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,      
         ref: "issues",
         required: true
     },
     value: {
-        type: Number
+        type: Number,
+        validate: {
+            validator: (v) => [-1,1].includes(v),
+            message: `Vote must be 1 or -1.`
+          },
+        required: true
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,

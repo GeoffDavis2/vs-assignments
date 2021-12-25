@@ -1,6 +1,8 @@
 import React, { useContext, useReducer } from "react";
 import axios from "axios";
 
+import { useNavigate } from "react-router-dom";
+
 const StateContext = React.createContext();
 
 // Custom Hook
@@ -41,6 +43,7 @@ secureAxios.interceptors.request.use(config => {
 });
 
 export const StateContextProvider = ({ children }) => {
+    const navigate = useNavigate();
 
     // TODO combine signup and login into signlogin, add action parameter ("signup", "login")
     // TODO Add something to stop signin if already logged in
@@ -51,6 +54,9 @@ export const StateContextProvider = ({ children }) => {
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
             dispatch({ type: ACTION.LOGIN, payload: { token, user } });
+            const { data } = await secureAxios.get(`/secure/issue`);
+            dispatch({ type: ACTION.ADDISSUES, payload: { data } });
+            navigate(`/issues-list`);
         }
         catch ({ response: { data: { errMsg } } }) {
             console.log(errMsg);
@@ -63,12 +69,12 @@ export const StateContextProvider = ({ children }) => {
         dispatch({ type: ACTION.CLEARMSG });
         try {
             const { data: { token, user } } = await axios.post("/auth/login", credentials);
-            console.log("login", token, user);
-            dispatch({ type: ACTION.LOGIN, payload: { token, user } });
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
+            dispatch({ type: ACTION.LOGIN, payload: { token, user } });
             const { data } = await secureAxios.get(`/secure/issue`);
             dispatch({ type: ACTION.ADDISSUES, payload: { data } });
+            navigate(`/issues-list`);
         }
         catch ({ response: { data: { errMsg } } }) {
             console.log(errMsg);
@@ -78,11 +84,11 @@ export const StateContextProvider = ({ children }) => {
     }
 
     const logout = () => {
-        console.log('logout');
         dispatch({ type: ACTION.CLEARMSG });
         dispatch({ type: ACTION.LOGOUT });
         localStorage.removeItem("user");
         localStorage.removeItem("token");
+        navigate(`/`);
     }
 
     const addIssue = async (newIssue) => {
@@ -99,7 +105,9 @@ export const StateContextProvider = ({ children }) => {
     const initState = {
         user: JSON.parse(localStorage.getItem("user")) || {},
         token: localStorage.getItem("token") || "",
-        issues: [], errMsg: ""        
+        issues: [], issueVotes: [], 
+        comments: [], commentVotes: [], 
+        errMsg: ""        
     };
     const [state, dispatch] = useReducer(reducer, initState);
 
