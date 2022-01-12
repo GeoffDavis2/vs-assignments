@@ -1,11 +1,13 @@
 const {debugSource, debugReturn} = require("../debug");
 const express = require("express");
+const { connection } = require("mongoose");
 const issuesRouter = express.Router();
 const Issue = require("../data_models/issues");
 
 issuesRouter.route("/")
     .get(async (req, res, next) => {
         debugSource(req);
+        // TODO adding voteSum, voteCt, & commentCt to backend query instead of having frontend calculate this
         Issue.find((err, data) => {
             if (err) {
                 res.status(500);

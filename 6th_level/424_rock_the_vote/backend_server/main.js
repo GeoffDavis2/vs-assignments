@@ -1,8 +1,11 @@
+// TODO Delete commented out stuff that is no longer needed
+
+// TODO test what happens if collection and/or rock-the-vote db doesn't already exists
+
 // TODO fix my error messages to match up with how mongoose embeds error messages...
 // TODO     I might have already done this, check before spending time on this
 // TODO     {"errMsg": "mesage": "this is the error message"}
 
-// TODO Fix query to use $count now I am using MongoDB v5
 // TODO remove models that I'm not using anymore (votes, comments, commentvotes, etc)
 
 // TODO add my own validation on update (make sure value is 1 or -1)
@@ -11,11 +14,11 @@
 const { debugSource, DEBUG } = require("./debug");
 console.log("\033c");
 
-// Connect to MongoDB using Mongoose, start windows MongoDB service first
+// Connect to MongoDB using Mongoose
 module.exports = (mongoose = require("mongoose"));
 mongoose.connect(
-    "mongodb://172.18.0.1:27017/rock-the-vote",
-    // "mongodb://172.21.112.1:27017/rock-the-vote",
+    "mongodb://localhost:27017/rock-the-vote",
+    // "mongodb://172.18.0.1:27017/rock-the-vote",    
     // "mongodb+srv://trend_geoff_lev5_capstone:7654@cluster0.7hfsb.mongodb.net/county-clerk",
     () => {
         DEBUG && (mongoose.connection.readyState === 0) && console.log("\n********** Disonnected from MongoDB **********");
@@ -74,7 +77,12 @@ app.use("/secure", expressJwt({ secret: process.env.SECRET, algorithms: ['HS256'
 
 // Route Handlers
 app.use("/auth", require("./controllers/auth"));
+app.use("/public", require("./controllers/issuesPublicView"));
 app.use("/secure/issue", require("./controllers/issues"));
+app.use("/secure/user", require("./controllers/users"));
+app.use("/secure/singleIssue", require("./controllers/singleIssueView"));
+
+
 
 // Error Handler(s)
 app.use((err, req, res, next) => {

@@ -2,7 +2,8 @@ console.log("\033c");
 
 module.exports = (mongoose = require("mongoose"));
 mongoose.connect(
-    "mongodb://172.18.0.1:27017/rock-the-vote",
+    "mongodb://localhost:27017/rock-the-vote",
+    // "mongodb://172.18.0.1:27017/rock-the-vote",    
     // "mongodb+srv://trend_geoff_lev5_capstone:7654@cluster0.7hfsb.mongodb.net/county-clerk",
     () => {
         (mongoose.connection.readyState === 0) && console.log("\n********** Disonnected from MongoDB **********\n");
@@ -14,7 +15,7 @@ mongoose.connect(
 
 
 // Setup & get Users
-const User = require("./data_models/users");
+const User = require("../data_models/users");
 const getUsers = async () => {
     console.log('\nGet Users\n');
     return await User.find();
@@ -22,7 +23,7 @@ const getUsers = async () => {
 
 
 // Setup & get Issues
-const Issue = require("./data_models/issues");
+const Issue = require("../data_models/issues");
 const getIssues = async () => {
     console.log('\nGet Issues\n');
     return await Issue.find();

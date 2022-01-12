@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 
 
-// TODO Add votes and comments arrays???
+// TODO Create issuesTableView (as data_model?) instead of trusting that it already exists
+
+// TODO Define addedBy, votes, and comments schemas separately, then embed in issuesSchema and (embed votes again in comments)
 const IssuesSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -14,13 +16,14 @@ const IssuesSchema = new mongoose.Schema({
     },
     addedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Users",
+        ref: "users",
         required: true
     },
     addedDate: {
         type: Date,
         default: Date.now
     },
+    // define votes and comments as "SubDocument Type", see https://youtu.be/NlU3PF1EN9A
     votes: [{
         value: {
             type: Number,
