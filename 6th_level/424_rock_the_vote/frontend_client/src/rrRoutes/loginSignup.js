@@ -9,7 +9,7 @@ export const LoginSignup = () => {
     const [inputs, setInputs] = useState({ username: "", password: "" });
     const { username, password } = inputs;
 
-    const { state:{ errMsg }, signup, login, logout } = useStateContext();
+    const { state: { errMsg }, signup, login, logout } = useStateContext();
     // const { signup, login, errMsg } = state;
 
     const handleChange = ({ target: { name, value } }) => setInputs({ ...inputs, [name]: value });
@@ -26,21 +26,22 @@ export const LoginSignup = () => {
         // TODO if token then navigate to issuesList, or maybe handle this in the login function in StateContext
     }
 
-    const handleLogout = (e) => {
-        // e.preventDefault();
-        logout();
-    }
+    
 
     return <>
+        <header>
+            <h1>Sign Up / Login</h1>
+        </header>
+
         <nav>
-            <h1>Login / Signup Route</h1>
+            <button onClick={() => navigate(`/issues-list`)}>Back To Issues List</button>
+            <hr />
         </nav>
+
         <input name="username" value={username} onChange={handleChange} placeholder="Username" className="input-field" />
         <input name="password" value={password} onChange={handleChange} placeholder="Password" className="input-field" />
-        <button onClick={() => navigate(`/issues-list`)}>To Issues List</button>
         <button onClick={handleSignup}>Signup</button>
         <button onClick={handleLogin}>Login</button>
-        <button onClick={handleLogout}>Logout</button>
         <p>{errMsg}</p>
     </>
 

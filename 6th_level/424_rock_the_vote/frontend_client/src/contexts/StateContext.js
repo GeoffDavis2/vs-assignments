@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from "react";
+import React, { useContext, useReducer, useEffect } from "react";
 import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ const StateContext = React.createContext();
 export const useStateContext = () => useContext(StateContext);
 
 // TODO pair this down to just the minimum required (test by refreshing page and logging out / then logging in and viewing an issue)
+// TODO not even sure I still need any of this...???
 // Globally define initVote, initComment, & initState
 const initVote = { _id: "", value: 0, addedBy: {}, addedDate: "" };
 const initComment = { _id: "", comment: "", addedBy: {}, addedDate: "", votes: [initVote] };
@@ -38,7 +39,7 @@ const reducer = (state, action) => {
             const { token, user } = action.payload;
             console.log("ACTION.LOGIN", token, user);
             return { ...state, token, user };
-        case ACTION.LOGOUT: return initState;
+        case ACTION.LOGOUT: return { ...state, token: "", user: {} };
         case ACTION.LOADISSUETABLE:
             // TODO can i refactor this to make it dry'er?
             // const { data } = action.payload;
@@ -63,6 +64,7 @@ const reducer = (state, action) => {
     }
 }
 
+// Add "token" to API Calls
 export const secureAxios = axios.create();
 secureAxios.interceptors.request.use(config => {
     const token = localStorage.getItem("token");
@@ -85,8 +87,8 @@ export const StateContextProvider = ({ children }) => {
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
             dispatch({ type: ACTION.LOGIN, payload: { token, user } });
-            const { data } = await secureAxios.get(`/secure/issue`);
-            dispatch({ type: ACTION.LOADISSUETABLE, payload: { data } });
+            // const { data } = await secureAxios.get(`/secure/issue`);
+            // dispatch({ type: ACTION.LOADISSUETABLE, payload: { data } });
             navigate(`/issues-list`);
         }
         catch ({ response: { data: { errMsg } } }) {
@@ -103,8 +105,8 @@ export const StateContextProvider = ({ children }) => {
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
             dispatch({ type: ACTION.LOGIN, payload: { token, user } });
-            const { data } = await secureAxios.get(`/public`);
-            dispatch({ type: ACTION.LOADISSUETABLE, payload: { data } });
+            // const { data } = await secureAxios.get(`/public`);
+            // dispatch({ type: ACTION.LOADISSUETABLE, payload: { data } });
             navigate(`/issues-list`);
         }
         catch ({ response: { data: { errMsg } } }) {
@@ -143,9 +145,14 @@ export const StateContextProvider = ({ children }) => {
         }
     }
 
+    const getIssuesList = async () => {
+        const { data } = await secureAxios.get(`/public`);
+        dispatch({ type: ACTION.LOADISSUETABLE, payload: { data } });
+    }
+
     const getIssue = async (issueId) => {
         try {
-            const { data } = await secureAxios.get(`/secure/issue/id/${issueId}`);
+            const { data } = await secureAxios.get(`/secure/singleIssueView/id/${issueId}`);
 
             // const { votes, comments, addedBy } = data;
             
@@ -172,7 +179,9 @@ export const StateContextProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(reducer, initState);
 
-    return <StateContext.Provider value={{ state, signup, login, logout, addIssue, getIssue }} >
+    useEffect(() => getIssuesList(), []);
+
+    return <StateContext.Provider value={{ state, signup, login, logout, addIssue, getIssuesList, getIssue }} >
         {children}
     </StateContext.Provider>
 };

@@ -8,10 +8,15 @@ export const AddEditViewIssue = () => {
     const navigate = useNavigate();
     const params = useParams();
 
-    const { addIssue, getIssue, issue } = useStateContext();
+    const { addIssue, getIssue, issue, logout } = useStateContext();
 
     const [inputs, setInputs] = useState(initInputs);
     const { title, desc } = inputs;
+
+    const handleLogout = (e) => {
+        // e.preventDefault();
+        logout();
+    }
 
     const handleChange = ({ target: { name, value } }) => setInputs({ ...inputs, [name]: value });
 
@@ -27,12 +32,16 @@ export const AddEditViewIssue = () => {
     // setInputs(issue) }, [issue]);
 
     return <>
+        <header>
+            <h1>Add New Issue</h1>
+        </header>
+
         <nav>
-            <h1>Add View Edit Issues</h1>
+            <button onClick={() => navigate(`/issues-list`)}>Back To Issues List</button>
+            <button onClick={handleLogout}>Logout</button>
+            <hr />
         </nav>
 
-        <button onClick={() => navigate(`/`)}>To Login UIs</button>
-        <button onClick={() => navigate(`/issues-list`)}>To Issues List</button>
         <input name="title" value={title} onChange={handleChange} placeholder="Issue" className="input-field" />
         <input name="desc" value={desc} onChange={handleChange} placeholder="Description" className="input-field" />
         <button onClick={handleSubmit}>Submit</button>

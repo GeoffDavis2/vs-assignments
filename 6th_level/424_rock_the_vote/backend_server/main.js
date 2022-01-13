@@ -80,7 +80,7 @@ app.use("/auth", require("./controllers/auth"));
 app.use("/public", require("./controllers/issuesPublicView"));
 app.use("/secure/issue", require("./controllers/issues"));
 app.use("/secure/user", require("./controllers/users"));
-app.use("/secure/singleIssue", require("./controllers/singleIssueView"));
+app.use("/secure/singleIssueView", require("./controllers/singleIssueView"));
 
 
 
