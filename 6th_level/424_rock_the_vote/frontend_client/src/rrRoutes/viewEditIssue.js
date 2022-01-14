@@ -5,14 +5,20 @@ import { useStateContext } from "../contexts/StateContext";
 export const ViewIssue = () => {
     const params = useParams();
     const navigate = useNavigate();
-    const { getIssue, addIssueComment, state, logout } = useStateContext();
+    const { state: { errMsg, user }, getIssue, addIssueComment, addIssueVote, state, logout } = useStateContext();
     const [comment, setComment] = useState("");
 
     const thumbUp = String.fromCodePoint(0x1F44D);
     const thumbDn = String.fromCodePoint(0x1F44E);
 
+    // TODO add code to clear state issue? Or maybe do it before getting to this route
+    // TODO clear comment input and vote buttons once submitted
     const handleCommentSubmit = () => {
-        addIssueComment(comment);
+        addIssueComment(_id, comment);
+    }
+
+    const handleVoteSubmit = (vote) => {
+        addIssueVote(_id, vote);
     }
 
     const handleLogout = (e) => {
@@ -22,6 +28,9 @@ export const ViewIssue = () => {
     // TODO clear issue state when leaving edit-view-issue route (maybe when clicking button?)
     useEffect(() => { if (params.issueId) getIssue(params.issueId) }, []);
     const { _id, title, desc, voteSum, voteCt, votes, commentCt, comments, addedBy, addedDate } = state.issue;
+
+    const commentAlreadySubmitted = typeof comments.find(obj => obj.addedBy._id === user._id) != 'undefined';
+    const voteAlreadySubmitted = typeof votes.find(obj => obj.addedBy._id === user._id) != 'undefined';
 
     // TODO Allow changing vote and comment, but restrict to only one vote/comment per person per issue & issueComment
     return <>
@@ -37,24 +46,30 @@ export const ViewIssue = () => {
 
         <h2>{desc}</h2>
         <p>added by: {addedBy.username} on {addedDate}</p>
-        <h3>Add your vote:&nbsp;<button>{thumbUp}</button>&nbsp;<button>{thumbDn}</button></h3>
-        <h3>{voteCt} people voted on this issue. Vote Total: {voteSum}</h3>
+        {voteAlreadySubmitted || <h3>
+            Add your vote:
+            &nbsp;<button onClick={() => handleVoteSubmit(1)}>{thumbUp}</button>
+            &nbsp;<button onClick={() => handleVoteSubmit(-1)}>{thumbDn}</button>
+            &nbsp;{errMsg}
+        </h3>}
+        <h3>{voteCt} people voted on this issue. Vote Tally: {voteSum}</h3>
         {votes.map(obj => <p key={obj._id}>{obj.value > 0 ? thumbUp : thumbDn} Added By: {obj.addedBy.username} on {obj.addedDate}</p>)}
         <hr />
         <h3>{commentCt} people commented on this.</h3>
-        <h3>
+        {commentAlreadySubmitted || <h3>
             What do you think?
             &nbsp;<input name="comment" value={comment} onChange={e => setComment(e.target.value)} placeholder="Enter comment here" className="input-field" />
             &nbsp;<button onClick={handleCommentSubmit}>Submit</button>
-        </h3>
+            &nbsp;{errMsg}
+        </h3>}
         {comments.sort((a, b) => (b.voteSum - a.voteSum))
             .map(obj => <p key={obj._id}>
-                "{obj.comment}"
+                <button>{thumbUp}</button>&nbsp;<button>{thumbDn}</button>
+                &nbsp;"{obj.comment}"
                 - added by: {obj.addedBy.username}
                 &nbsp;on {obj.addedDate}...
                 &nbsp;{obj.voteCt} votes for this comment,
-                Vote Total: {obj.voteSum},
-                Add your vote:&nbsp;<button>{thumbUp}</button>&nbsp;<button>{thumbDn}</button>
+                Vote Tally: {obj.voteSum}
             </p>)}
 
     </>

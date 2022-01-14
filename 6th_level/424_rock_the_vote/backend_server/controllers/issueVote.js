@@ -1,22 +1,22 @@
 const { debugSource, debugReturn } = require("../debug");
 const express = require("express");
-const issueComment = express.Router();
+const issueVote = express.Router();
 const Issue = require("../data_models/issues");
 const ObjectId = require('mongoose').Types.ObjectId;
 
-issueComment.route("/id/:id")
+issueVote.route("/id/:id")
     .put((req, res, next) => {
         debugSource(req);
 
-        // Check to see if the issue already has a comment from the user
-        Issue.findOne({ $and: [{ _id: new ObjectId(req.params.id) }, { 'comments.addedBy': new ObjectId(req.user._id) }] }, (err, commentExists) => {
+        // Check to see if the issue already has a vote from the user
+        Issue.findOne({ $and: [{ _id: new ObjectId(req.params.id) }, { 'votes.addedBy': new ObjectId(req.user._id) }] }, (err, commentExists) => {
             if (err) {
                 res.status(500);
                 return next(err);
             }
             if (commentExists) {
                 res.status(403);
-                return next("That username has already submitted a comment on this issue!");
+                return next("That username has already submitted a vote on this issue!");
             }
 
             Issue.findOne({ _id: new ObjectId(req.params.id) }, (err, data) => {
@@ -24,7 +24,7 @@ issueComment.route("/id/:id")
                     res.status(500);
                     return next(err);
                 }
-                data.comments.push({ ...req.body, addedBy: new ObjectId(req.user._id) });
+                data.votes.push({ ...req.body, addedBy: new ObjectId(req.user._id) });
                 data.save((err, data) => {
                     if (err) {
                         res.status(500);
@@ -39,4 +39,4 @@ issueComment.route("/id/:id")
 
     });
 
-module.exports = issueComment;
+module.exports = issueVote;

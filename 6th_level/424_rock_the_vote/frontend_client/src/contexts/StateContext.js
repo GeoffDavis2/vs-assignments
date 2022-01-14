@@ -71,6 +71,24 @@ secureAxios.interceptors.request.use(config => {
 export const StateContextProvider = ({ children }) => {
     const navigate = useNavigate();
 
+    // TODO find / fix situation that caused backend to crash, i think it was on Signup
+    // ********** POST from: /auth/login **********
+    // ---------------------- params
+    //  {}
+    // ---------------------- query
+    //  {}
+    // ---------------------- body
+    //  { username: 'abb', password: 'abb' }
+    // node:events:368
+    //       throw er; // Unhandled 'error' event
+    //       ^    
+    // TypeError: Cannot read properties of null (reading 'checkPassword')
+    //     at /home/gvd1024/development/assignments/6th_level/424_rock_the_vote/backend_server/controllers/auth.js:44:14
+    //     at /home/gvd1024/development/assignments/6th_level/424_rock_the_vote/backend_server/node_modules/mongoose/lib/model.js:4942:18
+    //     at processTicksAndRejections (node:internal/process/task_queues:78:11)
+    // Emitted 'error' event on Function instance at:
+    //     at /home/gvd1024/development/assignments/6th_level/424_rock_the_vote/backend_server/node_modules/mongoose/lib/model.js:4944:15
+
 
     // TODO combine signup and login into signlogin, add action parameter ("signup", "login")
     // TODO Add something to stop signin if already logged in
@@ -106,6 +124,7 @@ export const StateContextProvider = ({ children }) => {
         }
     }
 
+    // TODO dispatch({ type: ACTION.ADDERRMSG, payload: { errMsg } }); if login error
     const logout = () => {
         dispatch({ type: ACTION.LOGOUT });
         localStorage.removeItem("user");
@@ -124,15 +143,28 @@ export const StateContextProvider = ({ children }) => {
         }
 
     }
-    const addIssueComment = async (comment) => {
+
+    const addIssueComment = async (issueId, issueComment) => {
         dispatch({ type: ACTION.CLEARMSG });
         try {
-            console.log('addIssueComment');
-            // const { data } = await secureAxios.post(`/secure/issue`, newIssue);
+            const { data } = await secureAxios.put(`/secure/issueComment/id/${issueId}`, { comment: issueComment });
             // dispatch({ type: ACTION.ADDISSUETOTABLE, payload: { data } });
         }
-        catch (err) {
-            console.log('addIssue error \n', err);
+        catch ({ response: { data: { errMsg } } }) {
+            console.log('addIssue error \n', errMsg);
+            dispatch({ type: ACTION.ADDERRMSG, payload: { errMsg } });
+        }
+    }
+
+    const addIssueVote = async (issueId, issueVote) => {
+        dispatch({ type: ACTION.CLEARMSG });
+        try {
+            const { data } = await secureAxios.put(`/secure/issueVote/id/${issueId}`, { value: issueVote });
+            // dispatch({ type: ACTION.ADDISSUETOTABLE, payload: { data } });
+        }
+        catch ({ response: { data: { errMsg } } }) {
+            console.log('addIssue error \n', errMsg);
+            dispatch({ type: ACTION.ADDERRMSG, payload: { errMsg } });
         }
     }
 
@@ -168,7 +200,8 @@ export const StateContextProvider = ({ children }) => {
 
     return <StateContext.Provider value={{
         state, signup, login, logout,
-        addIssue, addIssueComment, getIssuesList, getIssue
+        addIssue, addIssueComment, addIssueVote,
+        getIssuesList, getIssue
     }}>
         {children}
     </StateContext.Provider>

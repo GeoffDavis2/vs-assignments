@@ -18,6 +18,7 @@ authRouter.post("/signup", (req, res, next) => {
             return next("That username is already taken!");
         }
 
+        console.log('am i here?');
         const newUser = new User(req.body);
         newUser.save((err, savedUser) => {
             if (err) {
