@@ -8,9 +8,7 @@ const StateContext = React.createContext();
 // Custom Hook 
 export const useStateContext = () => useContext(StateContext);
 
-// TODO pair this down to just the minimum required (test by refreshing page and logging out / then logging in and viewing an issue)
-// TODO not even sure I still need any of this...???
-// Globally define initVote, initComment, & initState
+// Define initVote, initComment, & initState
 const initVote = { _id: "", value: 0, addedBy: {}, addedDate: "" };
 const initComment = { _id: "", comment: "", addedBy: {}, addedDate: "", votes: [initVote] };
 const initIssue = { _id: "", title: "", desc: "", addedBy: {}, addedDate: "", votes: [initVote], comments: [initComment] };
@@ -31,13 +29,11 @@ const ACTION = {
     CLEARMSG: "clearMsg",
 }
 const reducer = (state, action) => {
-    console.log('reducer', action);
     // TODO desctructure all action.payload elements here???
     const { data } = action.payload || {};
     switch (action.type) {
         case ACTION.LOGIN:
             const { token, user } = action.payload;
-            console.log("ACTION.LOGIN", token, user);
             return { ...state, token, user };
         case ACTION.LOGOUT: return { ...state, token: "", user: {} };
         case ACTION.LOADISSUETABLE:
@@ -75,11 +71,9 @@ secureAxios.interceptors.request.use(config => {
 export const StateContextProvider = ({ children }) => {
     const navigate = useNavigate();
 
-    // TODO Setup app for Guest Login (or maybe view public issue list button)
 
     // TODO combine signup and login into signlogin, add action parameter ("signup", "login")
     // TODO Add something to stop signin if already logged in
-    // TODO change Signup module to use const { data } = await secureAxios.get(`/public`) like login does
     const signup = async (credentials) => {
         dispatch({ type: ACTION.CLEARMSG });
         try {
@@ -87,8 +81,6 @@ export const StateContextProvider = ({ children }) => {
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
             dispatch({ type: ACTION.LOGIN, payload: { token, user } });
-            // const { data } = await secureAxios.get(`/secure/issue`);
-            // dispatch({ type: ACTION.LOADISSUETABLE, payload: { data } });
             navigate(`/issues-list`);
         }
         catch ({ response: { data: { errMsg } } }) {
@@ -105,8 +97,6 @@ export const StateContextProvider = ({ children }) => {
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
             dispatch({ type: ACTION.LOGIN, payload: { token, user } });
-            // const { data } = await secureAxios.get(`/public`);
-            // dispatch({ type: ACTION.LOADISSUETABLE, payload: { data } });
             navigate(`/issues-list`);
         }
         catch ({ response: { data: { errMsg } } }) {
@@ -132,6 +122,18 @@ export const StateContextProvider = ({ children }) => {
         catch (err) {
             console.log('addIssue error \n', err);
         }
+
+    }
+    const addIssueComment = async (comment) => {
+        dispatch({ type: ACTION.CLEARMSG });
+        try {
+            console.log('addIssueComment');
+            // const { data } = await secureAxios.post(`/secure/issue`, newIssue);
+            // dispatch({ type: ACTION.ADDISSUETOTABLE, payload: { data } });
+        }
+        catch (err) {
+            console.log('addIssue error \n', err);
+        }
     }
 
     const getUserName = async (userId) => {
@@ -153,23 +155,6 @@ export const StateContextProvider = ({ children }) => {
     const getIssue = async (issueId) => {
         try {
             const { data } = await secureAxios.get(`/secure/singleIssueView/id/${issueId}`);
-
-            // const { votes, comments, addedBy } = data;
-            
-            // TODO adding voteSum, voteCt, & commentCt to backend query instead of having frontend calculate this???
-
-            // Add Usernames, counts, and sums 
-            // data.addedBy = await getUserName(addedBy);
-            // data.voteSum = votes.reduce((accu, curr) => accu + curr.value, 0);
-            // data.voteCt = votes.reduce((accu, _) => accu + 1, 0);
-            // await Promise.all(votes.map(async obj => obj.addedBy = await getUserName(obj.addedBy)));
-            // data.commentCt = comments.reduce((accu, _) => accu + 1, 0);
-            // await Promise.all(comments.map(async obj => {
-            //     obj.addedBy = await getUserName(obj.addedBy);
-            //     obj.voteSum = obj.votes.reduce((accu, curr) => accu + curr.value, 0);
-            //     obj.voteCt = obj.votes.reduce((accu, _) => accu + 1, 0);
-            // }));
-
             dispatch({ type: ACTION.LOADSINGLEISSUE, payload: { data } });
         }
         catch (err) {
@@ -181,7 +166,10 @@ export const StateContextProvider = ({ children }) => {
 
     useEffect(() => getIssuesList(), []);
 
-    return <StateContext.Provider value={{ state, signup, login, logout, addIssue, getIssuesList, getIssue }} >
+    return <StateContext.Provider value={{
+        state, signup, login, logout,
+        addIssue, addIssueComment, getIssuesList, getIssue
+    }}>
         {children}
     </StateContext.Provider>
 };

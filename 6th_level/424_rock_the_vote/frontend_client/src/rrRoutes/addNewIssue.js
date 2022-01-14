@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useStateContext } from "../contexts/StateContext";
 
+// TODO Do I need this?
 const initInputs = { title: "", desc: "" };
 
 export const AddEditViewIssue = () => {
@@ -9,16 +10,15 @@ export const AddEditViewIssue = () => {
     const params = useParams();
 
     const { addIssue, getIssue, issue, logout } = useStateContext();
-
-    const [inputs, setInputs] = useState(initInputs);
-    const { title, desc } = inputs;
-
+    
     const handleLogout = (e) => {
         // e.preventDefault();
         logout();
     }
-
+    
+    const [inputs, setInputs] = useState(initInputs);
     const handleChange = ({ target: { name, value } }) => setInputs({ ...inputs, [name]: value });
+    const { title, desc } = inputs;
 
     const handleSubmit = () => {
         addIssue(inputs);
