@@ -9,7 +9,7 @@ export const AddEditViewIssue = () => {
     const navigate = useNavigate();
     const params = useParams();
 
-    const { addIssue, getIssue, issue, logout } = useStateContext();
+    const { state: { errMsg, user }, addIssue, getIssue, issue, logout } = useStateContext();
     
     const handleLogout = (e) => {
         // e.preventDefault();
@@ -38,7 +38,7 @@ export const AddEditViewIssue = () => {
 
         <nav>
             <button onClick={() => navigate(`/issues-list`)}>Back To Issues List</button>
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={handleLogout}>Logout "{user.username}"</button>
             <hr />
         </nav>
 

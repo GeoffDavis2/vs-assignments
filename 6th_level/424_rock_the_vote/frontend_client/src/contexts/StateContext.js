@@ -25,6 +25,7 @@ const ACTION = {
     LOADISSUETABLE: "loadIssueTable",
     ADDISSUETOTABLE: "addissuetotable",
     LOADSINGLEISSUE: "loadSingleIssue",
+    CLEARSINGLEISSUE: "clearSingleIssue",
     ADDERRMSG: "addErrMsg",
     CLEARMSG: "clearMsg",
 }
@@ -54,6 +55,7 @@ const reducer = (state, action) => {
             if (data !== {}) return { ...state, issue: data };
             // if (!Array.isArray(data)) return { ...state, issues: [...state.issues, data] };
             return state;
+        case ACTION.CLEARSINGLEISSUE: return { ...state, issue: initIssue }
         case ACTION.ADDERRMSG: return { ...state, errMsg: action.payload.errMsg };
         case ACTION.CLEARMSG: return { ...state, errMsg: "" };
         default: return state;
@@ -148,7 +150,7 @@ export const StateContextProvider = ({ children }) => {
         dispatch({ type: ACTION.CLEARMSG });
         try {
             const { data } = await secureAxios.put(`/secure/issueComment/id/${issueId}`, { comment: issueComment });
-            // dispatch({ type: ACTION.ADDISSUETOTABLE, payload: { data } });
+            dispatch({ type: ACTION.LOADSINGLEISSUE, payload: { data } });
         }
         catch ({ response: { data: { errMsg } } }) {
             console.log('addIssue error \n', errMsg);
@@ -160,7 +162,7 @@ export const StateContextProvider = ({ children }) => {
         dispatch({ type: ACTION.CLEARMSG });
         try {
             const { data } = await secureAxios.put(`/secure/issueVote/id/${issueId}`, { value: issueVote });
-            // dispatch({ type: ACTION.ADDISSUETOTABLE, payload: { data } });
+            dispatch({ type: ACTION.LOADSINGLEISSUE, payload: { data } });
         }
         catch ({ response: { data: { errMsg } } }) {
             console.log('addIssue error \n', errMsg);
@@ -184,6 +186,10 @@ export const StateContextProvider = ({ children }) => {
         dispatch({ type: ACTION.LOADISSUETABLE, payload: { data } });
     }
 
+    const clearIssue = () => {
+        dispatch({ type: ACTION.CLEARSINGLEISSUE });
+    }
+
     const getIssue = async (issueId) => {
         try {
             const { data } = await secureAxios.get(`/secure/singleIssueView/id/${issueId}`);
@@ -201,7 +207,7 @@ export const StateContextProvider = ({ children }) => {
     return <StateContext.Provider value={{
         state, signup, login, logout,
         addIssue, addIssueComment, addIssueVote,
-        getIssuesList, getIssue
+        getIssuesList, getIssue, clearIssue
     }}>
         {children}
     </StateContext.Provider>

@@ -16,6 +16,11 @@ export const IssuesList = () => {
         navigate(`/view-issue/${_id}`);
     }
 
+    // TODO Error when startign app up next day (frontend still thought I was logged in but token was expired)
+    // TOD      happened after initial login screen (issues list), then clicked on View Issue
+    // ********** Error Handler **********
+    // UnauthorizedError: jwt expired
+
     // TODO fix nav section, page labels, and button for all pages
     // TODO     add logic so only see login or logout button based on whether you are logged in
     // TODO     also add note to top Issues Table page to click "sign up/login to add issues, comments, and vote"
@@ -32,7 +37,7 @@ export const IssuesList = () => {
         <nav>
             {username && <>
                 <button onClick={() => navigate(`/edit-view-issue`)}>Add new Issue</button>
-                <button onClick={handleLogout}>Logout</button>
+                <button onClick={handleLogout}>Logout "{username}"</button>
             </>}
             <hr />
         </nav>
