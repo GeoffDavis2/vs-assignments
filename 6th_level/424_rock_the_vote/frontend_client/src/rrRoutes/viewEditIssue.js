@@ -45,7 +45,6 @@ export const ViewIssue = () => {
 
     // TODO Still displays last issue while waiting to load new issue, display loading screen instead
     // TODO Allow changing vote and comment, but restrict to only one vote/comment per person per issue & issueComment
-    // TODO Add CommentVote functions (backend then frontend)
     return <>
         <header>
             <h1>{title}</h1>

@@ -26,7 +26,6 @@ export const AddEditViewIssue = () => {
     }
 
 
-    // TODO clear issue state when leaving edit-view-issue route (maybe when clicking button?)
     useEffect(() => { if (params.issueId) getIssue(params.issueId) }, []);
     // useEffect(() => { if (issue) console.log("issue???", issue) }, [issue]);
     // setInputs(issue) }, [issue]);

@@ -17,7 +17,7 @@ export const IssuesList = () => {
     }
 
     // TODO Error when startign app up next day (frontend still thought I was logged in but token was expired)
-    // TOD      happened after initial login screen (issues list), then clicked on View Issue
+    // TODO      happened after initial login screen (issues list), then clicked on View Issue
     // ********** Error Handler **********
     // UnauthorizedError: jwt expired
 

@@ -9,7 +9,8 @@ issueVote.route("/id/:id")
         debugSource(req);
 
         // Check to see if the issue already has a vote from the user
-        Issue.findOne({ $and: [{ _id: new ObjectId(req.params.id) }, { 'votes.addedBy': new ObjectId(req.user._id) }] }, (err, voteExists) => {
+        // Issue.findOne({ $and: [{ _id: new ObjectId(req.params.id) }, { 'votes.addedBy': new ObjectId(req.user._id) }] }, (err, voteExists) => {
+        Issue.findOne({ _id: ObjectId(req.params.id), 'votes.addedBy': ObjectId(req.user._id) }, (err, voteExists) => {
             if (err) {
                 res.status(500);
                 return next(err);
@@ -20,18 +21,15 @@ issueVote.route("/id/:id")
                 return next("That username has already submitted a vote on this issue!");
             }
 
-            Issue.findOne({ _id: new ObjectId(req.params.id) }, (err, data) => {
-                if (err) {
-                    res.status(500);
-                    return next(err);
-                }
-                data.votes.push({ ...req.body, addedBy: new ObjectId(req.user._id) });
-                data.save((err) => {
+            Issue.findOneAndUpdate(
+                { _id: new ObjectId(req.params.id) },
+                { $push: { votes: { ...req.body, addedBy: new ObjectId(req.user._id) } } },
+                (err) => {
                     if (err) {
                         res.status(500);
                         return next(err);
                     }
-                    
+
                     // Return back issue from IssuesView instead of data returned from vote push/save above
                     IssuesView.findOne({ _id: req.params.id }, (err, data) => {
                         if (err) {
@@ -45,8 +43,5 @@ issueVote.route("/id/:id")
             });
 
         });
-
-
-    });
 
 module.exports = issueVote;

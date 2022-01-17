@@ -80,8 +80,9 @@ app.use("/auth", require("./controllers/auth"));
 app.use("/public", require("./controllers/issuesPublicView"));
 app.use("/secure/user", require("./controllers/users"));
 app.use("/secure/issue", require("./controllers/issues"));
-app.use("/secure/issueComment", require("./controllers/issueComment"));
 app.use("/secure/issueVote", require("./controllers/issueVote"));
+app.use("/secure/issueComment", require("./controllers/issueComment"));
+app.use("/secure/issueCommentVote", require("./controllers/issueCommentVote"));
 app.use("/secure/singleIssueView", require("./controllers/singleIssueView"));
 
 
