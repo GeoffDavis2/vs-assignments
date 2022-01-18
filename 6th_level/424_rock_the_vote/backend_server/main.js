@@ -1,7 +1,4 @@
-// TODO Delete commented out stuff that is no longer needed
-
-// TODO Delete un-needed console.logs
-
+// TODO Find and delete any commented out stuff that is no longer needed
 
 // Bring in DEBUG boolean variable and Clear the terminal
 const { debugSource, DEBUG } = require("./debug");

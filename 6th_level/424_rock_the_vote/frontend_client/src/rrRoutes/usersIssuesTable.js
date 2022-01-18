@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/StateContext";
 
-export const IssuesTable = () => {
+export const UsersIssuesTable = () => {
     const navigate = useNavigate();
-    const { state: { user: { _id, username }, issues }, logout, getIssuesList } = useStateContext();
-    const [filter, setFilter] = useState();
+    const { state: { user: { username }, issues }, logout, getIssuesList } = useStateContext();
+    const [filter, setFilter] = useState("all");
 
-    useEffect(() => getIssuesList(filter), [filter]);
+    useEffect(() => getIssuesList(), []);
 
     return <>
         <header>
@@ -21,9 +21,6 @@ export const IssuesTable = () => {
         <nav>
             {username && <>
                 <button onClick={() => navigate(`/edit-view-issue`)}>Add new Issue</button>
-                {filter
-                    ? <button onClick={() => setFilter()}>Show All Issues</button>
-                    : <button onClick={() => setFilter(_id)}>Filter on Your Issues</button>}
                 <button onClick={() => logout()}>Logout "{username}"</button>
             </>}
             <hr />

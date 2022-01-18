@@ -4,12 +4,12 @@ const issueVote = express.Router();
 const Issue = require("../data_models/issues");
 const { IssuesView } = require("../data_models/issuesViews");
 const ObjectId = require('mongoose').Types.ObjectId;
+
 issueVote.route("/id/:id")
     .put((req, res, next) => {
         debugSource(req);
 
         // Check to see if the issue already has a vote from the user
-        // Issue.findOne({ $and: [{ _id: new ObjectId(req.params.id) }, { 'votes.addedBy': new ObjectId(req.user._id) }] }, (err, voteExists) => {
         Issue.findOne({ _id: ObjectId(req.params.id), 'votes.addedBy': ObjectId(req.user._id) }, (err, voteExists) => {
             if (err) {
                 res.status(500);

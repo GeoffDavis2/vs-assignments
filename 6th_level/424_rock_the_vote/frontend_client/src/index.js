@@ -1,6 +1,6 @@
 // TODO Later: make it all look nicer using React Bootstrap
 // TODO Later: Still displays last issue while waiting to load new issue, display loading screen instead
-// TODO Later: Allow changing vote and comment, but restrict to only one vote/comment per person per issue & issueComment
+// TODO Later: Allow changing vote and comment, but restrict to only one vote per person per issue & issueComment
 
 
 import React from 'react';

@@ -29,13 +29,18 @@ export const ViewEditIssue = () => {
         </>
     }
 
+    const handleCommentSubmit = () => {
+        putToIssue(`/secure/issueComment/id/${_id}`, { comment });
+        setComment("");
+    }
+
     const userComment = (comments) => {
         const obj = comments.find(obj => obj.addedBy._id === user._id);
-        if (obj && obj.comment) return <>Your Comment: "{obj.comment}"</>;
+        // if (obj && obj.comment) return <>Your Comment: "{obj.comment}"</>;
         return <>
             What do you think?
             &nbsp;<input name="comment" value={comment} onChange={e => setComment(e.target.value)} placeholder="Enter your comment here" className="input-field" />
-            &nbsp;<button onClick={() => putToIssue(`/secure/issueComment/id/${_id}`, { comment })}>Submit</button>
+            &nbsp;<button onClick={handleCommentSubmit}>Submit</button>
             &nbsp;{errMsg}
         </>
     }

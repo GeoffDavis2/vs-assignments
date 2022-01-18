@@ -19,11 +19,8 @@ const issuesViewSchema = mongoose.Schema({
 
 const IssuesPublicViewSchema = mongoose.Schema({
     title: '',
-    desc: '',
     addedBy: '',
     addedDate: '',
-    votes: '',
-    comments: '',
     voteSum: '',
     voteCt: '',
     commentCt: ''

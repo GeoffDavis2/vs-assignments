@@ -84,11 +84,14 @@ export const StateContextProvider = ({ children }) => {
         dispatch({ type: ACTION.LOGOUT });
         localStorage.removeItem("user");
         localStorage.removeItem("token");
+        getIssuesList();
         navigate(`/`);
     }
 
-    const getIssuesList = async () => {
-        const { data } = await secureAxios.get(`/public`);
+    const getIssuesList = async (userId) => {
+        let data = {};
+        userId || ({ data } = await secureAxios.get(`/public`));
+        userId && ({ data } = await secureAxios.get(`/public/userid/${userId}`));
         dispatch({ type: ACTION.LOADISSUETABLE, payload: { data } });
     }
 
