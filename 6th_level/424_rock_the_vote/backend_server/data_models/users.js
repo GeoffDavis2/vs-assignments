@@ -21,8 +21,6 @@ const UsersSchema = new mongoose.Schema({
 });
 
 // Pre-save hook to encrypt user password (using bcrypt) before loading to DB
-// TODO add debug stuff here?
-// TODO understand how / when this happens
 UsersSchema.pre("save", function(next){
     const user = this;
     if(!user.isModified("password")) return next();
@@ -34,8 +32,6 @@ UsersSchema.pre("save", function(next){
 })
 
 // Method to check encrypted password on login
-// TODO add debug stuff here?
-// TODO understand how / when this happens
 UsersSchema.methods.checkPassword = function(passwordAttempt, callback) {
     bcrypt.compare(passwordAttempt, this.password, (err, isMatch) => {
         if(err) return callback(err);
@@ -44,13 +40,10 @@ UsersSchema.methods.checkPassword = function(passwordAttempt, callback) {
 }
 
 // Method to remove user's password before sending response
-// TODO add debug stuff here?
-// TODO understand how / when this happens
 UsersSchema.methods.withoutPassword = function() {
     const user = this.toObject();
     delete user.password;
     return user;
 }
-
 
 module.exports = mongoose.model("users", UsersSchema);

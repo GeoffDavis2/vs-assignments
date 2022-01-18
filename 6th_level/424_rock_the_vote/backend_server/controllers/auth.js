@@ -8,17 +8,11 @@ const jwt = require('jsonwebtoken');
 authRouter.post("/signup", (req, res, next) => {
     debugSource(req);
     User.findOne({ username: req.body.username.toLowerCase() }, (err, userExists) => {
-        if (err) {
-            res.status(500);
-            return next(err);
-        }
-
-        if (userExists) {
+        if (err || userExists) {
             res.status(403);
             return next("That username is already taken!");
         }
 
-        console.log('am i here?');
         const newUser = new User(req.body);
         newUser.save((err, savedUser) => {
             if (err) {
@@ -36,18 +30,14 @@ authRouter.post("/signup", (req, res, next) => {
 authRouter.post("/login", (req, res, next) => {
     debugSource(req);
     User.findOne({ username: req.body.username.toLowerCase() }, (err, user) => {
-        if (err) {
-            return next(err);
+        if (err || !user) {
+            res.status(401);
+            return next("Username or Password are incorrect!");
         };
 
-        // TODO combine this into one if statement instead of 2
         user.checkPassword(req.body.password, (err, isMatch) => {
-            if (err) {
-                res.status(403);
-                return next("Username or Password are incorrect!");
-            }
-            if (!isMatch) {
-                res.status(403);
+            if (err || !isMatch) {
+                res.status(401);
                 return next("Username or Password are incorrect!");
             }
             const token = jwt.sign(user.withoutPassword(), process.env.SECRET, { expiresIn: '86400s' });

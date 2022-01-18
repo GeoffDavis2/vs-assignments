@@ -1,10 +1,12 @@
 const mongoose = require("mongoose");
 
+// TODO Later: Define addedBy, votes, and comments schemas separately, then embed in issuesSchema and (embed votes again in comments)
+// TODO Later:      to define votes and comments as "SubDocument Type", see https://youtu.be/NlU3PF1EN9A
 
-// TODO Create issuesTableView (as data_model?) instead of trusting that it already exists
+// TODO Later: validator below doesn't seem to work, either fix it...
+// TODO Later:      or add my own validation on update (make sure value is 1 or -1)
 
-// TODO Define addedBy, votes, and comments schemas separately, then embed in issuesSchema and (embed votes again in comments)
-const IssuesSchema = new mongoose.Schema({
+const IssuesSchema = mongoose.Schema({
     title: {
         type: String,
         trim: true,
@@ -23,7 +25,6 @@ const IssuesSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    // define votes and comments as "SubDocument Type", see https://youtu.be/NlU3PF1EN9A
     votes: [{
         value: {
             type: Number,

@@ -1,34 +1,22 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useStateContext } from "../contexts/StateContext";
 
-// TODO Do I need this?
 const initInputs = { title: "", desc: "" };
 
-export const AddEditViewIssue = () => {
+export const AddNewIssue = () => {
     const navigate = useNavigate();
-    const params = useParams();
 
-    const { state: { errMsg, user }, addIssue, getIssue, issue, logout } = useStateContext();
-    
-    const handleLogout = (e) => {
-        // e.preventDefault();
-        logout();
-    }
+    const { state: { user }, postIssue, logout } = useStateContext();
     
     const [inputs, setInputs] = useState(initInputs);
     const handleChange = ({ target: { name, value } }) => setInputs({ ...inputs, [name]: value });
     const { title, desc } = inputs;
 
     const handleSubmit = () => {
-        addIssue(inputs);
+        postIssue(inputs);
         setInputs(initInputs);
     }
-
-
-    useEffect(() => { if (params.issueId) getIssue(params.issueId) }, []);
-    // useEffect(() => { if (issue) console.log("issue???", issue) }, [issue]);
-    // setInputs(issue) }, [issue]);
 
     return <>
         <header>
@@ -37,7 +25,7 @@ export const AddEditViewIssue = () => {
 
         <nav>
             <button onClick={() => navigate(`/issues-list`)}>Back To Issues List</button>
-            <button onClick={handleLogout}>Logout "{user.username}"</button>
+            <button onClick={() => logout()}>Logout "{user.username}"</button>
             <hr />
         </nav>
 

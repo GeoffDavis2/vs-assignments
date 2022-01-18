@@ -1,30 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/StateContext";
 
-export const IssuesList = () => {
+export const IssuesTable = () => {
     const navigate = useNavigate();
-    const { state: { user: { username }, issues }, logout } = useStateContext();
+    const { state: { user: { username }, issues }, logout, getIssuesList } = useStateContext();
 
+    useEffect(() => getIssuesList(), []);
 
-    const handleLogout = (e) => {
-        // e.preventDefault();
-        logout();
-    }
-
-    const handleViewClick = (_id) => {
-        navigate(`/view-issue/${_id}`);
-    }
-
-    // TODO Error when startign app up next day (frontend still thought I was logged in but token was expired)
-    // TODO      happened after initial login screen (issues list), then clicked on View Issue
-    // ********** Error Handler **********
-    // UnauthorizedError: jwt expired
-
-    // TODO fix nav section, page labels, and button for all pages
-    // TODO     add logic so only see login or logout button based on whether you are logged in
-    // TODO     also add note to top Issues Table page to click "sign up/login to add issues, comments, and vote"
-    // TODO rename issuesList.js to issuesTable.js
     return <>
         <header>
             <h1>Welcome{username ? ` ${username}` : ""}, consider our List of Issues below</h1>
@@ -37,7 +20,7 @@ export const IssuesList = () => {
         <nav>
             {username && <>
                 <button onClick={() => navigate(`/edit-view-issue`)}>Add new Issue</button>
-                <button onClick={handleLogout}>Logout "{username}"</button>
+                <button onClick={() => logout()}>Logout "{username}"</button>
             </>}
             <hr />
         </nav>
@@ -61,7 +44,7 @@ export const IssuesList = () => {
                     <td><h3>{obj.voteCt}</h3></td>
                     <td><h3>{obj.addedBy.username}</h3></td>
                     <td><h3>{obj.addedDate.substring(0, 10)}</h3></td>
-                    <td>{username && <button onClick={() => handleViewClick(obj._id)}>View Issue</button>}</td>
+                    <td>{username && <button onClick={() => navigate(`/view-issue/${obj._id}`)}>View Issue</button>}</td>
                 </tr>)}
             </tbody>
         </table>

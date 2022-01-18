@@ -1,14 +1,7 @@
 // TODO Delete commented out stuff that is no longer needed
 
-// TODO test what happens if collection and/or rock-the-vote db doesn't already exists
+// TODO Delete un-needed console.logs
 
-// TODO fix my error messages to match up with how mongoose embeds error messages...
-// TODO     I might have already done this, check before spending time on this
-// TODO     {"errMsg": "mesage": "this is the error message"}
-
-// TODO remove models that I'm not using anymore (votes, comments, commentvotes, etc)
-
-// TODO add my own validation on update (make sure value is 1 or -1)
 
 // Bring in DEBUG boolean variable and Clear the terminal
 const { debugSource, DEBUG } = require("./debug");

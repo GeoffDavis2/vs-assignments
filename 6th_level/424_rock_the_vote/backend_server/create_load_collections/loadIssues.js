@@ -29,6 +29,11 @@ const getIssues = async () => {
     return await Issue.find();
 };
 
+// Setup & get IssuesView
+const { IssuesView } = require("../data_models/issuesViews");
+const ObjectId = require('mongoose').Types.ObjectId;
+const getIssuesViewFromCommentId = async (commentId) => await IssuesView.findOne({ "comments._id": ObjectId(commentId) });
+
 
 // Issue.findOneAndUpdate(
 //     { title: "Test Issue #1" },
@@ -40,7 +45,6 @@ const getIssues = async () => {
 //         console.log(data);
 //     }
 // );
-
 
 const randomVote = () => {
     const seed = Math.random() - .5;
@@ -68,7 +72,7 @@ const loadIssues = async (users) => {
 };
 
 
-const addIssueVote = async (issueId, Vote) => {   
+const addIssueVote = async (issueId, Vote) => {
     Issue.findByIdAndUpdate(
         issueId,
         { $push: { votes: Vote } },
@@ -115,7 +119,7 @@ const loadComments = async (userList, issueList) => {
             const newComment = {
                 comment: `${uObj.username} thinks ${iObj.title} is important.`,
                 addedBy: uObj._id
-            };        
+            };
             // console.log(iObj._id, newComment);
             addIssueComment(iObj._id, newComment);
         })
@@ -124,7 +128,7 @@ const loadComments = async (userList, issueList) => {
 };
 
 
-const addIssueCommentVote = async (issueId, commentId, Vote) => {    
+const addIssueCommentVote = async (issueId, commentId, Vote) => {
     Issue.findOneAndUpdate(
         {
             _id: issueId,
@@ -166,5 +170,7 @@ async function main() {
     // await loadIssueVotes(userList, issueList);
     // await loadComments(userList, issueList);
     // await loadCommentVotes(userList, issueList);
+    // console.log(await getIssuesViewFromCommentId('61e4abbee281af7e78fd69b3'));
+
 };
 main();

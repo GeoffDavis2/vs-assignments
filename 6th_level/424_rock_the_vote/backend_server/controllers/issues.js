@@ -1,3 +1,7 @@
+// TODO Later: Fix so instead of returning null, it returns an error message
+// TODO Later:     i.e. trying to add vote to issue that doesn't exist (in postman) yields null
+
+
 const {debugSource, debugReturn} = require("../debug");
 const express = require("express");
 const { connection } = require("mongoose");
@@ -7,7 +11,6 @@ const Issue = require("../data_models/issues");
 issuesRouter.route("/")
     .get(async (req, res, next) => {
         debugSource(req);
-        // TODO adding voteSum, voteCt, & commentCt to backend query instead of having frontend calculate this
         Issue.find((err, data) => {
             if (err) {
                 res.status(500);
@@ -86,7 +89,6 @@ issuesRouter.get("/user", (req, res, next) => {
     });
 });
 
-// TODO Test this 
 issuesRouter.route("/search").get(async (req, res, next) => {
     debugSource(req);
     Issue.find(req.query, (err, data) => {

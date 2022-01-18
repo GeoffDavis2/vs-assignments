@@ -1,31 +1,25 @@
-// TODO make it all look nicer using React Bootstrap
+// TODO Later: make it all look nicer using React Bootstrap
+// TODO Later: Still displays last issue while waiting to load new issue, display loading screen instead
+// TODO Later: Allow changing vote and comment, but restrict to only one vote/comment per person per issue & issueComment
 
-// React Stuff
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-// React Router Stuff
-import { BrowserRouter as Router } from "react-router-dom";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes , BrowserRouter as Router } from "react-router-dom";
 import { LoginSignup } from "./rrRoutes/loginSignup";
-import { IssuesList } from "./rrRoutes/issuesList";
-// TODO change AddEditViewIssue or addViewEditIssues.js name so they match
-import { AddEditViewIssue } from "./rrRoutes/addNewIssue";
-import { ViewIssue } from "./rrRoutes/viewEditIssue";
-
-// Contexts
+import { IssuesTable } from "./rrRoutes/issuesTable";
+import { AddNewIssue } from "./rrRoutes/addNewIssue";
+import { ViewEditIssue } from "./rrRoutes/viewEditIssue";
 import { StateContextProvider } from "./contexts/StateContext";
 import { RequireToken } from "./contexts/RequireToken";
 
-
 const App = () => {
   return <Routes>
-    <Route path="/" element={<IssuesList />} />
+    <Route path="/" element={<IssuesTable />} />
     <Route path="/login-signup" element={<LoginSignup />} />
-    <Route path="/issues-list" element={<IssuesList />} />
-    {/* <Route path="/search-instruments" element={<SearchInst/>} /> */}
-    <Route path="/edit-view-issue" element={<RequireToken><AddEditViewIssue /></RequireToken>} />
-    <Route path="/view-issue/:issueId" element={<RequireToken><ViewIssue /></RequireToken>} />
+    <Route path="/issues-list" element={<IssuesTable />} />
+    <Route path="/edit-view-issue" element={<RequireToken><AddNewIssue /></RequireToken>} />
+    <Route path="/view-issue/:issueId" element={<RequireToken><ViewEditIssue /></RequireToken>} />
   </Routes>
 }
 

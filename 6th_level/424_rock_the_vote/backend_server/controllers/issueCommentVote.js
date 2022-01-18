@@ -29,18 +29,18 @@ issueComment.route("/id/:id")
                     if (err) {
                         res.status(500);
                         return next(err);
-                    }
-                });
+                    };
 
-            // Return back issue from IssuesView instead of data returned from comment push/save above
-            IssuesView.findOne({ 'comments._id': ObjectId(req.params.id) }, (err, data) => {
-                if (err) {
-                    res.status(500);
-                    return next(err);
-                }
-                debugReturn(data);
-                return res.status(200).json(data);
-            });
+                    // Return back issue from IssuesView instead of data returned from comment push/save above
+                    IssuesView.findOne({'comments._id': ObjectId(req.params.id)}, (err, data) => {
+                        if (err) {
+                            res.status(500);
+                            return next(err);
+                        }
+                        debugReturn(data);
+                        return res.status(200).json(data);
+                    });
+                });
 
         });
 
