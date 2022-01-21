@@ -6,12 +6,10 @@ import useAllKeysPress from './useAllKeysPress';
 // Adds "token" to API Calls
 export const secureAxios = axios.create();
 secureAxios.interceptors.request.use(config => {
-    const token = localStorage.getItem("token");
-    config.headers.Authorization = `Bearer ${token}`;
-    return config;
+  const token = localStorage.getItem("token");
+  config.headers.Authorization = `Bearer ${token}`;
+  return config;
 });
-
-// const nodeList = require('./nodes.json');
 
 const dynamicSort = (property) => {
   var sortOrder = 1;
@@ -22,16 +20,24 @@ const dynamicSort = (property) => {
   return (a, b) => ((a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0) * sortOrder;
 }
 
-const App = async () => {
-  const { nodeList } = await secureAxios.get(`/nodes`);
-  console.log(nodeList);
-  const [allNodes, setAllNodes] = useState(nodeList);
+const App = () => {
+  
+  // TODO set phony object as first in array and load all top level parents in it as children
+  const [allNodes, setAllNodes] = useState([{title: "loading", _id: "loading"}]);
   const [childNodes, setChildNodes] = useState([]);
+  // TODO rename this to childNdx
   const [selected, setSelected] = useState(0);
 
-  const parent = allNodes[3];
-  const pid = parent._id.$oid;
-  useEffect(() => setChildNodes(allNodes.filter(obj => obj.parent && obj.parent.$oid === pid)), [allNodes, pid]);
+  // TODO combinee loadAllNodes and useEffect into one block
+  const loadAllNodes = async () => {
+    const { data } = await axios.get(`/nodes`);
+    setAllNodes(data);
+  }
+  useEffect(() => loadAllNodes(), []);
+
+  const parent = allNodes.find(obj => typeof obj.parent === "undefined");
+  // TODO do i really need all these "useEffects"???
+  useEffect(() => setChildNodes(allNodes.filter(obj => obj.parent  === parent._id)), [allNodes, parent]);
 
   const DnArrow = useAllKeysPress({ userKeys: 'ArrowDown' });
   const UpArrow = useAllKeysPress({ userKeys: 'ArrowUp' });
@@ -56,7 +62,6 @@ const App = async () => {
   }
 
   const moveSelectedDn = () => {
-    console.log(selected, childNodes.length);
     if (selected + 1 >= childNodes.length) return;
     const arr = [...childNodes];
     arr.sort(dynamicSort('sort')).forEach((obj, i) => obj.sort = i);

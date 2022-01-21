@@ -7,10 +7,7 @@ const Node = require("../data_models/nodes");
 nodesRouter.route("/")
     .get(async (req, res, next) => {
         debugSource(req);
-        Node.aggregate([
-            { $match: { parent: { $exists: false } } },
-            { $lookup: { from: 'nodes', localField: 'children', foreignField: '_id', as: 'children' } }
-        ], (err, data) => {
+        Node.find((err, data) => {
             if (err) {
                 res.status(500);
                 return next(err);
