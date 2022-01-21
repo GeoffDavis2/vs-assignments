@@ -6,7 +6,7 @@ export const Node = (props) => {
     const { allNodes } = useNodeContext();
     const thisNode = props.node;
 
-    // TODO If all this does it find the object, then just do it in the map below...
+    // TODO If all this does it find the object, then just do it in the map below....
     const getChildNode = (nodeId) => {
         return allNodes.find(obj => obj._id === nodeId)
     }
