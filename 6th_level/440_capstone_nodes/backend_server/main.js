@@ -7,7 +7,7 @@ console.log("\033c");
 // Connect to MongoDB using Mongoose
 module.exports = (mongoose = require("mongoose"));
 mongoose.connect(
-    "mongodb://localhost:27017/rock-the-vote",
+    "mongodb://localhost:27017/nodes",
     // "mongodb://172.18.0.1:27017/rock-the-vote",    
     // "mongodb+srv://trend_geoff_lev5_capstone:7654@cluster0.7hfsb.mongodb.net/county-clerk",
     () => {
@@ -69,7 +69,7 @@ app.use("/secure", expressJwt({ secret: process.env.SECRET, algorithms: ['HS256'
 // app.use("/auth", require("./controllers/auth"));
 // app.use("/public", require("./controllers/issuesPublicView"));
 // app.use("/secure/user", require("./controllers/users"));
-// app.use("/secure/issue", require("./controllers/issues"));
+app.use("/nodes", require("./controllers/nodes"));
 // app.use("/secure/issueVote", require("./controllers/issueVote"));
 // app.use("/secure/issueComment", require("./controllers/issueComment"));
 // app.use("/secure/issueCommentVote", require("./controllers/issueCommentVote"));

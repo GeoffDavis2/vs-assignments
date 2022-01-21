@@ -24,7 +24,7 @@ const App = () => {
 }
 
 ReactDOM.render(<Router>
-  <link rel="stylesheet" href="index.css" type="text/css" />
+  <link rel="stylesheet" href="/index.css" type="text/css" />
   <StateContextProvider>
     <App />
   </StateContextProvider>

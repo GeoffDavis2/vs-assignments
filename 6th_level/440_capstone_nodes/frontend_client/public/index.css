@@ -1,0 +1,23 @@
+@font-face {
+}
+
+body {
+  margin: 0;
+  background-color: black;
+  font-family: Arial, Helvetica, sans-serif; 
+  font-size: 1.5em;
+  color: white;
+  /* font-size: medium; */
+  line-height: 1.2em;
+}
+
+.parent {
+  margin-left: 1em;
+}
+
+.selected {
+  background-color: Grey;
+}
+/* .child {
+  margin-left: 1em;
+} */

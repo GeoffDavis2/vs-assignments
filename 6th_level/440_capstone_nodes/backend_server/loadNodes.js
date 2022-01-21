@@ -21,24 +21,14 @@ const Node = require("./data_models/nodes");
 const getUsers = async () => await User.find();
 const getNodes = async () => await Node.find();
 
-
-async function main() {
-
-    User.collection.drop();
+const dropAndPopNodes = user => {
     Node.collection.drop();
-
-    const userObj = new User({username: 'a', password: 'a'});
-    userObj.save();
-    // const userObj = (await User.findOne({ username: 'a' }))._id;
-    const user = userObj._id;
-    console.log('user._id: ', user);
-
     for (let p = 1; p < 9; p++) {
-        const parentNode = new Node({ user, title: `Parent #${p}`, type: 'plain' });
+        const parentNode = new Node({ user, title: `Parent #${p}`, type: 'plain', sort: (p-1) });
         const parent = parentNode._id
 
         for (let c = 1; c < 9; c++) {
-            const childNode = new Node({ user, title: `Parent #${p}'s Child #${c}`, type: 'plain', parent });
+            const childNode = new Node({ user, title: `Child #${c} of Parent #${p}`, type: 'plain', parent, sort: (c-1) });
             console.log(childNode);
             const child = childNode._id;
             if (!parentNode.children.find(obj => obj.equals(child))) {
@@ -49,6 +39,25 @@ async function main() {
         console.log(parentNode);
         parentNode.save();
     }
+}
+
+
+async function main() {
+
+    // User.collection.drop();
+    // const userObj = new User({ username: 'a', password: 'a' });
+    // userObj.save();
+    const userObj = (await User.findOne({ username: 'a' }))._id;
+    const user = userObj._id;
+    console.log('user._id: ', user);
+
+    // dropAndPopNodes(user);
+
+    // const topLevel = await Node.aggregate([
+    //     { $match: { parent: { $exists: false } } },
+    //     { $lookup: { from: 'nodes', localField: 'children', foreignField: '_id', as: 'children' } }
+    // ]).exec();
+    // console.log(topLevel);
 
 };
 main();
