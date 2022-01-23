@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import useAllKeysPress from '../components/useAllKeysPress';
 
@@ -30,16 +30,34 @@ export const useNodeContext = () => useContext(NodeContext);
 
 
 export const NodeContextProvider = ({ children }) => {
-    const [allNodes, setAllNodes] = useState([{ title: "loading", _id: "loading" }]);
+  const [allNodes, setAllNodes] = useState([{ title: "loading", _id: "loading" }]);
+  const [topNode, setTopNode] = useState({ title: "loading", _id: "loading" });
+  
 
-    // TODO combinee loadAllNodes and useEffect into one block
+  // TODO combinee loadAllNodes and useEffect into one block
   const loadAllNodes = async () => {
     const { data } = await axios.get(`/nodes`);
     setAllNodes(data);
   }
   useEffect(() => loadAllNodes(), []);
+  useEffect(() => setTopNode(allNodes.find(obj => typeof obj.parent === "undefined")),[allNodes]);
 
-    return <NodeContext.Provider value={{ allNodes, setAllNodes }}>
-        {children}
-    </NodeContext.Provider>
+  const findNode = (id) => {
+    return allNodes.find((obj) => {
+      return obj._id = id;
+    })
+  }
+
+  const updateNode = (id, inputs) => {
+    const tempArr = [...allNodes];
+    // const i = allNodes.findIndex(obj => obj._id === id);
+    tempArr[allNodes.findIndex(obj => obj._id === id)].title = inputs.title;
+    setAllNodes(tempArr);
+  }
+
+  return <NodeContext.Provider value={{
+    allNodes, setAllNodes, topNode, updateNode
+  }}>
+    {children}
+  </NodeContext.Provider>
 };

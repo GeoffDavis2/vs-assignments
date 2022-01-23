@@ -4,9 +4,9 @@ import { Node } from './components/Node';
 
 
 const App = () => {
-  const { allNodes } = useNodeContext();
+  const { allNodes, setAllNodes } = useNodeContext();
   const topNode = allNodes.find(obj => typeof obj.parent === "undefined");
-  return <Node node={topNode} recLev={0}/>
+  return <Node nodeId={topNode._id} />
 }
 
 ReactDOM.render(<>
