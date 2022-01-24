@@ -22,31 +22,22 @@ const dynamicSort = (property) => {
   return (a, b) => ((a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0) * sortOrder;
 }
 
-
-
-
 // Custom Hook 
 export const useNodeContext = () => useContext(NodeContext);
 
 
 export const NodeContextProvider = ({ children }) => {
   const [allNodes, setAllNodes] = useState([{ title: "loading", _id: "loading" }]);
-  const [topNode, setTopNode] = useState({ title: "loading", _id: "loading" });
-  
+  const [selected, setSelected] = useState('');
 
-  // TODO combinee loadAllNodes and useEffect into one block
-  const loadAllNodes = async () => {
-    const { data } = await axios.get(`/nodes`);
-    setAllNodes(data);
-  }
-  useEffect(() => loadAllNodes(), []);
-  useEffect(() => setTopNode(allNodes.find(obj => typeof obj.parent === "undefined")),[allNodes]);
 
-  const findNode = (id) => {
-    return allNodes.find((obj) => {
-      return obj._id = id;
-    })
-  }
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios.get(`/nodes`);
+      setAllNodes(data);
+      setSelected(data.find(obj => typeof obj.parent === "undefined")._id);
+    })()
+  }, []);
 
   const updateNode = (id, inputs) => {
     const tempArr = [...allNodes];
@@ -56,7 +47,9 @@ export const NodeContextProvider = ({ children }) => {
   }
 
   return <NodeContext.Provider value={{
-    allNodes, setAllNodes, topNode, updateNode
+    allNodes, setAllNodes,
+    selected, setSelected,
+    updateNode
   }}>
     {children}
   </NodeContext.Provider>
