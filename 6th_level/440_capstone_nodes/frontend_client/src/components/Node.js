@@ -1,64 +1,58 @@
-import { useEffect, useRef, createRef, forwardRef } from 'react';
+import { useEffect } from "react";
+import { useRef } from "react/cjs/react.development";
 import { useNodeContext } from '../contexts/NodeContext';
-import useAllKeysPress from './useAllKeysPress';
 
-// TODO - Add key listening
-// TODO - Move which is selected up/down
-// TODO - On selection, make cursor go to end of line
-// TODO - Move the selected node up/down
-// TODO - Move the selected node in/out
+
 // TODO - Add collapse/expand children
-
-
-// TODO - Make send update to backend server on every change (just changed object)
 // TODO - Add SVG icons: Todo, Done, Bullet, plain text (with invisible icon)
 // TODO - Add way to change type (bullet, todo, plain text)
-// TODO - Add login, logout, signup, password encryption
 // TODO - Add reminder
 // TODO - Add speak reminder
 // TODO - Look at proposal for more
 // TODO - Put this on actual public website to see how well it works
 
 
+// TODO - Add new Child Task
+// TODO - Add new Sibling Task
+// TODO - Add "delete" node function
+// TODO - Handle moving cursor past top/bottom of sibling list
+// TODO - Add login, logout, signup, password encryption
 
 
-export const Node = ({nodeId}) => {
-    const { allNodes, setAllNodes, selected, setSelected } = useNodeContext();
-    const thisNodeNdx = allNodes.findIndex(obj => obj._id === nodeId);
-    const thisNode = allNodes[thisNodeNdx];
+export const Node = ({ thisNode }) => {
+    const {
+        allNodes, setAllNodes, newSelection, setNewSelection,
+        moveCursor, saveToDB, moveNode, getChildren, addNode
+    } = useNodeContext();
+    const ref = useRef(thisNode._id);
 
-    // const inputRef = useRef();
-    thisNode.ref = useRef();
-
-    const DnArrow = useAllKeysPress({ userKeys: 'ArrowDown' });
-    const UpArrow = useAllKeysPress({ userKeys: 'ArrowUp' });
-    const ShiftAlt = useAllKeysPress({ userKeys: ['Shift', 'Alt'] });
+    // TODO Is there a better way to make cursor go to begining of input on up/down arrow?
     useEffect(() => {
-    //   if (DnArrow && !ShiftAlt) moveSelectionDn();
-    //   if (UpArrow && !ShiftAlt) moveSelectionUp();
-    //   if (DnArrow && ShiftAlt) moveSelectedDn();
-    //   if (UpArrow && ShiftAlt) moveSelectedUp();
-      if (UpArrow && !ShiftAlt) {
-        //   inputRef.current.focus();
-        allNodes[2].ref.current.focus();
-      };
-    // eslint-disable-next-line
-    }, [DnArrow, UpArrow, ShiftAlt])
+        ref.current.selectionStart = 0;
+        ref.current.selectionEnd = 0;
+        setNewSelection(false);
+    }, [newSelection]);
 
     return <div style={{ marginLeft: 20 }}>
         <input
-            ref={thisNode.ref}
+            ref={ref}
+            id={thisNode._id}
             placeholder="Node Title"
-            // style={{ backgroundColor: (thisNode._id === selected) ? "grey" : "black" }}
             className="input-field"
             value={thisNode.title}
-            onClick={() => setSelected(thisNode._id)}
+            onKeyDown={(e) => {
+                if (e.key === 'ArrowDown' && e.shiftKey && e.altKey) moveNode(thisNode, 1);
+                if (e.key === 'ArrowUp' && e.shiftKey && e.altKey) moveNode(thisNode, -1);
+                if (e.key === 'ArrowDown' && !e.shiftKey && !e.altKey) moveCursor(thisNode, 1);
+                if (e.key === 'ArrowUp' && !e.shiftKey && !e.altKey) moveCursor(thisNode, -1);
+                if (e.key === 'Enter') addNode(thisNode);
+            }}
             onChange={({ target: { value } }) => setAllNodes(prev => {
-                prev[thisNodeNdx].title = value;
+                prev[allNodes.findIndex(obj => obj._id === thisNode._id)].title = value;
+                saveToDB(thisNode._id, { title: value }); // Sends API put call on every keystroke
                 return [...prev];
-            })} />
-        {/* {thisNode.children && thisNode.children.map((obj) => <div key={obj}>
-            <Node nodeId={obj}/>
-        </div>)} */}
+            })}
+        />
+        {getChildren(thisNode, 'sort')?.map(obj => <Node thisNode={obj} key={obj._id} />)}
     </div>
 };

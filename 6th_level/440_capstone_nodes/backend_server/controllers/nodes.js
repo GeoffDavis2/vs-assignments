@@ -3,6 +3,7 @@ const express = require("express");
 const { connection } = require("mongoose");
 const nodesRouter = express.Router();
 const Node = require("../data_models/nodes");
+const { ObjectId } = require("mongodb");
 
 nodesRouter.route("/")
     .get(async (req, res, next) => {
@@ -19,7 +20,9 @@ nodesRouter.route("/")
 
     .post(async (req, res, next) => {
         debugSource(req);
-        req.body.addedBy = req.user._id;
+        // TODO Fix it so it gets user from req.user._id
+        // req.body.addedBy = req.user._id;
+        req.body.user = ObjectId('61e8426a4ff0123eccdea56d');
         const newNode = new Node(req.body);
         newNode.save((err, data) => {
             if (err) {
@@ -47,7 +50,9 @@ nodesRouter.route("/id/:id")
     .put(async (req, res) => {
         debugSource(req);
         Node.findOneAndUpdate(
-            { _id: req.params.id, user: req.user._id },
+            // TODO Fix it so it gets user from req.user._id
+            // { _id: req.params.id, user: req.user._id },
+            { _id: req.params.id, user: ObjectId('61e8426a4ff0123eccdea56d') },
             req.body,
             { new: true },
             (err, data) => {

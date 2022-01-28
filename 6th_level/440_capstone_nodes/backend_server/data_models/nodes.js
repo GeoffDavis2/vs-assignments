@@ -8,13 +8,15 @@ const NodeSchema = mongoose.Schema({
     },
     title: {
         type: String,
-        trim: true,
-        required: true
+        // trim: true,
+        required: false,
+        default: ''
     },
     type: {
         type: String,
         trim: true,
-        required: true
+        required: false,
+        default: 'plain'
     },
     parent: {
         type: mongoose.Schema.Types.ObjectId,

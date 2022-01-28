@@ -25,7 +25,7 @@ const App = () => {
   const [allNodes, setAllNodes] = useState([{ title: "loading", _id: "loading" }]);
   const [childNodes, setChildNodes] = useState([]);
   // TODO rename this to childNdx
-  const [selected, setSelected] = useState(0);
+  // const [selected, setSelected] = useState(0);
 
   // TODO combinee loadAllNodes and useEffect into one block
   const loadAllNodes = async () => {

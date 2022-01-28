@@ -29,7 +29,7 @@ const dropAndPopNodes = user => {
     topNode.save();
 
     const p_lev = 4;
-    const c_lev = 2;
+    const c_lev = 11;
     for (let p = 1; p < p_lev; p++) {
         const parentNode = new Node({ user, title: `Parent #${p}`, type: 'plain', parent: topNode._id,sort: (p - 1) });
         const parent = parentNode._id;
