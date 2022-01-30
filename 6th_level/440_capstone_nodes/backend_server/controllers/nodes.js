@@ -68,14 +68,18 @@ nodesRouter.route("/id/:id")
 
     .delete(async (req, res, next) => {
         debugSource(req);
-        Node.findOneAndDelete({ _id: req.params.id, user: req.user._id }, (err, data) => {
-            if (err) {
-                res.status(500);
-                return next(err);
-            }
-            debugReturn(data);
-            return res.status(200).json(data);
-        });
+        Node.findOneAndDelete(
+            // TODO Fix it so it gets user from req.user._id
+            // { _id: req.params.id, user: req.user._id },
+            { _id: req.params.id, user: ObjectId('61e8426a4ff0123eccdea56d') },
+            (err, data) => {
+                if (err) {
+                    res.status(500);
+                    return next(err);
+                }
+                debugReturn(data);
+                return res.status(200).json(data);
+            });
     });
 
 nodesRouter.get("/user", (req, res, next) => {

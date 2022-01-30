@@ -23,12 +23,7 @@ const NodeSchema = mongoose.Schema({
         ref: "nodes",
         required: false
     },   
-    children: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "nodes",
-        required: false
-    }],
-    sort: Number
+    sibSort: Number
 });
 
 module.exports = mongoose.model("nodes", NodeSchema);

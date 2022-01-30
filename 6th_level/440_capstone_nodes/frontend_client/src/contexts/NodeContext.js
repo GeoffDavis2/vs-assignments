@@ -12,24 +12,44 @@ secureAxios.interceptors.request.use(config => {
   return config;
 });
 
-
-// TODO Move any functions that I can to above NodeContextProvider (should still be able to include in useNodeContext) 
-
 // Custom Hook 
 export const useNodeContext = () => useContext(NodeContext);
 
-
 export const NodeContextProvider = ({ children }) => {
   const [allNodes, setAllNodes] = useState([{ title: "loading", _id: "loading" }]);
-  const [selected, setSelected] = useState({ pId: '', cNdx: 0 });
-  const [newSelection, setNewSelection] = useState(false);
+  const [cursorId, setCursorId] = useState(allNodes.find(obj => typeof obj.parent === "undefined")._id);
+  const [siblingSortParentId, setSiblingSortParentId] = useState('');
 
+  // Load data from backend
   useEffect(() => {
     (async () => {
       const { data } = await axios.get(`/nodes`);
       setAllNodes(data);
     })()
   }, []);
+
+  // Set focus to Input element matching with id=cursorId
+  useEffect(() => {
+    const inputElement = document.querySelector(`input[id='${cursorId}']`);
+    inputElement.focus();
+    inputElement.select();
+    inputElement.selectionStart = 0;
+    inputElement.selectionEnd = 0;
+  }, [cursorId]);
+
+  // Re-Sort children of siblingSortParentId
+  useEffect(() => {
+    if (siblingSortParentId) {
+      // console.log(allNodes.filter(obj => obj.parent === siblingSortParentId).sort(dynamicSort('sibSort')));
+      console.log(siblingSortParentId);
+      allNodes
+        .filter(obj => obj.parent === siblingSortParentId)
+        .sort(dynamicSort('sibSort'))
+        .forEach((obj, i) => updateDBnState(obj._id, { sibSort: i * 10 }))
+    }
+    setSiblingSortParentId('');
+  }, [siblingSortParentId]);
+
 
   const dynamicSort = (property) => {
     var sortOrder = 1;
@@ -40,69 +60,82 @@ export const NodeContextProvider = ({ children }) => {
     return (a, b) => ((a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0) * sortOrder;
   }
 
-  // TODO Remove if not used
   const getNode = id => allNodes.find(obj => obj._id === id);
 
-
-  // TODO Remove "children" array from all code and backend node Schema
-  const getChildren = (parent, sort) => allNodes
-    .filter(obj => obj.parent === parent._id)
-    .sort(dynamicSort(sort));
-
-  // TODO Remove if not used
-  const getNdx = (arr, id) => arr.findIndex(obj => obj._id === id);
+  const getChildren = (parent, sortField) => allNodes?.filter(obj => obj.parent === parent._id).sort(dynamicSort(sortField));
 
   const updateDBnState = (id, fields) => {
+    console.log(id, fields);
     const ndx = allNodes.findIndex(obj => obj._id === id);
     setAllNodes(prev => {
       prev[ndx] = { ...prev[ndx], ...fields }
       return [...prev];
     })
-    // TODO add alert if error on DB save
     axios.put(`/nodes/id/${id}`, fields);
   }
 
-  // TODO switch everything using saveToDB to use updateDBnState instead
-  const saveToDB = (nodeId, field) => axios.put(`/nodes/id/${nodeId}`, field);
-
-  // TODO add logic to handle if first/last node in array
   const moveCursor = (theNode, direction) => {
     const gotoNode = (direction === 1)
-      ? getChildren(getNode(theNode.parent), 'sort').find(obj => obj.sort > theNode.sort)
-      : getChildren(getNode(theNode.parent), '-sort').find(obj => obj.sort < theNode.sort)
-    const inputElement = document.querySelector(`input[id='${gotoNode._id}']`);
-    inputElement.focus();
-    setNewSelection(true);
+      ? getChildren(getNode(theNode.parent), 'sibSort').find(obj => obj.sibSort > theNode.sibSort)
+      : getChildren(getNode(theNode.parent), '-sibSort').find(obj => obj.sibSort < theNode.sibSort)
+    setCursorId(gotoNode._id);
   }
 
-  // TODO add logic to handle if first/last node in array
   const moveNode = (theNode, direction) => {
-    const siblings = getChildren(getNode(theNode.parent), 'sort');
-    const siblingsNdx = getNdx(siblings, theNode._id);
-    setAllNodes(prev => {
-      const ndx1 = getNdx(prev, theNode._id);
-      const ndx2 = getNdx(prev, siblings[siblingsNdx + direction]._id);
-      prev[ndx1].sort = siblingsNdx + direction;
-      prev[ndx2].sort = siblingsNdx;
-      saveToDB(prev[ndx1]._id, { sort: prev[ndx1].sort });
-      saveToDB(prev[ndx2]._id, { sort: prev[ndx2].sort });
-      return [...prev];
-    })
+    const swapNode = (direction === 1)
+      ? getChildren(getNode(theNode.parent), 'sibSort').find(obj => obj.sibSort > theNode.sibSort)
+      : getChildren(getNode(theNode.parent), '-sibSort').find(obj => obj.sibSort < theNode.sibSort)
+    const newSibSort = swapNode.sibSort;
+    updateDBnState(swapNode._id, { sibSort: theNode.sibSort })
+    updateDBnState(theNode._id, { sibSort: newSibSort })
   }
 
-  const addNode = async theNode => {
-    getChildren(getNode(theNode.parent), 'sort')
-      .forEach(obj => obj.sort >= theNode.sort && updateDBnState(obj._id, { sort: obj.sort + 1 }));
-    const { data } = await axios.post(`/nodes`, { parent: theNode.parent, sort: theNode.sort });
+  const addNode = async theNode => {    
+    const { data } = await axios.post(`/nodes`, { parent: theNode.parent, sibSort: theNode.sibSort + 1 });
     setAllNodes(prev => [...prev, data]);
-    const inputElement = document.querySelector(`input[id='${data._id}']`);
-    inputElement.focus();
-    setNewSelection(true);
+    setSiblingSortParentId(theNode.parent);
+    setCursorId(data._id);
   }
+
+  const delNode = theNode => {
+    const nextNode = getChildren(getNode(theNode.parent), 'sibSort').find(obj => obj.sibSort > theNode.sibSort);
+    setAllNodes(prev => prev = prev.filter(obj => obj._id !== theNode._id));
+    axios.delete(`/nodes/id/${theNode._id}`);
+    setSiblingSortParentId(nextNode.parent);
+    setCursorId(nextNode._id);
+  }
+
+  const promoteNode = theNode => {
+    const parentNode = getNode(theNode.parent);
+
+    let s = 0;
+    getChildren(parentNode, 'sibSort')
+      .forEach(obj => obj.sibSort > theNode.sibSort && updateDBnState(obj._id, { parent: theNode._id, sibSort: s += 10 }));
+
+    getChildren(getNode(parentNode.parent), 'sibSort')
+      .forEach(obj => obj.sibSort > parentNode.sibSort && updateDBnState(obj._id, { sibSort: obj.sibSort + 10 }));
+
+    updateDBnState(theNode._id, {
+      parent: getNode(theNode.parent).parent,
+      sibSort: parentNode.sibSort + 10
+    });
+
+    setCursorId(prev => theNode._id);
+  }
+
+  const demoteNode = theNode => {
+    const newParent = getChildren(getNode(theNode.parent), '-sibSort').find(obj => obj.sibSort < theNode.sibSort);
+    updateDBnState(theNode._id, { parent: newParent._id, sibSort: 0 });
+    setSiblingSortParentId(newParent._id);
+    setSiblingSortParentId(theNode.parent);
+    setCursorId(theNode._id);
+  };
 
   return <NodeContext.Provider value={{
-    allNodes, setAllNodes, newSelection, setNewSelection,
-    moveCursor, saveToDB, moveNode, getChildren, addNode
+    allNodes, setAllNodes,
+    moveCursor, moveNode, getChildren,
+    addNode, delNode, promoteNode, demoteNode,
+    setCursorId, updateDBnState
   }}>
     {children}
   </NodeContext.Provider>

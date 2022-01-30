@@ -24,24 +24,22 @@ const getNodes = async () => await Node.find();
 const dropAndPopNodes = user => {
     Node.collection.drop();
 
-    const topNode = new Node({ user, title: `Top Node`, type: 'plain', sort: 0 });
+    const topNode = new Node({ user, title: `Top Node`, type: 'plain', sibSort: 0 });
     const top = topNode._id
     topNode.save();
 
     const p_lev = 4;
     const c_lev = 11;
     for (let p = 1; p < p_lev; p++) {
-        const parentNode = new Node({ user, title: `Parent #${p}`, type: 'plain', parent: topNode._id,sort: (p - 1) });
+        const parentNode = new Node({ user, title: `Parent #${p}`, type: 'plain', parent: topNode._id, sibSort: (p - 1) * 10 });
         const parent = parentNode._id;
         parentNode.save();
-        if (!topNode.children.find(obj => obj.equals(parent))) topNode.children.push(parent);
 
         for (let c = 1; c < c_lev; c++) {
-            const childNode = new Node({ user, title: `Child #${c} of Parent #${p}`, type: 'plain', parent, sort: (c - 1) });
+            const childNode = new Node({ user, title: `Child #${c} of Parent #${p}`, type: 'plain', parent, sibSort: (c - 1) * 10 });
             console.log(childNode);
             const child = childNode._id;
             childNode.save();
-            if (!parentNode.children.find(obj => obj.equals(child))) parentNode.children.push(child);
         }
         console.log(parentNode);
     }
