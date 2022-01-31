@@ -55,7 +55,7 @@ async function main() {
     const user = userObj._id;
     console.log('user._id: ', user);
 
-    // dropAndPopNodes(user);
+    dropAndPopNodes(user);
 
     // const topLevel = await Node.aggregate([
     //     { $match: { parent: { $exists: false } } },

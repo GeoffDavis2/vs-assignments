@@ -1,16 +1,24 @@
+// TODO - Add login, logout, signup, password encryption
+// TODO Add login/signup/logout functions
+// TODO Add username at top left
+// TODO Verify moveNode, add and delete all use the proper method for updating allNodes
+
+// TODO - Add new Child Task
+// TODO     Maybe add logic so it looks at cursor (end or beginning) to decide if new node is child or sibling
+// TODO     Or maybe use Shift Alt Enter to do the different kinds of add node???
+
+// TODO add logic to handle errors
+// TODO     ...if first/last node in array (for moveCursor, moveNode, promote, & demote)
+// TODO     ...when deleting last child in from list of children
+
 // TODO Move any functions that I can to above NodeContextProvider (should still be able to include in useNodeContext) 
+// TODO - Change to use allNodes[thisNodeId] for fields instead of thisNode
 // TODO Change parameters/arguments (everywhere) to use _id instead of whole node???
 // TODO add alert if error on any/all api calls
-// TODO add logic to handle if first/last node in array (for moveCursor, moveNode, promote, & demote)
 
 
 // TODO Is there a better way to make cursor go to begining of input on up/down arrow?
 // TODO make it so if cursor in middle of line, text after cursor becomes new item and that text is removed from current node (i.e. like a carriage return)
-
-// TODO for demote, promote, and probaly moveNode...
-// TODO Doesn't run useEffect for BOTH setSiblingSortParentId changes, it will only run one or the other
-// TODO   ... as if it "saves" all changes to siblingSortParentId and only applies the last change
-// TODO   ... how can I force multiple (separate) changes to allNodes in same function where second change is dependant on 1st change
 
 
 // TODO - Add collapse/expand children
@@ -23,10 +31,4 @@
 // TODO - Add "Tags" feature (for sorting and filtering)
 
 
-// TODO - Add new Child Task
-// TODO     Maybe add logic so it looks at cursor (end or beginning) to decide if new node is child or sibling
-// TODO     Or maybe use Shift Alt Enter to do the different kinds of add node???
-// TODO - Handle moving cursor past top/bottom of sibling list
-// TODO - Add login, logout, signup, password encryption
-// TODO - Change to use allNodes[thisNodeId] for fields instead of thisNode
 

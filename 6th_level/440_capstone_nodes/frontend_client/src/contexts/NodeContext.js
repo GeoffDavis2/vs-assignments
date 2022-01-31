@@ -30,18 +30,20 @@ export const NodeContextProvider = ({ children }) => {
 
   // Set focus to Input element matching with id=cursorId
   useEffect(() => {
-    const inputElement = document.querySelector(`input[id='${cursorId}']`);
-    inputElement.focus();
-    inputElement.select();
-    inputElement.selectionStart = 0;
-    inputElement.selectionEnd = 0;
+    if (cursorId) {
+      const inputElement = document.querySelector(`input[id='${cursorId}']`);
+      inputElement.focus();
+      inputElement.select();
+      inputElement.selectionStart = 0;
+      inputElement.selectionEnd = 0;
+      setCursorId('');
+    }
   }, [cursorId]);
 
   // Re-Sort children of siblingSortParentId
   useEffect(() => {
     if (siblingSortParentId) {
       // console.log(allNodes.filter(obj => obj.parent === siblingSortParentId).sort(dynamicSort('sibSort')));
-      console.log(siblingSortParentId);
       allNodes
         .filter(obj => obj.parent === siblingSortParentId)
         .sort(dynamicSort('sibSort'))
@@ -65,7 +67,6 @@ export const NodeContextProvider = ({ children }) => {
   const getChildren = (parent, sortField) => allNodes?.filter(obj => obj.parent === parent._id).sort(dynamicSort(sortField));
 
   const updateDBnState = (id, fields) => {
-    console.log(id, fields);
     const ndx = allNodes.findIndex(obj => obj._id === id);
     setAllNodes(prev => {
       prev[ndx] = { ...prev[ndx], ...fields }
@@ -90,7 +91,7 @@ export const NodeContextProvider = ({ children }) => {
     updateDBnState(theNode._id, { sibSort: newSibSort })
   }
 
-  const addNode = async theNode => {    
+  const addNode = async theNode => {
     const { data } = await axios.post(`/nodes`, { parent: theNode.parent, sibSort: theNode.sibSort + 1 });
     setAllNodes(prev => [...prev, data]);
     setSiblingSortParentId(theNode.parent);
@@ -106,28 +107,36 @@ export const NodeContextProvider = ({ children }) => {
   }
 
   const promoteNode = theNode => {
-    const parentNode = getNode(theNode.parent);
-
-    let s = 0;
-    getChildren(parentNode, 'sibSort')
-      .forEach(obj => obj.sibSort > theNode.sibSort && updateDBnState(obj._id, { parent: theNode._id, sibSort: s += 10 }));
-
-    getChildren(getNode(parentNode.parent), 'sibSort')
-      .forEach(obj => obj.sibSort > parentNode.sibSort && updateDBnState(obj._id, { sibSort: obj.sibSort + 10 }));
-
-    updateDBnState(theNode._id, {
-      parent: getNode(theNode.parent).parent,
-      sibSort: parentNode.sibSort + 10
-    });
-
-    setCursorId(prev => theNode._id);
+    const currParent = getNode(theNode.parent);
+    setAllNodes(prev => {
+      const ndx = prev.findIndex(obj => obj._id === theNode._id);
+      prev[ndx] = { ...prev[ndx], ...{ parent: currParent.parent, sibSort: (currParent.sibSort + 1) } };
+      axios.put(`/nodes/id/${prev[ndx]._id}`, { parent: prev[ndx].parent });
+      prev.filter(obj => obj.parent === currParent.parent).sort(dynamicSort('sibSort')).forEach((obj, i) => {
+        obj.sibSort = i * 10;
+        axios.put(`/nodes/id/${obj._id}`, { sibSort: obj.sibSort });
+      });
+      return [...prev];
+    })
+    setCursorId(theNode._id);
   }
 
   const demoteNode = theNode => {
-    const newParent = getChildren(getNode(theNode.parent), '-sibSort').find(obj => obj.sibSort < theNode.sibSort);
-    updateDBnState(theNode._id, { parent: newParent._id, sibSort: 0 });
-    setSiblingSortParentId(newParent._id);
-    setSiblingSortParentId(theNode.parent);
+    const newParentId = getChildren(getNode(theNode.parent), '-sibSort').find(obj => obj.sibSort < theNode.sibSort)._id;
+    setAllNodes(prev => {
+      const ndx = prev.findIndex(obj => obj._id === theNode._id);
+      prev[ndx] = { ...prev[ndx], ...{ parent: newParentId, sibSort: Infinity } };
+      axios.put(`/nodes/id/${prev[ndx]._id}`, { parent: prev[ndx].parent });
+      prev.filter(obj => obj.parent === prev[ndx].parent).sort(dynamicSort('sibSort')).forEach((obj, i) => {
+        obj.sibSort = i * 10;
+        axios.put(`/nodes/id/${obj._id}`, { sibSort: obj.sibSort });
+      });
+      prev.filter(obj => obj.parent === theNode.parent).sort(dynamicSort('sibSort')).forEach((obj, i) => {
+        obj.sibSort = i * 10;
+        axios.put(`/nodes/id/${obj._id}`, { sibSort: obj.sibSort });
+      });
+      return [...prev];
+    })
     setCursorId(theNode._id);
   };
 

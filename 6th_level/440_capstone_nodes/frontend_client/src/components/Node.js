@@ -25,7 +25,7 @@ export const Node = ({ thisNode }) => {
                 if (e.key === 'Enter') addNode(thisNode);
             }}
             onChange={({ target: { value } }) => updateDBnState(thisNode._id, { title: value })}
-        />
+        />{thisNode.sibSort}
         {getChildren(thisNode, 'sibSort')?.map(obj => <Node thisNode={obj} key={obj._id} />)}
     </div>
 };
