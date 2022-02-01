@@ -1,9 +1,11 @@
-// TODO - Add login, logout, signup, password encryption
-// TODO Add login/signup/logout functions
-// TODO Add username at top left
-// TODO Verify moveNode, add and delete all use the proper method for updating allNodes
+// TODO Get rid of updateDBnState??? check all places i make axios calls and do them all considantly (where possible)
+
+// TODO Delete breaks if delete node with children
+1) Crashes on move cursor to next (if lots of children) probably because if it takes long, the next doesn't exits
+2) Doesn't delete childrens children from allNodes (and probably the DB)
 
 // TODO - Add new Child Task
+// TODO     It's broken if no siblings or children
 // TODO     Maybe add logic so it looks at cursor (end or beginning) to decide if new node is child or sibling
 // TODO     Or maybe use Shift Alt Enter to do the different kinds of add node???
 

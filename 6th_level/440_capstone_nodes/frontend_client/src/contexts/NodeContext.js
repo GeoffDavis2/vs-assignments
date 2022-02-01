@@ -16,17 +16,51 @@ secureAxios.interceptors.request.use(config => {
 export const useNodeContext = () => useContext(NodeContext);
 
 export const NodeContextProvider = ({ children }) => {
-  const [allNodes, setAllNodes] = useState([{ title: "loading", _id: "loading" }]);
-  const [cursorId, setCursorId] = useState(allNodes.find(obj => typeof obj.parent === "undefined")._id);
-  const [siblingSortParentId, setSiblingSortParentId] = useState('');
+  const [allNodes, setAllNodes] = useState([]);
+  const [cursorId, setCursorId] = useState('');
+  const [siblingSortParentId, setSiblingSortParentId] = useState("");
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [errMsg, setErrMsg] = useState("");
 
-  // Load data from backend
-  useEffect(() => {
-    (async () => {
-      const { data } = await axios.get(`/nodes`);
+  const loginSignup = async (path, credentials) => {
+    setErrMsg("");
+    try {
+      const { data: { token, user } } = await axios.post(path, credentials);
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
+      setToken(token);
+    }
+    catch ({ response: { data: { errMsg } } }) {
+      console.log(errMsg);
+      setErrMsg(errMsg);
+    }
+  }
+
+  const logout = () => {
+    setAllNodes([]);
+    setUser({});
+    setToken("");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+  }
+
+  // Load data from the backend
+  const loadData = async () => {
+    try {
+      let { data } = await secureAxios.get(`/secure/nodes`);
+      if (data.length === 0) { [{ data }] = await secureAxios.post(`/secure/nodes`, { title: "Top Node", sort: 10 }) };
       setAllNodes(data);
-    })()
-  }, []);
+    }
+    catch ({ response: { data: { errMsg } } }) {
+      console.log(errMsg);
+      setErrMsg(errMsg);
+    }
+  }
+  useEffect(() => {
+    if (token !== "") loadData();
+  }, [token]);
 
   // Set focus to Input element matching with id=cursorId
   useEffect(() => {
@@ -43,11 +77,10 @@ export const NodeContextProvider = ({ children }) => {
   // Re-Sort children of siblingSortParentId
   useEffect(() => {
     if (siblingSortParentId) {
-      // console.log(allNodes.filter(obj => obj.parent === siblingSortParentId).sort(dynamicSort('sibSort')));
       allNodes
         .filter(obj => obj.parent === siblingSortParentId)
         .sort(dynamicSort('sibSort'))
-        .forEach((obj, i) => updateDBnState(obj._id, { sibSort: i * 10 }))
+        .forEach((obj, i) => updateDBnState(obj._id, { sibSort: (i + 1) * 10 }))
     }
     setSiblingSortParentId('');
   }, [siblingSortParentId]);
@@ -72,14 +105,14 @@ export const NodeContextProvider = ({ children }) => {
       prev[ndx] = { ...prev[ndx], ...fields }
       return [...prev];
     })
-    axios.put(`/nodes/id/${id}`, fields);
+    secureAxios.put(`/secure/nodes/id/${id}`, fields);
   }
 
   const moveCursor = (theNode, direction) => {
-    const gotoNode = (direction === 1)
-      ? getChildren(getNode(theNode.parent), 'sibSort').find(obj => obj.sibSort > theNode.sibSort)
-      : getChildren(getNode(theNode.parent), '-sibSort').find(obj => obj.sibSort < theNode.sibSort)
-    setCursorId(gotoNode._id);
+    const all = document.querySelectorAll("input");
+    const curr = document.activeElement;
+    let ndx = all.length - 1; while (all[ndx].id !== curr.id && ndx > 0) ndx -= 1;
+    setCursorId(all[direction > 0 ? Math.min(ndx + 1, all.length - 1) : Math.max(ndx - 1, 0)].id);
   }
 
   const moveNode = (theNode, direction) => {
@@ -91,19 +124,29 @@ export const NodeContextProvider = ({ children }) => {
     updateDBnState(theNode._id, { sibSort: newSibSort })
   }
 
-  const addNode = async theNode => {
-    const { data } = await axios.post(`/nodes`, { parent: theNode.parent, sibSort: theNode.sibSort + 1 });
+  const addSibNode = async theNode => {
+    const { data } = await secureAxios.post(`/secure/nodes`, { parent: theNode.parent, sibSort: theNode.sibSort + 1 });
     setAllNodes(prev => [...prev, data]);
     setSiblingSortParentId(theNode.parent);
     setCursorId(data._id);
   }
 
+  const addChildNode = async theNode => {
+    const { data } = await secureAxios.post(`/secure/nodes`, { parent: theNode._id, sibSort: 0 });
+    setAllNodes(prev => [...prev, data]);
+    setSiblingSortParentId(theNode._id);
+    setCursorId(data._id);
+  }
+
   const delNode = theNode => {
     const nextNode = getChildren(getNode(theNode.parent), 'sibSort').find(obj => obj.sibSort > theNode.sibSort);
+    // TODO Get prev nodeId to set cursor to next after delete
     setAllNodes(prev => prev = prev.filter(obj => obj._id !== theNode._id));
-    axios.delete(`/nodes/id/${theNode._id}`);
-    setSiblingSortParentId(nextNode.parent);
-    setCursorId(nextNode._id);
+    secureAxios.delete(`/secure/nodes/id/${theNode._id}`);
+    if (nextNode) {
+      setSiblingSortParentId(nextNode.parent)
+      moveCursor(theNode._id, 1);
+    } else moveCursor(theNode._id, -1)
   }
 
   const promoteNode = theNode => {
@@ -111,10 +154,10 @@ export const NodeContextProvider = ({ children }) => {
     setAllNodes(prev => {
       const ndx = prev.findIndex(obj => obj._id === theNode._id);
       prev[ndx] = { ...prev[ndx], ...{ parent: currParent.parent, sibSort: (currParent.sibSort + 1) } };
-      axios.put(`/nodes/id/${prev[ndx]._id}`, { parent: prev[ndx].parent });
+      secureAxios.put(`/secure/nodes/id/${prev[ndx]._id}`, { parent: prev[ndx].parent });
       prev.filter(obj => obj.parent === currParent.parent).sort(dynamicSort('sibSort')).forEach((obj, i) => {
-        obj.sibSort = i * 10;
-        axios.put(`/nodes/id/${obj._id}`, { sibSort: obj.sibSort });
+        obj.sibSort = (i + 1) * 10;
+        secureAxios.put(`/secure/nodes/id/${obj._id}`, { sibSort: obj.sibSort });
       });
       return [...prev];
     })
@@ -126,14 +169,14 @@ export const NodeContextProvider = ({ children }) => {
     setAllNodes(prev => {
       const ndx = prev.findIndex(obj => obj._id === theNode._id);
       prev[ndx] = { ...prev[ndx], ...{ parent: newParentId, sibSort: Infinity } };
-      axios.put(`/nodes/id/${prev[ndx]._id}`, { parent: prev[ndx].parent });
+      secureAxios.put(`/secure/nodes/id/${prev[ndx]._id}`, { parent: prev[ndx].parent });
       prev.filter(obj => obj.parent === prev[ndx].parent).sort(dynamicSort('sibSort')).forEach((obj, i) => {
-        obj.sibSort = i * 10;
-        axios.put(`/nodes/id/${obj._id}`, { sibSort: obj.sibSort });
+        obj.sibSort = (i + 1) * 10;
+        secureAxios.put(`/secure/nodes/id/${obj._id}`, { sibSort: obj.sibSort });
       });
       prev.filter(obj => obj.parent === theNode.parent).sort(dynamicSort('sibSort')).forEach((obj, i) => {
-        obj.sibSort = i * 10;
-        axios.put(`/nodes/id/${obj._id}`, { sibSort: obj.sibSort });
+        obj.sibSort = (i + 1) * 10;
+        secureAxios.put(`/secure/nodes/id/${obj._id}`, { sibSort: obj.sibSort });
       });
       return [...prev];
     })
@@ -141,10 +184,10 @@ export const NodeContextProvider = ({ children }) => {
   };
 
   return <NodeContext.Provider value={{
-    allNodes, setAllNodes,
-    moveCursor, moveNode, getChildren,
-    addNode, delNode, promoteNode, demoteNode,
-    setCursorId, updateDBnState
+    allNodes, setAllNodes, loginSignup, logout, addChildNode,
+    moveCursor, moveNode, getChildren, errMsg, user,
+    addSibNode, delNode, promoteNode, demoteNode,
+    setCursorId, updateDBnState, token
   }}>
     {children}
   </NodeContext.Provider>

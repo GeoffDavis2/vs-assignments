@@ -1,10 +1,11 @@
+import { useEffect } from "react";
 import { useNodeContext } from '../contexts/NodeContext';
 
 export const Node = ({ thisNode }) => {
     const {
-        allNodes, setAllNodes,
-        moveCursor, moveNode, getChildren,
-        addNode, delNode, promoteNode, demoteNode,
+        allNodes, setAllNodes, addChildNode,
+        moveCursor, moveNode, getChildren, loadNodes,
+        addSibNode, delNode, promoteNode, demoteNode,
         setCursorId, updateDBnState
     } = useNodeContext();
 
@@ -22,7 +23,8 @@ export const Node = ({ thisNode }) => {
                 if (e.key === 'ArrowLeft' && e.shiftKey && e.altKey) promoteNode(thisNode);
                 if (e.key === 'ArrowRight' && e.shiftKey && e.altKey) demoteNode(thisNode);
                 if (e.key === 'Delete' && e.shiftKey && e.altKey) delNode(thisNode);
-                if (e.key === 'Enter') addNode(thisNode);
+                if (e.key === 'Enter' && !e.shiftKey && !e.altKey) addSibNode(thisNode);
+                if (e.key === 'Enter' && e.shiftKey && e.altKey) addChildNode(thisNode);
             }}
             onChange={({ target: { value } }) => updateDBnState(thisNode._id, { title: value })}
         />{thisNode.sibSort}

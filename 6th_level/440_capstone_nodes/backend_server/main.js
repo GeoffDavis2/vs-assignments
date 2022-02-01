@@ -66,14 +66,9 @@ app.use("/secure", expressJwt({ secret: process.env.SECRET, algorithms: ['HS256'
 
 
 // Route Handlers
-// app.use("/auth", require("./controllers/auth"));
-// app.use("/public", require("./controllers/issuesPublicView"));
-// app.use("/secure/user", require("./controllers/users"));
-app.use("/nodes", require("./controllers/nodes"));
-// app.use("/secure/issueVote", require("./controllers/issueVote"));
-// app.use("/secure/issueComment", require("./controllers/issueComment"));
-// app.use("/secure/issueCommentVote", require("./controllers/issueCommentVote"));
-// app.use("/secure/singleIssueView", require("./controllers/singleIssueView"));
+app.use("/auth", require("./controllers/auth"));
+app.use("/secure/user", require("./controllers/users"));
+app.use("/secure/nodes", require("./controllers/nodes"));
 
 
 
