@@ -7,7 +7,8 @@ import { Node } from './components/Node';
 const App = () => {
   const { allNodes, token, logout, user:{username} } = useNodeContext();
   const topNode = allNodes.find(obj => typeof obj.parent === "undefined");
-  return (token && allNodes.length > 0) ? <>
+
+  return (token) ? <>
     <div className='logout'>{username}&nbsp;&nbsp;&nbsp;<button onClick={() => logout()}>Logout</button></div>
     <Node thisNode={topNode} />
   </>

@@ -28,8 +28,6 @@ if (DEBUG) {
     app.use(morgan('dev'));
 };
 
-// Needed for Authentication
-const expressJwt = require('express-jwt');
 
 // "Body Parser" now built into Express
 app.use(express.json());
@@ -60,8 +58,10 @@ app.use("/auth", (req, res, next) => {
     next();
 });
 
-// Middleware: check for good security token before proceeding with any /secure routes
+// This holds the "SECRET" and is gitignore'd
 require('dotenv').config();
+// Middleware: check for good security token before proceeding with any /secure routes
+const expressJwt = require('express-jwt');
 app.use("/secure", expressJwt({ secret: process.env.SECRET, algorithms: ['HS256'] }));
 
 

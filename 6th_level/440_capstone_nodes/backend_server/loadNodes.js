@@ -24,7 +24,7 @@ const getNodes = async () => await Node.find();
 const dropAndPopNodes = user => {
     Node.collection.drop();
 
-    const topNode = new Node({ user, title: `Top Node`, type: 'plain', sibSort: 0 });
+    const topNode = new Node({ user, title: `Top Node`, type: 'plain', sibSort: 10 });
     const top = topNode._id
     topNode.save();
 

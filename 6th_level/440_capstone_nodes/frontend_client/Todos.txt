@@ -1,17 +1,8 @@
-// TODO Get rid of updateDBnState??? check all places i make axios calls and do them all considantly (where possible)
-
-// TODO Delete breaks if delete node with children
-1) Crashes on move cursor to next (if lots of children) probably because if it takes long, the next doesn't exits
-2) Doesn't delete childrens children from allNodes (and probably the DB)
+// TODO Get rid of updateDBnState??? check all places i make axios calls and do them all consistantly (where possible)
 
 // TODO - Add new Child Task
-// TODO     It's broken if no siblings or children
 // TODO     Maybe add logic so it looks at cursor (end or beginning) to decide if new node is child or sibling
 // TODO     Or maybe use Shift Alt Enter to do the different kinds of add node???
-
-// TODO add logic to handle errors
-// TODO     ...if first/last node in array (for moveCursor, moveNode, promote, & demote)
-// TODO     ...when deleting last child in from list of children
 
 // TODO Move any functions that I can to above NodeContextProvider (should still be able to include in useNodeContext) 
 // TODO - Change to use allNodes[thisNodeId] for fields instead of thisNode
@@ -21,6 +12,16 @@
 
 // TODO Is there a better way to make cursor go to begining of input on up/down arrow?
 // TODO make it so if cursor in middle of line, text after cursor becomes new item and that text is removed from current node (i.e. like a carriage return)
+
+
+Encrypt password to/from login and signup???
+
+add universal functions (useMemo or useCallback?)
+    getAll
+        setAllNodes(prev => prev = prev.filter(obj => obj._id !== theNode._id));
+        make sure it is updated when the dom changes (i.e. order of nodes changed, node added, or node deleted);
+        need to make sure it always represents the current state
+    getChildren (make this take _id, find best way to do this)
 
 
 // TODO - Add collapse/expand children

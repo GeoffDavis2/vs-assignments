@@ -1,15 +1,13 @@
-import { useEffect } from "react";
 import { useNodeContext } from '../contexts/NodeContext';
 
 export const Node = ({ thisNode }) => {
     const {
-        allNodes, setAllNodes, addChildNode,
-        moveCursor, moveNode, getChildren, loadNodes,
-        addSibNode, delNode, promoteNode, demoteNode,
-        setCursorId, updateDBnState
+        getChildren, moveCursor, moveNode,
+        addFirstNode, addSibNode, addChildNode, delNode,
+        promoteNode, demoteNode, updateDBnState
     } = useNodeContext();
 
-    return <div style={{ marginLeft: 20 }}>
+    return (!thisNode) ? <button onClick={() => addFirstNode()}>Add 1st Node</button> : <div style={{ marginLeft: 20 }}>
         <input
             id={thisNode._id}
             placeholder="Node Title"
@@ -27,7 +25,7 @@ export const Node = ({ thisNode }) => {
                 if (e.key === 'Enter' && e.shiftKey && e.altKey) addChildNode(thisNode);
             }}
             onChange={({ target: { value } }) => updateDBnState(thisNode._id, { title: value })}
-        />{thisNode.sibSort}
-        {getChildren(thisNode, 'sibSort')?.map(obj => <Node thisNode={obj} key={obj._id} />)}
+        />
+        {getChildren(thisNode)?.map(obj => <Node thisNode={obj} key={obj._id} />)}
     </div>
 };

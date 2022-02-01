@@ -8,16 +8,16 @@ export const LoginSignup = () => {
     
     const handleChange = ({ target: { name, value } }) => setInputs({ ...inputs, [name]: value });
 
-    return <>
+    return <div className="login-page">
         <header>
             <h1>Sign Up / Login</h1>
         </header>
 
         <input name="username" value={username} onChange={handleChange} placeholder="Username" className="input-field" />
         <input name="password" value={password} onChange={handleChange} placeholder="Password" className="input-field" />
-        <button onClick={() => loginSignup('/auth/signup', inputs)}>Signup</button>
         <button onClick={() => loginSignup('/auth/login', inputs)}>Login</button>
-        <h2>{errMsg}</h2>
-    </>
+        <button onClick={() => loginSignup('/auth/signup', inputs)}>Signup</button>
+        <h2 className="err-msg">{errMsg}</h2>
+    </div>
 
 };
