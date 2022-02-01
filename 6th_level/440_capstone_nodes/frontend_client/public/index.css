@@ -51,3 +51,8 @@ body {
 .login-page .err-msg {
   color: red;
 }
+
+.first-node {
+  color: red;
+  font-size: x-large;
+}

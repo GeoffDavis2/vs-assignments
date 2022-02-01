@@ -130,6 +130,8 @@ export const NodeContextProvider = ({ children }) => {
   }
 
   const addSibNode = async theNode => {
+    if (!theNode.parent) return;
+    // if (!theNode.parent || !getNode(theNode.parent).parent) return;
     const { data } = await secureAxios.post(`/secure/nodes`, { parent: theNode.parent, sibSort: theNode.sibSort + 1 });
     setAllNodes(prev => [...prev, data]);
     setSiblingSortParentId(theNode.parent);
@@ -158,7 +160,7 @@ export const NodeContextProvider = ({ children }) => {
 
     const after = []; document.querySelectorAll("input").forEach((obj, i) => after.push({ _id: obj.id, i }));
     ndx = Math.min(after.length - 1, ndx);
-    setCursorId(after[ndx]._id);
+    if (ndx >= 0) setCursorId(after[ndx]._id);
   }
 
   const promoteNode = theNode => {

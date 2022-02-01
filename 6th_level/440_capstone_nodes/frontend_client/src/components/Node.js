@@ -7,7 +7,7 @@ export const Node = ({ thisNode }) => {
         promoteNode, demoteNode, updateDBnState
     } = useNodeContext();
 
-    return (!thisNode) ? <button onClick={() => addFirstNode()}>Add 1st Node</button> : <div style={{ marginLeft: 20 }}>
+    return (!thisNode) ? <button className='first-node' onClick={() => addFirstNode()}>Add 1st Node</button> : <div style={{ marginLeft: 20 }}>
         <input
             id={thisNode._id}
             placeholder="Node Title"

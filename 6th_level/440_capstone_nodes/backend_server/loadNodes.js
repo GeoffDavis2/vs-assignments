@@ -51,7 +51,7 @@ async function main() {
     // User.collection.drop();
     // const userObj = new User({ username: 'a', password: 'a' });
     // userObj.save();
-    const userObj = (await User.findOne({ username: 'a' }))._id;
+    const userObj = (await User.findOne({ username: 'Geoff' }))._id;
     const user = userObj._id;
     console.log('user._id: ', user);
 
