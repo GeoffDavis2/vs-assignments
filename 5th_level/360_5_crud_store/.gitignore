@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /mongo_data
+/mongo_data_old
 /.pnp
 .pnp.js
 
